@@ -21,14 +21,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Enable and prepare pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - name: Enable corepack and prepare pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
       - run: pnpm install
       - run: pnpm test
