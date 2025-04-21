@@ -9,7 +9,7 @@ const FLUSH_INTERVAL = 5000
 
 let payloadInstance: Payload
 
-export const initBufferManager = (payload: Payload) => {
+export const bufferManager = (payload: Payload) => {
   payloadInstance = payload
 
   // وقتی لاگی تولید شد، اضافه‌اش کن به بافر

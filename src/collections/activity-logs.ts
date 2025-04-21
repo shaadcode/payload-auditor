@@ -3,9 +3,9 @@ import type { CollectionConfig } from 'payload'
 export type ActivityLog = {
   action: string
   collection: string
-  document: string
-  ip: string
-  meta: string
+  documentId: string
+  // ip: string
+  // meta: string
   timestamp: Date
   user: unknown
   userAgent: string

@@ -1,3 +1,5 @@
+import type { ActivityLog } from 'src/collections/activity-logs.js'
+
 import EventEmitter from 'events'
 
 const emitter = new EventEmitter()
@@ -10,6 +12,6 @@ export const emitEvent = (event: string, data: unknown) => {
 }
 
 // Register an event listener
-export const onEventLog = (event: string, handler: (data: unknown) => Promise<void>) => {
+export const onEventLog = (event: string, handler: (log: ActivityLog) => Promise<void>) => {
   emitter.on(event, handler)
 }
