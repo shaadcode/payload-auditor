@@ -28,6 +28,8 @@ jobs:
           cache: 'pnpm'
       - run: corepack enable
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: |
+          npm install -g pnpm
+          export PATH=$(npm bin -g):$PATH
       - run: pnpm install
       - run: pnpm test
