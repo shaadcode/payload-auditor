@@ -122,5 +122,13 @@
       "sharp"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shaadcode/payload-auditor"
+  },
+  "bugs": {
+    "url": "https://github.com/shaadcode/payload-auditor/issues"
+  },
+  "homepage": "https://github.com/shaadcode/payload-auditor#readme",
   "registry": "https://registry.npmjs.org/"
 }
