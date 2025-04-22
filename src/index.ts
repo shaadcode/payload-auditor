@@ -1,5 +1,6 @@
 import type { Config, Plugin } from 'payload'
-import type { Duration } from 'src/utils/toMS.js'
+
+import type { Duration } from './utils/toMS.js'
 
 import { defaultAutoDeleteLog, defaultPluginOpts } from './Constant/Constant.js'
 import {
