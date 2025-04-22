@@ -10,26 +10,15 @@
     "**/*.tsx",
     "../src/**/*.ts",
     "../src/**/*.tsx",
-    "next.config.mjs",
+    "next.config.ts",
     ".next/types/**/*.ts"
   ],
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@payload-config": [
-        "./payload.config.ts"
-      ],
-      "plugin-package-name-placeholder": [
-        "../src/index.ts"
-      ],
-      "plugin-package-name-placeholder/client": [
-        "../src/exports/client.ts"
-      ],
-      "plugin-package-name-placeholder/rsc": [
-        "../src/exports/rsc.ts"
-      ]
+      "@payload-config": ["./payload.config.ts"]
     },
     "noEmit": true,
-    "emitDeclarationOnly": false,
+    "emitDeclarationOnly": false
   }
 }

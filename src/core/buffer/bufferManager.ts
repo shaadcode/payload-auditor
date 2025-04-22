@@ -1,7 +1,8 @@
 import type { Payload } from 'payload'
-import type { ActivityLog } from 'src/collections/activity-logs.js'
 
-import { onEventLog } from 'src/core/events/emitter.js'
+import type { ActivityLog } from './../../collections/activity-logs.js'
+
+import { onEventLog } from './../../core/events/emitter.js'
 
 const BUFFER: ActivityLog[] = []
 const BATCH_SIZE = 10
@@ -12,17 +13,16 @@ let payloadInstance: Payload
 export const bufferManager = (payload: Payload) => {
   payloadInstance = payload
 
-  // وقتی لاگی تولید شد، اضافه‌اش کن به بافر
+  // When the log is generated, add it to the buffer.
   onEventLog('logGenerated', async (log: ActivityLog) => {
     BUFFER.push(log)
 
-    // اگر بافر به حد نصاب رسید، همه رو وارد دیتابیس کن
     if (BUFFER.length >= BATCH_SIZE) {
       await flushBuffer()
     }
   })
 
-  // هر چند ثانیه، بافر رو خالی کن (حتی اگه کامل نشده باشه)
+  // Every few seconds, empty the buffer (even if it's not full)
   setInterval(async () => {
     if (BUFFER.length > 0) {
       await flushBuffer()

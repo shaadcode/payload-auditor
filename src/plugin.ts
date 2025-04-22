@@ -1,54 +1,39 @@
 import type { Config, Plugin } from 'payload'
+import type { Duration } from 'src/utils/toMS.js'
 
-import ActivityLogsCollection from 'src/collections/activity-logs.js'
-import { bufferManager } from 'src/core/buffer/bufferManager.js'
-import { logAfterChange } from 'src/core/hooks/afterChange.js'
+import { defaultAutoDeleteLog, defaultPluginOpts } from './Constant/Constant.js'
+import {
+  attachHooksToActivityLogsCollection,
+  validateAndAttachHooksToCollections,
+  wrapOnInitWithBufferManager,
+} from './pluginUtils/configHelpers.js'
+
 export type PluginOptions = {
+  autoDeleteInterval?: Duration
+  collection?: {
+    trackCollections: string[]
+  }
   enabled?: boolean
-  trackCollections: string[]
 }
 
 export const auditorPlugin =
-  (
-    opts: PluginOptions = {
-      enabled: true,
-      trackCollections: [''],
-    },
-  ): Plugin =>
+  (opts: PluginOptions = defaultPluginOpts): Plugin =>
   (incomingConfig: Config): Config => {
     const config = incomingConfig
     if (opts.enabled === false) {
       return config
     }
 
-    // check invalid collections slug
-    const allSlugs = (config.collections || []).map((c) => c.slug)
-    const invalidSlugs = opts.trackCollections.filter((slug) => !allSlugs.includes(slug))
-    if (invalidSlugs.length > 0) {
-      console.warn(`[payload-auditor] کالکشن‌های نامعتبر یافت شد: ${invalidSlugs.join(', ')}`)
-    }
+    config.collections = validateAndAttachHooksToCollections(
+      config.collections,
+      opts.collection!.trackCollections,
+    )
 
-    // add audit logs collection to user collection
-    config.collections = [...(config.collections || []), ActivityLogsCollection]
+    const logsCollection = attachHooksToActivityLogsCollection(
+      opts.autoDeleteInterval ?? defaultAutoDeleteLog,
+    )
+    config.collections = [...(config.collections || []), logsCollection]
 
-    // add log hooks to user collections
-    config.collections = config.collections.map((collection) => {
-      if (opts.trackCollections.includes(collection.slug)) {
-        collection.hooks = collection.hooks || {}
-        collection.hooks.afterChange = [...(collection.hooks.afterChange || []), logAfterChange]
-      }
-
-      return collection
-    })
-
-    // add buffer manager
-    const originalOnInit = config.onInit
-    config.onInit = async (payload) => {
-      if (originalOnInit) {
-        await originalOnInit(payload)
-      }
-      bufferManager(payload)
-    }
-
+    config.onInit = wrapOnInitWithBufferManager(config.onInit)
     return config
   }

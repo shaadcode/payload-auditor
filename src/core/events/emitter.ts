@@ -1,17 +1,19 @@
-import type { ActivityLog } from 'src/collections/activity-logs.js'
+import { EventEmitter } from 'events'
 
-import EventEmitter from 'events'
+import type { ActivityLog } from './../../collections/activity-logs.js'
 
-const emitter = new EventEmitter()
+const globalEmitter = (global as any).payloadAuditorEmitter || new EventEmitter()
 
-// Emit an event asynchronously
+if (!(global as any).payloadAuditorEmitter) {
+  ;(global as any).payloadAuditorEmitter = globalEmitter
+}
+
 export const emitEvent = (event: string, data: unknown) => {
   setImmediate(() => {
-    emitter.emit(event, data)
+    globalEmitter.emit(event, data)
   })
 }
 
-// Register an event listener
 export const onEventLog = (event: string, handler: (log: ActivityLog) => Promise<void>) => {
-  emitter.on(event, handler)
+  globalEmitter.on(event, handler)
 }

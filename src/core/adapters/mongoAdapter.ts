@@ -15,7 +15,6 @@ export const insertMany = async (payload: Payload, logs: ActivityLog[]) => {
         }),
       ),
     )
-    console.log(`[payload-auditor] ${logs.length} logs inserted.`)
   } catch (err) {
     console.error('Failed to insert logs:', err)
   }

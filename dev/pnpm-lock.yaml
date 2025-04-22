@@ -1,0 +1,16 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+overrides:
+  payload-auditor: link:C:/Users/Puzzle2024/AppData/Local/pnpm/global/5/node_modules/payload-auditor
+
+importers:
+
+  .:
+    dependencies:
+      payload-auditor:
+        specifier: link:C:/Users/Puzzle2024/AppData/Local/pnpm/global/5/node_modules/payload-auditor
+        version: link:C:/Users/Puzzle2024/AppData/Local/pnpm/global/5/node_modules/payload-auditor

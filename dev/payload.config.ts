@@ -44,7 +44,14 @@ export default buildConfig({
   onInit: async (payload) => {
     await seed(payload)
   },
-  plugins: [auditorPlugin({ trackCollections: ['media'] })],
+  plugins: [
+    auditorPlugin({
+      autoDeleteInterval: '120s',
+      collection: {
+        trackCollections: ['media'],
+      },
+    }),
+  ],
   secret: process.env.PAYLOAD_SECRET || 'test-secret_key',
   sharp,
   typescript: {

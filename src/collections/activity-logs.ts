@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { autoLogCleaner } from './hooks/beforeChange.js'
+
 export type ActivityLog = {
   action: string
   collection: string
@@ -33,6 +35,7 @@ const ActivityLogsCollection: CollectionConfig = {
     {
       name: 'collection',
       type: 'text',
+      required: true,
     },
     {
       name: 'documentId',
@@ -42,6 +45,7 @@ const ActivityLogsCollection: CollectionConfig = {
       name: 'user',
       type: 'relationship',
       relationTo: 'users',
+      required: true,
     },
     {
       name: 'ip',
@@ -62,6 +66,9 @@ const ActivityLogsCollection: CollectionConfig = {
       type: 'json',
     },
   ],
+  hooks: {
+    beforeChange: [autoLogCleaner],
+  },
 }
 
 export default ActivityLogsCollection
