@@ -1,4 +1,4 @@
-import type { PluginOptions } from './../plugin.js'
+import type { PluginOptions } from './../index.js'
 import type { Duration } from './../utils/toMS.js'
 
 export const defaultAutoDeleteLog: Duration = '1mo'

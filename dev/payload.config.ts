@@ -5,7 +5,7 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
-import { auditorPlugin } from '../src/plugin.js'
+import auditorPlugin from '../src/index.js'
 import { devUser } from './helpers/credentials.js'
 import { testEmailAdapter } from './helpers/testEmailAdapter.js'
 import { seed } from './seed.js'
