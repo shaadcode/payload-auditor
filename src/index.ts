@@ -16,7 +16,7 @@ export type PluginOptions = {
   enabled?: boolean
 }
 
-const auditorPlugin =
+export const auditorPlugin =
   (opts: PluginOptions = defaultPluginOpts): Plugin =>
   (incomingConfig: Config): Config => {
     const config = incomingConfig
@@ -35,7 +35,6 @@ const auditorPlugin =
     config.collections = [...(config.collections || []), logsCollection]
 
     config.onInit = wrapOnInitWithBufferManager(config.onInit)
+
     return config
   }
-
-export default auditorPlugin
