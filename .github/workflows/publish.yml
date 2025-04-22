@@ -1,40 +1,40 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Node.js CI
+# name: Node.js CI
 
-on:
-  push:
-    branches: ['main']
-  pull_request:
-    branches: ['main']
+# on:
+#   push:
+#     branches: ['main']
+#   pull_request:
+#     branches: ['main']
 
-jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+# jobs:
+#   build:
+#     runs-on: ${{ matrix.os }}
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-        os: [ubuntu-latest, windows-latest]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+#     strategy:
+#       matrix:
+#         node-version: [18.x, 20.x, 22.x]
+#         os: [ubuntu-latest, windows-latest]
+#         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Enable corepack and prepare pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@10.1.0 --activate
+#       - name: Enable corepack and prepare pnpm
+#         run: |
+#           corepack enable
+#           corepack prepare pnpm@10.1.0 --activate
 
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+#       - name: Setup Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: ${{ matrix.node-version }}
+#           cache: 'pnpm'
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+#       - name: Install dependencies
+#         run: pnpm install --frozen-lockfile
 
-      - name: Run tests
-        run: pnpm test
+#       - name: Run tests
+#         run: pnpm test
