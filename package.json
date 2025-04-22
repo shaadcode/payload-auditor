@@ -1,9 +1,19 @@
 {
   "name": "payload-auditor",
   "version": "1.0.0",
-  "description": "A blank template to get started with Payload 3.0",
+  "description": "Simple, fast and customizable plugin for payload cms",
   "license": "MIT",
   "type": "module",
+  "author": {
+    "name": "seyed mojtaba shadab | shaadcode",
+    "email": "shaadcode@gmail.com"
+  },
+  "keywords": [
+    "payload",
+    "plugin",
+    "audit",
+    "logger"
+  ],
   "exports": {
     ".": {
       "import": "./src/index.ts",
@@ -24,7 +34,9 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "pnpm copyfiles && pnpm build:types && pnpm build:swc",
