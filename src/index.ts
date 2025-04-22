@@ -1,6 +1,6 @@
 import type { Config, Plugin } from 'payload'
 
-import type { Duration } from './utils/toMS.js'
+import type { PluginOptions } from './types/pluginOptions.js'
 
 import { defaultAutoDeleteLog, defaultPluginOpts } from './Constant/Constant.js'
 import {
@@ -8,14 +8,6 @@ import {
   validateAndAttachHooksToCollections,
   wrapOnInitWithBufferManager,
 } from './pluginUtils/configHelpers.js'
-
-export type PluginOptions = {
-  autoDeleteInterval?: Duration
-  collection?: {
-    trackCollections: string[]
-  }
-  enabled?: boolean
-}
 
 export const auditorPlugin =
   (opts: PluginOptions = defaultPluginOpts): Plugin =>
