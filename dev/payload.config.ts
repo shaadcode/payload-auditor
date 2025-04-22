@@ -6,6 +6,8 @@ import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
 import { auditorPlugin } from '../src/index.js'
+import { anyone } from './helpers/access/anyone.js'
+import { authenticated } from './helpers/access/authenticated.js'
 import { devUser } from './helpers/credentials.js'
 import { testEmailAdapter } from './helpers/testEmailAdapter.js'
 import { seed } from './seed.js'
@@ -30,6 +32,12 @@ export default buildConfig({
     },
     {
       slug: 'media',
+      access: {
+        create: authenticated,
+        delete: authenticated,
+        read: anyone,
+        update: authenticated,
+      },
       fields: [],
       upload: {
         staticDir: path.resolve(dirname, 'media'),
@@ -46,7 +54,6 @@ export default buildConfig({
   },
   plugins: [
     auditorPlugin({
-      autoDeleteInterval: '120s',
       collection: {
         trackCollections: ['media'],
       },
