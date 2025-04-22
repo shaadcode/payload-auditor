@@ -50,6 +50,7 @@
     "dev:payload": "cross-env PAYLOAD_CONFIG_PATH=./dev/payload.config.ts payload",
     "lint": "eslint",
     "lint:fix": "eslint ./src --fix",
+    "publish": "npm publish --access public",
     "prepublishOnly": "pnpm clean && pnpm build",
     "test:plugin": "pnpm clean && pnpm build && pnpm link && pnpm --dir ./dev link payload-auditor && pnpm dev",
     "test": "jest"
