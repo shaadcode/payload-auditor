@@ -22,11 +22,5 @@
       }
     ]
   },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx",
-    "commitlint.config.ts",
-    ".cz-config.ts",
-    "./dev/next-env.d.ts"
-  ]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "commitlint.config.ts", "./dev/next-env.d.ts"]
 }
