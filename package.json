@@ -56,7 +56,7 @@
     "test:plugin": "pnpm clean && pnpm build && pnpm link && pnpm --dir ./dev link payload-auditor && pnpm dev",
     "test": "jest",
     "prepare": "husky",
-    "semantic-release": "semantic-release --dry-run",
+    "semantic-release": "semantic-release --dry-run --config ./release.config.mjs",
     "commit": "cz"
   },
   "devDependencies": {
