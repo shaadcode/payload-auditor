@@ -1,3 +1,5 @@
+# 📌 Note: The plugin structure is changing and performance is being enhanced...
+---
 # 📦 Payload Auditor
 
 **Payload Auditor** is a powerful plugin for [Payload CMS](https://payloadcms.com) that provides centralized **event tracking, auditing, and security enhancements**. This tool is designed for developers and teams looking to monitor critical actions, analyze user behaviors, and enhance backend security within their Payload projects.
