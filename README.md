@@ -1,4 +1,4 @@
-# 📦 Payload Auditor
+📦 Payload Auditor
 
 **Payload Auditor** is a powerful plugin for [Payload CMS](https://payloadcms.com) that provides centralized **event tracking, auditing, and security enhancements**. This tool is designed for developers and teams looking to monitor critical actions, analyze user behaviors, and enhance backend security within their Payload projects.
 
@@ -8,9 +8,13 @@ Install with your preferred package manager:
 
 ```bash
 npm install payload-auditor
+
 # or
+
 pnpm add payload-auditor
+
 # or
+
 yarn add payload-auditor
 ```
 
@@ -36,8 +40,22 @@ Customize the plugin with the following configuration:
 
 ```ts
 auditorPlugin({
-  trackCollections: ['users', 'posts'],
-})
+  autoDeleteInterval: '1d',
+  collection: {
+    trackCollections: [
+      {
+        slug: 'media',
+        hooks: {
+          afterChange: {
+            update: {
+              enabled: true,
+            },
+          },
+        },
+      },
+    ],
+  },
+}),
 ```
 
 ---
@@ -45,8 +63,11 @@ auditorPlugin({
 ## 🧠 When Should You Use It?
 
 - You need to track critical collection changes (e.g., user logins, updates)
+
 - You want additional backend security for your Payload project
+
 - You work in a multi-user admin environment with role-specific needs
+
 - You're building a SaaS or enterprise-grade Payload-based product
 
 ---
