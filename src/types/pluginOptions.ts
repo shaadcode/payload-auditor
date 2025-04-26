@@ -21,11 +21,15 @@ export type HookStage =
   | 'refresh'
 
 export type AuditHookOperationType =
+  | 'deleteByID'
   | 'error'
+  | 'find'
+  | 'findByID'
   | 'forgotPassword'
   | 'logout'
   | 'me'
   | 'refresh'
+  | 'updateByID'
   | HookOperationType
 
 export type HookOperationConfig = {
