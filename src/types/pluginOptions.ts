@@ -101,6 +101,9 @@ export type HookTrackingOperationMap = {
     create?: HookOperationConfig
     update?: HookOperationConfig
   }
+  me: {
+    me: HookOperationConfig
+  }
   refresh: {
     refresh?: HookOperationConfig
   }

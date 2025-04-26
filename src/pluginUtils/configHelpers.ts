@@ -1,6 +1,6 @@
 import type { BasePayload, Config } from 'payload'
 
-import type { HookTrackingOperationMap, TrackedCollection } from './../types/pluginOptions.js'
+import type { TrackedCollection } from './../types/pluginOptions.js'
 import type { Duration } from './../utils/toMS.js'
 
 import ActivityLogsCollection from '../collections/activity-logs.js'
@@ -49,8 +49,9 @@ export const validateAndAttachHooksToCollections = (
       collection.hooks = collection.hooks || {}
 
       for (const hookType of hookTypes) {
-        const opConfigs: HookTrackingOperationMap = (tracked.hooks as any)[hookType]
-        if (opConfigs && Object.values(opConfigs).some((conf) => conf.enabled)) {
+        const opConfigs = tracked.hooks ? tracked.hooks[hookType] : undefined
+
+        if (opConfigs) {
           // @ts-ignore
           collection.hooks[hookType] = [
             ...(collection.hooks[hookType] || []),
