@@ -1,8 +1,11 @@
 import type { Payload } from 'payload'
-import type { ActivityLog } from 'src/collections/activity-logs.js'
+
+import type { ActivityLog } from './../../collections/activity-logs.js'
+
+import { defaultCollectionValues } from './../../Constant/Constant.js'
 export const insertMany = async (payload: Payload, logs: ActivityLog[]) => {
   try {
-    const logCollection = payload.collections['activity-logs']
+    const logCollection = payload.collections[defaultCollectionValues.slug]
     if (!logCollection) {
       throw new Error('Activity Logs collection not found')
     }
@@ -10,7 +13,7 @@ export const insertMany = async (payload: Payload, logs: ActivityLog[]) => {
     await Promise.all(
       logs.map((log) =>
         payload.create({
-          collection: 'activity-logs',
+          collection: defaultCollectionValues.slug,
           data: log,
         }),
       ),

@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 
 import type { ActivityLog } from './../../collections/activity-logs.js'
 
+import { defaultCollectionValues } from './../../Constant/Constant.js'
 import { onEventLog } from './../../core/events/emitter.js'
 
 const BUFFER: ActivityLog[] = []
@@ -36,7 +37,7 @@ const flushBuffer = async () => {
   await Promise.all(
     logsToInsert.map((log) =>
       payloadInstance.create({
-        collection: 'activity-logs',
+        collection: defaultCollectionValues.slug,
         data: log,
       }),
     ),

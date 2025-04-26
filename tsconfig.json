@@ -16,6 +16,7 @@
     "emitDeclarationOnly": true,
     "target": "ES2022",
     "composite": true,
+    "typeRoots": ["./src/types/types.d.ts"],
     "plugins": [
       {
         "name": "next"

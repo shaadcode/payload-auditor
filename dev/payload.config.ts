@@ -11,6 +11,7 @@ import { authenticated } from './helpers/access/authenticated.js'
 import { devUser } from './helpers/credentials.js'
 import { testEmailAdapter } from './helpers/testEmailAdapter.js'
 import { seed } from './seed.js'
+// @ts-ignore
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -54,9 +55,27 @@ export default buildConfig({
   },
   plugins: [
     auditorPlugin({
+      autoDeleteInterval: '1d',
       collection: {
-        trackCollections: ['media'],
+        trackCollections: [
+          {
+            slug: 'media',
+            hooks: {
+              afterChange: {
+                update: {
+                  enabled: true,
+                },
+              },
+              afterRead: {
+                read: {
+                  enabled: true,
+                },
+              },
+            },
+          },
+        ],
       },
+      enabled: true,
     }),
   ],
   secret: process.env.PAYLOAD_SECRET || 'test-secret_key',

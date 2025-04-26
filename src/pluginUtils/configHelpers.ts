@@ -1,29 +1,71 @@
 import type { BasePayload, Config } from 'payload'
-import type { Duration } from 'src/utils/toMS.js'
+
+import type { HookTrackingOperationMap, TrackedCollection } from './../types/pluginOptions.js'
+import type { Duration } from './../utils/toMS.js'
 
 import ActivityLogsCollection from '../collections/activity-logs.js'
 import { autoLogCleaner } from '../collections/hooks/beforeChange.js'
 import { bufferManager } from '../core/buffer/bufferManager.js'
-import { logAfterChange } from '../core/hooks/afterChange.js'
+import { collectionHooks } from '../core/log-builders/index.js'
+
+export const hookTypes = [
+  'beforeOperation',
+  'beforeValidate',
+  'beforeDelete',
+  'beforeChange',
+  'beforeRead',
+  'afterChange',
+  'afterRead',
+  'afterDelete',
+  'afterOperation',
+  'afterError',
+  'beforeLogin',
+  'afterLogin',
+  'afterLogout',
+  'afterRefresh',
+  'afterMe',
+  'afterForgotPassword',
+  'refresh',
+  'me',
+] as const
 
 export const validateAndAttachHooksToCollections = (
   collections: Config['collections'],
-  trackSlugs: string[],
+  trackCollections: TrackedCollection[],
 ): Config['collections'] => {
-  const allSlugs = (collections || []).map((c) => c.slug)
-  const invalidSlugs = trackSlugs.filter((slug) => !allSlugs.includes(slug))
+  // const allSlugs = (collections || []).map((c) => c.slug)
+  // const invalidSlugs = trackCollections.filter((collection) => !allSlugs.includes(collection.slug))
 
-  if (invalidSlugs.length > 0) {
-    console.warn(
-      `[payload-auditor] The following collection slugs are invalid: ${invalidSlugs.join(', ')}`,
-    )
-  }
+  // if (invalidSlugs.length > 0) {
+  //   console.warn(
+  //     `[payload-auditor] The following collection slugs are invalid: ${invalidSlugs.join(', ')}`,
+  //   )
+  // }
 
   return (collections || []).map((collection) => {
-    if (trackSlugs.includes(collection.slug)) {
+    const tracked = trackCollections.find((tc) => tc.slug === collection.slug)
+
+    if (tracked && !tracked.disabled) {
       collection.hooks = collection.hooks || {}
-      collection.hooks.afterChange = [...(collection.hooks.afterChange || []), logAfterChange]
+
+      for (const hookType of hookTypes) {
+        const opConfigs: HookTrackingOperationMap = (tracked.hooks as any)[hookType]
+        if (opConfigs && Object.values(opConfigs).some((conf) => conf.enabled)) {
+          // @ts-ignore
+          collection.hooks[hookType] = [
+            ...(collection.hooks[hookType] || []),
+            (args: any) =>
+              collectionHooks[hookType]({
+                ...args,
+                context: {
+                  userHookConfig: tracked,
+                },
+              }),
+          ]
+        }
+      }
     }
+
     return collection
   })
 }

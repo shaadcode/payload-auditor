@@ -1,25 +1,23 @@
 import type { CollectionConfig } from 'payload'
 
+import type { AuditHookOperationType } from './../types/pluginOptions.js'
+
+import { defaultCollectionValues } from './../Constant/Constant.js'
 import { autoLogCleaner } from './hooks/beforeChange.js'
 
 export type ActivityLog = {
-  action: string
+  action: AuditHookOperationType
   collection: string
   documentId: string
-  // ip: string
-  // meta: string
   timestamp: Date
   user: unknown
   userAgent: string
 }
 
 const ActivityLogsCollection: CollectionConfig = {
-  slug: 'activity-logs',
+  slug: defaultCollectionValues.slug,
   access: {
-    create: () => false,
-    delete: () => false,
-    read: () => true,
-    update: () => false,
+    admin: () => true,
   },
   admin: {
     defaultColumns: ['action', 'collection', 'user', 'timestamp'],
@@ -48,10 +46,6 @@ const ActivityLogsCollection: CollectionConfig = {
       required: true,
     },
     {
-      name: 'ip',
-      type: 'text',
-    },
-    {
       name: 'userAgent',
       type: 'text',
     },
@@ -60,10 +54,6 @@ const ActivityLogsCollection: CollectionConfig = {
       type: 'date',
       defaultValue: () => new Date().toISOString(),
       required: true,
-    },
-    {
-      name: 'meta',
-      type: 'json',
     },
   ],
   hooks: {
