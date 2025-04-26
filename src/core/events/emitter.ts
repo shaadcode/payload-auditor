@@ -9,6 +9,7 @@ if (!(global as any).payloadAuditorEmitter) {
 }
 
 export const emitEvent = (event: string, data: unknown) => {
+  console.log(data)
   setImmediate(() => {
     globalEmitter.emit(event, data)
   })

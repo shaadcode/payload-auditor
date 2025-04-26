@@ -16,7 +16,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@payload-config": ["./payload.config.ts"]
+      "@payload-config": ["./payload.config.ts"],
+      "@auditor/*": ["../dist/*"]
     },
     "noEmit": true,
     "emitDeclarationOnly": false
