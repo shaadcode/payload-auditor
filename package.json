@@ -1,6 +1,6 @@
 {
   "name": "payload-auditor",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Simple, fast and customizable plugin for payload cms",
   "license": "MIT",
   "type": "module",
@@ -16,23 +16,23 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.ts",
-      "types": "./dist/index.ts",
-      "default": "./dist/index.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./client": {
-      "import": "./dist/exports/client.ts",
-      "types": "./dist/exports/client.ts",
-      "default": "./dist/exports/client.ts"
+      "import": "./dist/exports/client.js",
+      "types": "./dist/exports/client.d.ts",
+      "default": "./dist/exports/client.js"
     },
     "./rsc": {
-      "import": "./dist/exports/rsc.ts",
-      "types": "./dist/exports/rsc.ts",
-      "default": "./dist/exports/rsc.ts"
+      "import": "./dist/exports/rsc.js",
+      "types": "./dist/exports/rsc.d.ts",
+      "default": "./dist/exports/rsc.js"
     }
   },
-  "main": "./dist/index.ts",
-  "types": "./dist/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "README.md",
