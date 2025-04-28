@@ -8,7 +8,15 @@ import {
   validateAndAttachHooksToCollections,
   wrapOnInitWithBufferManager,
 } from './pluginUtils/configHelpers.js'
-
+/**
+ * 📝 The main function of plugin packaging
+ *
+ *
+ * 📌@type {(opts?: PluginOptions) => Plugin}
+ *
+ * @param opts
+ *
+ */
 export const auditorPlugin =
   (opts: PluginOptions = defaultPluginOpts): Plugin =>
   (incomingConfig: Config): Config => {
