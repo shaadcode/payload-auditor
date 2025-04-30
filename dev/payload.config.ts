@@ -1,4 +1,3 @@
-import { auditorPlugin } from '@auditor/index.js'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
@@ -6,13 +5,14 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+// import { auditorPlugin } from 'payload-auditor/index.js'
+import { auditorPlugin } from '../src/index.js'
 import { anyone } from './helpers/access/anyone.js'
 import { authenticated } from './helpers/access/authenticated.js'
 import { devUser } from './helpers/credentials.js'
 import { testEmailAdapter } from './helpers/testEmailAdapter.js'
 import { seed } from './seed.js'
 
-// @ts-ignore
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -54,15 +54,17 @@ export default buildConfig({
   onInit: async (payload) => {
     await seed(payload)
   },
+  // plugins
   plugins: [
     auditorPlugin({
       collection: {
         trackCollections: [
           {
-            slug: 'media',
+            slug: 'posts',
+            disabled: false,
             hooks: {
               afterChange: {
-                update: {
+                create: {
                   enabled: true,
                 },
               },

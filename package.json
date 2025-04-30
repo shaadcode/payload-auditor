@@ -57,13 +57,12 @@
     "test": "jest",
     "prepare": "husky",
     "semantic-release": "semantic-release --dry-run",
-    "commit": "cz"
+    "commit": "cz",
+    "precommit": "lint-staged"
   },
   "devDependencies": {
-    "@commitizen/cz-conventional-changelog": "^1.2.0",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
-    "@commitlint/types": "^19.8.0",
     "@eslint/eslintrc": "^3.2.0",
     "@payloadcms/db-mongodb": "3.29.0",
     "@payloadcms/db-postgres": "3.29.0",
@@ -79,7 +78,6 @@
     "@types/node": "^22.5.4",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.2",
-    "commitizen": "^4.3.1",
     "copyfiles": "2.4.1",
     "cross-env": "^7.0.3",
     "cz-git": "^1.11.1",
@@ -88,6 +86,7 @@
     "graphql": "^16.8.1",
     "husky": "^9.1.7",
     "jest": "29.7.0",
+    "lint-staged": "^15.5.1",
     "mongodb-memory-server": "^10.1.2",
     "next": "15.3.0",
     "open": "^10.1.0",
@@ -97,6 +96,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "rimraf": "3.0.2",
+    "semantic-release": "^24.2.3",
     "sharp": "0.32.6",
     "sort-package-json": "^2.10.0",
     "typescript": "5.7.3"
@@ -136,7 +136,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "cz-conventional-changelog"
+      "path": "node_modules/cz-git"
     }
   },
   "repository": {

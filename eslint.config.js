@@ -1,8 +1,7 @@
-// @ts-check
-
 import payloadEsLintConfig from '@payloadcms/eslint-config'
 
 export const defaultESLintIgnores = [
+  '**/commitlint.config.cjs',
   '**/.temp',
   '**/.*', // ignore all dotfiles
   '**/.git',
@@ -28,6 +27,9 @@ export default [
     rules: {
       'no-restricted-exports': 'off',
     },
+  },
+  {
+    ignores: defaultESLintIgnores,
   },
   {
     languageOptions: {

@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "exclude": [],
+
   "include": [
     "**/*.js",
     "**/*.jsx",
@@ -14,10 +15,13 @@
     ".next/types/**/*.ts"
   ],
   "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
     "baseUrl": "./",
     "paths": {
       "@payload-config": ["./payload.config.ts"],
-      "@auditor/*": ["../dist/*"]
+      "payload-auditor/*": ["../dist/*"]
     },
     "noEmit": true,
     "emitDeclarationOnly": false
