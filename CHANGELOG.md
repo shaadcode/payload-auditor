@@ -1,3 +1,9 @@
+## <small>1.2.7 (2025-04-30)</small>
+
+* fix(logger): unexpected logs generated in some hooks ([b5242df](https://github.com/shaadcode/payload-auditor/commit/b5242df))
+* chore: pin Node.js version to 20.19.1 in .node-version file ([74cc802](https://github.com/shaadcode/payload-auditor/commit/74cc802))
+* ci: add emoji to release notes ([5817951](https://github.com/shaadcode/payload-auditor/commit/5817951))
+
 ## [1.2.6](https://github.com/shaadcode/payload-auditor/compare/v1.2.5...v1.2.6) (2025-04-30)
 
 
