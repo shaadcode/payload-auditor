@@ -1,3 +1,10 @@
+## [1.2.6](https://github.com/shaadcode/payload-auditor/compare/v1.2.5...v1.2.6) (2025-04-30)
+
+
+### Bug Fixes
+
+* restore correct version 1.2.5 ([4cef8c0](https://github.com/shaadcode/payload-auditor/commit/4cef8c0f550c6b7a510e40ee965c4b80a7c9e3e7))
+
 # 1.0.0 (2025-04-30)
 
 
