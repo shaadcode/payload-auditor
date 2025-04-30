@@ -14,7 +14,10 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
   req,
   result,
 }) => {
-  if ((context.userHookConfig as TrackedCollection).hooks?.afterOperation?.create?.enabled) {
+  if (
+    operation === 'create' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.create?.enabled
+  ) {
     const log: ActivityLog = {
       action: 'create',
       collection: collection.slug,
@@ -25,7 +28,10 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     }
     emitEvent('logGenerated', log)
   }
-  if ((context.userHookConfig as TrackedCollection).hooks?.afterOperation?.delete?.enabled) {
+  if (
+    operation === 'delete' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.delete?.enabled
+  ) {
     const log: ActivityLog = {
       action: 'delete',
       collection: collection.slug,
@@ -36,7 +42,10 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     }
     emitEvent('logGenerated', log)
   }
-  if ((context.userHookConfig as TrackedCollection).hooks?.afterOperation?.deleteByID?.enabled) {
+  if (
+    operation === 'deleteByID' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.deleteByID?.enabled
+  ) {
     const log: ActivityLog = {
       action: 'deleteByID',
       collection: collection.slug,
@@ -47,7 +56,10 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     }
     emitEvent('logGenerated', log)
   }
-  if ((context.userHookConfig as TrackedCollection).hooks?.afterOperation?.find?.enabled) {
+  if (
+    operation === 'find' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.find?.enabled
+  ) {
     const log: ActivityLog = {
       action: 'find',
       collection: collection.slug,
@@ -58,7 +70,10 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     }
     emitEvent('logGenerated', log)
   }
-  if ((context.userHookConfig as TrackedCollection).hooks?.afterOperation?.findByID?.enabled) {
+  if (
+    operation === 'findByID' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.findByID?.enabled
+  ) {
     const log: ActivityLog = {
       action: 'findByID',
       collection: collection.slug,
@@ -70,6 +85,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     emitEvent('logGenerated', log)
   }
   if (
+    operation === 'forgotPassword' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.forgotPassword?.enabled
   ) {
     const log: ActivityLog = {
@@ -82,7 +98,10 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     }
     emitEvent('logGenerated', log)
   }
-  if ((context.userHookConfig as TrackedCollection).hooks?.afterOperation?.login?.enabled) {
+  if (
+    operation === 'login' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.login?.enabled
+  ) {
     const log: ActivityLog = {
       action: 'login',
       collection: collection.slug,
@@ -93,7 +112,10 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     }
     emitEvent('logGenerated', log)
   }
-  if ((context.userHookConfig as TrackedCollection).hooks?.afterOperation?.refresh?.enabled) {
+  if (
+    operation === 'refresh' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.refresh?.enabled
+  ) {
     const log: ActivityLog = {
       action: 'refresh',
       collection: collection.slug,
@@ -104,7 +126,10 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     }
     emitEvent('logGenerated', log)
   }
-  if ((context.userHookConfig as TrackedCollection).hooks?.afterOperation?.update?.enabled) {
+  if (
+    operation === 'update' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.update?.enabled
+  ) {
     const log: ActivityLog = {
       action: 'update',
       collection: collection.slug,
@@ -115,7 +140,10 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     }
     emitEvent('logGenerated', log)
   }
-  if ((context.userHookConfig as TrackedCollection).hooks?.afterOperation?.updateByID?.enabled) {
+  if (
+    operation === 'updateByID' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.updateByID?.enabled
+  ) {
     const log: ActivityLog = {
       action: 'updateByID',
       collection: collection.slug,

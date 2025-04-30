@@ -13,7 +13,6 @@ const afterChangeCollectionLogBuilder: CollectionAfterChangeHook = ({
   previousDoc,
   req,
 }) => {
-  console.log(context)
   if (
     operation === 'create' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterChange?.create?.enabled

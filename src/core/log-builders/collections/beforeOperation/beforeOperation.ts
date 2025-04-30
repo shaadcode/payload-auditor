@@ -14,10 +14,24 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = ({
 }) => {
   if (
     operation === 'create' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.create?.enabled
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.create?.enabled
   ) {
     const log: ActivityLog = {
-      action: operation,
+      action: 'create',
+      collection: collection.slug,
+      documentId: 'unknown',
+      timestamp: new Date(),
+      user: req?.user?.id || null,
+      userAgent: req.headers.get('user-agent') || 'unknown',
+    }
+    emitEvent('logGenerated', log)
+  }
+  if (
+    operation === 'delete' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.delete?.enabled
+  ) {
+    const log: ActivityLog = {
+      action: 'delete',
       collection: collection.slug,
       documentId: 'unknown',
       timestamp: new Date(),
@@ -28,11 +42,11 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = ({
   }
 
   if (
-    operation === 'update' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.update?.enabled
+    operation === 'forgotPassword' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.forgotPassword?.enabled
   ) {
     const log: ActivityLog = {
-      action: operation,
+      action: 'forgotPassword',
       collection: collection.slug,
       documentId: 'unknown',
       timestamp: new Date(),
@@ -41,6 +55,49 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = ({
     }
     emitEvent('logGenerated', log)
   }
+  if (
+    operation === 'login' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.login?.enabled
+  ) {
+    const log: ActivityLog = {
+      action: 'login',
+      collection: collection.slug,
+      documentId: 'unknown',
+      timestamp: new Date(),
+      user: req?.user?.id || null,
+      userAgent: req.headers.get('user-agent') || 'unknown',
+    }
+    emitEvent('logGenerated', log)
+  }
+  if (
+    operation === 'refresh' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.refresh?.enabled
+  ) {
+    const log: ActivityLog = {
+      action: 'refresh',
+      collection: collection.slug,
+      documentId: 'unknown',
+      timestamp: new Date(),
+      user: req?.user?.id || null,
+      userAgent: req.headers.get('user-agent') || 'unknown',
+    }
+    emitEvent('logGenerated', log)
+  }
+  if (
+    operation === 'update' &&
+    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.update?.enabled
+  ) {
+    const log: ActivityLog = {
+      action: 'update',
+      collection: collection.slug,
+      documentId: 'unknown',
+      timestamp: new Date(),
+      user: req?.user?.id || null,
+      userAgent: req.headers.get('user-agent') || 'unknown',
+    }
+    emitEvent('logGenerated', log)
+  }
+
   return args
 }
 
