@@ -1,6 +1,9 @@
 // commitlint.config.cjs
 /** @type {import('cz-git').UserConfig} */
 module.exports = {
+  rules: {
+    'body-max-line-length': [0, 'always', 100],
+  },
   prompt: {
     messages: {
       type: "Select the type of change that you're committing:",
