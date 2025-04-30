@@ -3,7 +3,7 @@
  */
 export default {
   branches: ['main'],
-  repositoryUrl: 'https://github.com/shaadcode/ci-test',
+  repositoryUrl: 'https://github.com/shaadcode/payload-auditor',
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
