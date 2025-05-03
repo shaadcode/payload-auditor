@@ -13,6 +13,7 @@ const beforeChangeCollectionLogBuilder: CollectionBeforeChangeHook = ({
   originalDoc,
   req,
 }) => {
+  console.log(originalDoc)
   if (
     operation === 'create' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeChange?.create?.enabled
@@ -20,7 +21,7 @@ const beforeChangeCollectionLogBuilder: CollectionBeforeChangeHook = ({
     const log: ActivityLog = {
       action: operation,
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: originalDoc.id,
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -34,7 +35,7 @@ const beforeChangeCollectionLogBuilder: CollectionBeforeChangeHook = ({
     const log: ActivityLog = {
       action: operation,
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: originalDoc.id,
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

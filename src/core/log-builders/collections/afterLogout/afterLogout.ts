@@ -14,9 +14,8 @@ const afterLogoutCollectionLogBuilder: CollectionAfterLogoutHook = ({
     const log: ActivityLog = {
       action: 'logout',
       collection: collection.slug,
-      documentId: 'unknown',
       timestamp: new Date(),
-      user: req?.user?.id || null,
+      user: req.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
     }
     emitEvent('logGenerated', log)

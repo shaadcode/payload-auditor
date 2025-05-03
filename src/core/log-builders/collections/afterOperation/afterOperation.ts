@@ -21,7 +21,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     const log: ActivityLog = {
       action: 'create',
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: result.id.toString(),
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -32,15 +32,17 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     operation === 'delete' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.delete?.enabled
   ) {
-    const log: ActivityLog = {
-      action: 'delete',
-      collection: collection.slug,
-      documentId: 'unknown',
-      timestamp: new Date(),
-      user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'unknown',
+    for (const doc of result.docs) {
+      const log: ActivityLog = {
+        action: 'delete',
+        collection: collection.slug,
+        documentId: doc.id.toString(),
+        timestamp: new Date(),
+        user: req?.user?.id || null,
+        userAgent: req.headers.get('user-agent') || 'unknown',
+      }
+      emitEvent('logGenerated', log)
     }
-    emitEvent('logGenerated', log)
   }
   if (
     operation === 'deleteByID' &&
@@ -49,7 +51,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     const log: ActivityLog = {
       action: 'deleteByID',
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: result.id.toString(),
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -77,7 +79,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     const log: ActivityLog = {
       action: 'findByID',
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: result.id.toString(),
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -105,7 +107,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     const log: ActivityLog = {
       action: 'login',
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: result.user.id.toString(),
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -119,7 +121,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     const log: ActivityLog = {
       action: 'refresh',
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: result.user.id,
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -130,15 +132,17 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     operation === 'update' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.update?.enabled
   ) {
-    const log: ActivityLog = {
-      action: 'update',
-      collection: collection.slug,
-      documentId: 'unknown',
-      timestamp: new Date(),
-      user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'unknown',
+    for (const doc of result.docs) {
+      const log: ActivityLog = {
+        action: 'update',
+        collection: collection.slug,
+        documentId: doc.id.toString(),
+        timestamp: new Date(),
+        user: req?.user?.id || null,
+        userAgent: req.headers.get('user-agent') || 'unknown',
+      }
+      emitEvent('logGenerated', log)
     }
-    emitEvent('logGenerated', log)
   }
   if (
     operation === 'updateByID' &&
@@ -147,7 +151,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     const log: ActivityLog = {
       action: 'updateByID',
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: result.id.toString(),
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

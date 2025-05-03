@@ -15,7 +15,6 @@ const afterMeCollectionLogBuilder: CollectionAfterMeHook = ({
     const log: ActivityLog = {
       action: 'me',
       collection: collection.slug,
-      documentId: 'unknown',
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

@@ -5,21 +5,25 @@ import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
 
-const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = ({
+const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async ({
   args,
   collection,
   context,
   operation,
   req,
 }) => {
+  console.log(operation)
+  if (operation === 'update') {
+    console.log(args)
+  }
+
   if (
     operation === 'create' &&
-    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.create?.enabled
+    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.create?.enabled
   ) {
     const log: ActivityLog = {
       action: 'create',
       collection: collection.slug,
-      documentId: 'unknown',
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -28,12 +32,12 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = ({
   }
   if (
     operation === 'delete' &&
-    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.delete?.enabled
+    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.delete?.enabled
   ) {
     const log: ActivityLog = {
       action: 'delete',
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: args.id,
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -43,54 +47,64 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = ({
 
   if (
     operation === 'forgotPassword' &&
-    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.forgotPassword?.enabled
+    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.forgotPassword?.enabled
   ) {
+    const userDoc = await args.req.payload.find({
+      collection: collection.slug,
+      limit: 1,
+      where: { email: { equals: args.data.email } },
+    })
+
+    const userId = userDoc?.docs?.[0]?.id
     const log: ActivityLog = {
       action: 'forgotPassword',
       collection: collection.slug,
-      documentId: 'unknown',
       timestamp: new Date(),
-      user: req?.user?.id || null,
+      user: userId || 'anonymous',
       userAgent: req.headers.get('user-agent') || 'unknown',
     }
     emitEvent('logGenerated', log)
   }
   if (
     operation === 'login' &&
-    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.login?.enabled
+    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.login?.enabled
   ) {
+    const userDoc = await args.req.payload.find({
+      collection: collection.slug,
+      limit: 1,
+      where: { email: { equals: args.data.email } },
+    })
+
+    const userId = userDoc?.docs?.[0]?.id
     const log: ActivityLog = {
       action: 'login',
       collection: collection.slug,
-      documentId: 'unknown',
       timestamp: new Date(),
-      user: req?.user?.id || null,
+      user: userId || 'anonymous',
       userAgent: req.headers.get('user-agent') || 'unknown',
     }
     emitEvent('logGenerated', log)
   }
   if (
     operation === 'refresh' &&
-    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.refresh?.enabled
+    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.refresh?.enabled
   ) {
     const log: ActivityLog = {
       action: 'refresh',
       collection: collection.slug,
-      documentId: 'unknown',
       timestamp: new Date(),
-      user: req?.user?.id || null,
+      user: req.user?.id || 'anonymous',
       userAgent: req.headers.get('user-agent') || 'unknown',
     }
     emitEvent('logGenerated', log)
   }
   if (
     operation === 'update' &&
-    (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.update?.enabled
+    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.update?.enabled
   ) {
     const log: ActivityLog = {
       action: 'update',
       collection: collection.slug,
-      documentId: 'unknown',
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

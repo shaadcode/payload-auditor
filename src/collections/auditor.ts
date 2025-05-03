@@ -8,10 +8,10 @@ import { autoLogCleaner } from './hooks/beforeChange.js'
 export type ActivityLog = {
   action: AuditHookOperationType
   collection: string
-  documentId: string
+  documentId?: string
   timestamp: Date
   user: unknown
-  userAgent: string
+  userAgent?: string
 }
 
 const auditor: CollectionConfig = {

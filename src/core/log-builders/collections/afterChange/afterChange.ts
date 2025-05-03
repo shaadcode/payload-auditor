@@ -20,7 +20,7 @@ const afterChangeCollectionLogBuilder: CollectionAfterChangeHook = ({
     const log: ActivityLog = {
       action: operation,
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: doc.id,
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -34,7 +34,7 @@ const afterChangeCollectionLogBuilder: CollectionAfterChangeHook = ({
     const log: ActivityLog = {
       action: operation,
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: doc.id,
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

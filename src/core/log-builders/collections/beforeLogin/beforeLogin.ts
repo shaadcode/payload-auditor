@@ -15,9 +15,8 @@ const beforeLoginCollectionLogBuilder: CollectionBeforeLoginHook = ({
     const log: ActivityLog = {
       action: 'login',
       collection: collection.slug,
-      documentId: 'unknown',
       timestamp: new Date(),
-      user: req?.user?.id || null,
+      user: user.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
     }
     emitEvent('logGenerated', log)

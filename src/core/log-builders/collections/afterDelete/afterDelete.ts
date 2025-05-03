@@ -16,7 +16,7 @@ const afterDeleteCollectionLogBuilder: CollectionAfterDeleteHook = ({
     const log: ActivityLog = {
       action: 'delete',
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: doc.id,
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

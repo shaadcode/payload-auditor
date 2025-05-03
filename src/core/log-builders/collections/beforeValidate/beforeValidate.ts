@@ -20,9 +20,8 @@ const beforeValidateCollectionLogBuilder: CollectionBeforeValidateHook = ({
     const log: ActivityLog = {
       action: operation,
       collection: collection.slug,
-      documentId: 'unknown',
       timestamp: new Date(),
-      user: req?.user?.id || null,
+      user: req?.user?.id || 'anonymous',
       userAgent: req.headers.get('user-agent') || 'unknown',
     }
     emitEvent('logGenerated', log)
@@ -34,9 +33,9 @@ const beforeValidateCollectionLogBuilder: CollectionBeforeValidateHook = ({
     const log: ActivityLog = {
       action: operation,
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: originalDoc.id,
       timestamp: new Date(),
-      user: req?.user?.id || null,
+      user: req?.user?.id || 'anonymous',
       userAgent: req.headers.get('user-agent') || 'unknown',
     }
     emitEvent('logGenerated', log)

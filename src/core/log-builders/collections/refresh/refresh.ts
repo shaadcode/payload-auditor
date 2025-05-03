@@ -1,17 +1,25 @@
 import type { CollectionRefreshHook } from 'payload'
+import type { ActivityLog } from 'src/collections/auditor.js'
+import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
-const refreshCollectionLogBuilder: CollectionRefreshHook = ({ args, user }) => {
-  // if ((context.userHookConfig as TrackedCollection).hooks?.afterLogin?.login?.enabled) {
-  //   const log: ActivityLog = {
-  //     action: 'login',
-  //     collection: collection.slug,
-  //     documentId: 'unknown',
-  //     timestamp: new Date(),
-  //     user: req?.user?.id || null,
-  //     userAgent: req.headers.get('user-agent') || 'unknown',
-  //   }
-  //   emitEvent('logGenerated', log)
-  // }
+import { emitEvent } from './../../../../core/events/emitter.js'
+
+const refreshCollectionLogBuilder: CollectionRefreshHook = ({
+  args,
+  // @ts-ignore
+  context,
+  user,
+}) => {
+  if ((context.userHookConfig as TrackedCollection).hooks?.afterLogin?.login?.enabled) {
+    const log: ActivityLog = {
+      action: 'refresh',
+      collection: args.collection.config.slug,
+      timestamp: new Date(),
+      user: user?.id || null,
+      userAgent: args.req.headers.get('user-agent') || 'unknown',
+    }
+    emitEvent('logGenerated', log)
+  }
 }
 
 export default refreshCollectionLogBuilder

@@ -17,9 +17,9 @@ const afterReadCollectionLogBuilder: CollectionAfterReadHook = ({
     const log: ActivityLog = {
       action: 'read',
       collection: collection.slug,
-      documentId: 'unknown',
+      documentId: doc.id,
       timestamp: new Date(),
-      user: req?.user?.id || null,
+      user: req?.user?.id || 'anonymous',
       userAgent: req.headers.get('user-agent') || 'unknown',
     }
     emitEvent('logGenerated', log)

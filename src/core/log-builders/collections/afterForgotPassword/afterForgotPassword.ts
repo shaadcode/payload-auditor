@@ -5,25 +5,38 @@ import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
 
-const afterForgotPasswordCollectionLogBuilder: CollectionAfterForgotPasswordHook = ({
+const afterForgotPasswordCollectionLogBuilder: CollectionAfterForgotPasswordHook = async ({
   args,
   collection,
   context,
 }) => {
-  if (
-    (context.userHookConfig as TrackedCollection).hooks?.afterForgotPassword?.forgotPassword
-      ?.enabled
-  ) {
-    const log: ActivityLog = {
-      action: 'forgotPassword',
+  const config = context.userHookConfig as TrackedCollection
+
+  if (config?.hooks?.afterForgotPassword?.forgotPassword?.enabled) {
+    const email = args.data?.email
+    const userAgent = args.req.headers.get('user-agent') || 'unknown'
+
+    const userDoc = await args.req.payload.find({
       collection: collection.slug,
-      documentId: 'unknown',
-      timestamp: new Date(),
-      user: 'unknown',
-      userAgent: 'unknown',
+      limit: 1,
+      where: { email: { equals: email } },
+    })
+
+    const userId = userDoc?.docs?.[0]?.id
+
+    if (userId) {
+      const log: ActivityLog = {
+        action: 'forgotPassword',
+        collection: collection.slug,
+        timestamp: new Date(),
+        user: userId,
+        userAgent,
+      }
+
+      emitEvent('logGenerated', log)
     }
-    emitEvent('logGenerated', log)
   }
+
   return {}
 }
 

@@ -1,6 +1,5 @@
 import type { BeforeChangeHook } from 'node_modules/payload/dist/collections/config/types.js'
 
-import type { ActivityLog } from '../auditor.js'
 import type { Duration } from './../../utils/toMS.js'
 
 import { defaultAutoDeleteLog, defaultCollectionValues } from './../../Constant/Constant.js'
@@ -8,7 +7,7 @@ import ms from './../../utils/toMS.js'
 
 type AutoLogCleanerProps = {
   autoDeleteInterval: Duration
-  id: ActivityLog['documentId']
+  id: string
 }
 
 export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
@@ -25,7 +24,7 @@ export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
       collection: defaultCollectionValues.slug,
       limit: 1000,
       where: {
-        timestamp: {
+        createdAt: {
           less_than: thirtySecondsAgo.toISOString(),
         },
       },
