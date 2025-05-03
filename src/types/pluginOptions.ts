@@ -378,10 +378,67 @@ export type TrackedCollection = {
 }
 
 type CollectionConfig = {
+  /**
+   * 📝 auditor Collection Accessibility Settings
+   *
+   * 📖 Determine who can access the collection for what purposes. You can even fully customize each operation.
+   *
+   *
+   * @default undefined
+   *
+   * ---
+   * ### ⚠️ Critical Notes
+   * - If you do not define a value, the default access rule is used, which is as follows:
+   * ```({ req }) => req.user?.role === 'admin'```
+   * - Currently only read operations are available
+   */
   Accessibility?: {
+    /**
+     * 📝 Full accessibility customization for collections in every operation
+     *
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Allow only specific users to read.</caption>
+     * ```ts
+     * customAccess: {
+     *   read: ({ req }) => req.user?.email === 'admin@example.com',
+     * }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - For any operation (such as reading), it works when you have not defined any custom roles in roles for that operation.
+     *
+     */
     customAccess?: {
       read?: Access
     }
+    /**
+     * 📝 Define which roles are allowed for each operation.
+     *
+     *
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Only super-admin and CEO roles can view (read) logs</caption>
+     * ```ts
+     * roles: {
+     *    read: ['CEO', 'super-admin'],
+     *  },
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - When you have defined specific roles for an operation, customAccess values for that operation are ignored.
+     *
+     */
     roles?: {
       read: string[]
     }
