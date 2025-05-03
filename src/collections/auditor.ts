@@ -46,8 +46,11 @@ const auditor: CollectionConfig = {
       type: 'text',
     },
     {
-      name: 'timestamp',
+      name: 'createdAt',
       type: 'date',
+      admin: {
+        readOnly: true,
+      },
       defaultValue: () => new Date().toISOString(),
       required: true,
     },
@@ -55,6 +58,7 @@ const auditor: CollectionConfig = {
   hooks: {
     beforeChange: [autoLogCleaner],
   },
+  timestamps: false,
 }
 
 export default auditor
