@@ -5,6 +5,7 @@ import type { PluginOptions } from './types/pluginOptions.js'
 import { defaultAutoDeleteLog, defaultPluginOpts } from './Constant/Constant.js'
 import {
   attachHooksToActivityLogsCollection,
+  buildAccessControl,
   validateAndAttachHooksToCollections,
   wrapOnInitWithBufferManager,
 } from './pluginUtils/configHelpers.js'
@@ -24,6 +25,8 @@ export const auditorPlugin =
     if (opts.enabled === false) {
       return config
     }
+
+    buildAccessControl(opts)
 
     config.collections = validateAndAttachHooksToCollections(
       config.collections,

@@ -1,4 +1,4 @@
-import type { HookOperationType } from 'payload'
+import type { Access, HookOperationType } from 'payload'
 
 import type { Duration } from './../utils/toMS.js'
 
@@ -378,6 +378,14 @@ export type TrackedCollection = {
 }
 
 type CollectionConfig = {
+  Accessibility?: {
+    customAccess?: {
+      read?: Access
+    }
+    roles?: {
+      read: string[]
+    }
+  }
   /**
    * 📝 Collection tracking management
    *
