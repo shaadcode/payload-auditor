@@ -1,6 +1,6 @@
 {
   "name": "payload-auditor",
-  "version": "1.2.7",
+  "version": "1.3.0",
   "description": "Simple, fast and customizable plugin for payload cms",
   "license": "MIT",
   "type": "module",

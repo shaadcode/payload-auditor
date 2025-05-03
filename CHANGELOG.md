@@ -1,3 +1,16 @@
+# [1.3.0](https://github.com/shaadcode/payload-auditor/compare/v1.2.7...v1.3.0) (2025-05-03)
+
+
+### Bug Fixes
+
+* **core:** empty user and documentId fields in hooks ([859bf50](https://github.com/shaadcode/payload-auditor/commit/859bf50ee3430b2bf887910739471d6bdc5b5788))
+
+
+### Features
+
+* **config:** manage Access to the Main Collection Plugin ([74dc19b](https://github.com/shaadcode/payload-auditor/commit/74dc19b72190a114a7b0c7ad250929a42ce0c4bb))
+* **core:** remove updatedAt field from audit logs schema ([0cf9a79](https://github.com/shaadcode/payload-auditor/commit/0cf9a798f8d44ea33c751f76a5dda3effff2a75a))
+
 ## <small>1.2.7 (2025-04-30)</small>
 
 * fix(logger): unexpected logs generated in some hooks ([b5242df](https://github.com/shaadcode/payload-auditor/commit/b5242df))
