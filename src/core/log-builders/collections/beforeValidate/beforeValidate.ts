@@ -1,6 +1,6 @@
 import type { CollectionBeforeValidateHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -17,7 +17,7 @@ const beforeValidateCollectionLogBuilder: CollectionBeforeValidateHook = ({
     operation === 'create' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeValidate?.create?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: operation,
       collection: collection.slug,
       timestamp: new Date(),
@@ -30,7 +30,7 @@ const beforeValidateCollectionLogBuilder: CollectionBeforeValidateHook = ({
     operation === 'update' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeValidate?.update?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: operation,
       collection: collection.slug,
       documentId: originalDoc.id,

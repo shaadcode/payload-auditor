@@ -1,6 +1,6 @@
 import type { CollectionBeforeChangeHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -18,7 +18,7 @@ const beforeChangeCollectionLogBuilder: CollectionBeforeChangeHook = ({
     operation === 'create' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeChange?.create?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: operation,
       collection: collection.slug,
       documentId: originalDoc.id,
@@ -32,7 +32,7 @@ const beforeChangeCollectionLogBuilder: CollectionBeforeChangeHook = ({
     operation === 'update' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeChange?.update?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: operation,
       collection: collection.slug,
       documentId: originalDoc.id,

@@ -1,6 +1,6 @@
 import type { CollectionAfterErrorHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -14,7 +14,7 @@ const afterErrorCollectionLogBuilder: CollectionAfterErrorHook = ({
   result,
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.afterError?.error?.enabled) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'error',
       collection: collection.slug,
       documentId: 'unknown',

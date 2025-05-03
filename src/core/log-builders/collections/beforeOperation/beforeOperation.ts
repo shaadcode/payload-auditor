@@ -1,6 +1,6 @@
 import type { CollectionBeforeOperationHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -21,7 +21,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     operation === 'create' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.create?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'create',
       collection: collection.slug,
       timestamp: new Date(),
@@ -34,7 +34,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     operation === 'delete' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.delete?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'delete',
       collection: collection.slug,
       documentId: args.id,
@@ -56,7 +56,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     })
 
     const userId = userDoc?.docs?.[0]?.id
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'forgotPassword',
       collection: collection.slug,
       timestamp: new Date(),
@@ -76,7 +76,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     })
 
     const userId = userDoc?.docs?.[0]?.id
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'login',
       collection: collection.slug,
       timestamp: new Date(),
@@ -89,7 +89,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     operation === 'refresh' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.refresh?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'refresh',
       collection: collection.slug,
       timestamp: new Date(),
@@ -102,7 +102,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     operation === 'update' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.update?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'update',
       collection: collection.slug,
       timestamp: new Date(),

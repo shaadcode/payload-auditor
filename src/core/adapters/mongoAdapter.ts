@@ -1,9 +1,9 @@
 import type { Payload } from 'payload'
 
-import type { ActivityLog } from '../../collections/auditor.js'
+import type { AuditorLog } from '../../collections/auditor.js'
 
 import { defaultCollectionValues } from './../../Constant/Constant.js'
-export const insertMany = async (payload: Payload, logs: ActivityLog[]) => {
+export const insertMany = async (payload: Payload, logs: AuditorLog[]) => {
   try {
     const logCollection = payload.collections[defaultCollectionValues.slug]
     if (!logCollection) {

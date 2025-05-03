@@ -1,6 +1,6 @@
 import type { CollectionAfterRefreshHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -13,7 +13,7 @@ const afterRefreshCollectionLogBuilder: CollectionAfterRefreshHook = ({
   token,
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.afterRefresh?.refresh?.enabled) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'refresh',
       collection: collection.slug,
       timestamp: new Date(),

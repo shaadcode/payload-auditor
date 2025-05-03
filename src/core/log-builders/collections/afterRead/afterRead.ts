@@ -1,6 +1,6 @@
 import type { CollectionAfterReadHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -14,7 +14,7 @@ const afterReadCollectionLogBuilder: CollectionAfterReadHook = ({
   req,
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.afterRead?.read?.enabled) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'read',
       collection: collection.slug,
       documentId: doc.id,

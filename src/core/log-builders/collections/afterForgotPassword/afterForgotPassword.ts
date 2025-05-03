@@ -1,6 +1,6 @@
 import type { CollectionAfterForgotPasswordHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -25,7 +25,7 @@ const afterForgotPasswordCollectionLogBuilder: CollectionAfterForgotPasswordHook
     const userId = userDoc?.docs?.[0]?.id
 
     if (userId) {
-      const log: ActivityLog = {
+      const log: AuditorLog = {
         action: 'forgotPassword',
         collection: collection.slug,
         timestamp: new Date(),

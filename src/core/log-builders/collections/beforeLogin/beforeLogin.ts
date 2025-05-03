@@ -1,6 +1,6 @@
 import type { CollectionBeforeLoginHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -12,7 +12,7 @@ const beforeLoginCollectionLogBuilder: CollectionBeforeLoginHook = ({
   user,
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.beforeLogin?.login?.enabled) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'login',
       collection: collection.slug,
       timestamp: new Date(),

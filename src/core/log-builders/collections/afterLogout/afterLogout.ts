@@ -1,6 +1,6 @@
 import type { CollectionAfterLogoutHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -11,7 +11,7 @@ const afterLogoutCollectionLogBuilder: CollectionAfterLogoutHook = ({
   req,
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.afterLogout?.logout?.enabled) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'logout',
       collection: collection.slug,
       timestamp: new Date(),

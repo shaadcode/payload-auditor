@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events'
 
-import type { ActivityLog } from '../../collections/auditor.js'
+import type { AuditorLog } from '../../collections/auditor.js'
 
 const globalEmitter = (global as any).payloadAuditorEmitter || new EventEmitter()
 
@@ -14,6 +14,6 @@ export const emitEvent = (event: string, data: unknown) => {
   })
 }
 
-export const onEventLog = (event: string, handler: (log: ActivityLog) => Promise<void>) => {
+export const onEventLog = (event: string, handler: (log: AuditorLog) => Promise<void>) => {
   globalEmitter.on(event, handler)
 }

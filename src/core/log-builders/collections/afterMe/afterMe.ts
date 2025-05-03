@@ -1,6 +1,6 @@
 import type { CollectionAfterMeHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -12,7 +12,7 @@ const afterMeCollectionLogBuilder: CollectionAfterMeHook = ({
   response,
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.afterMe?.me?.enabled) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'me',
       collection: collection.slug,
       timestamp: new Date(),

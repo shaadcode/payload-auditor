@@ -1,6 +1,6 @@
 import type { CollectionAfterOperationHook } from 'payload'
 
-import type { ActivityLog } from '../../../../collections/auditor.js'
+import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
@@ -18,7 +18,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     operation === 'create' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.create?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'create',
       collection: collection.slug,
       documentId: result.id.toString(),
@@ -33,7 +33,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.delete?.enabled
   ) {
     for (const doc of result.docs) {
-      const log: ActivityLog = {
+      const log: AuditorLog = {
         action: 'delete',
         collection: collection.slug,
         documentId: doc.id.toString(),
@@ -48,7 +48,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     operation === 'deleteByID' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.deleteByID?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'deleteByID',
       collection: collection.slug,
       documentId: result.id.toString(),
@@ -62,7 +62,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     operation === 'find' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.find?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'find',
       collection: collection.slug,
       documentId: 'unknown',
@@ -76,7 +76,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     operation === 'findByID' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.findByID?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'findByID',
       collection: collection.slug,
       documentId: result.id.toString(),
@@ -90,7 +90,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     operation === 'forgotPassword' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.forgotPassword?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'forgotPassword',
       collection: collection.slug,
       documentId: 'unknown',
@@ -104,7 +104,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     operation === 'login' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.login?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'login',
       collection: collection.slug,
       documentId: result.user.id.toString(),
@@ -118,7 +118,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     operation === 'refresh' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.refresh?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'refresh',
       collection: collection.slug,
       documentId: result.user.id,
@@ -133,7 +133,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.update?.enabled
   ) {
     for (const doc of result.docs) {
-      const log: ActivityLog = {
+      const log: AuditorLog = {
         action: 'update',
         collection: collection.slug,
         documentId: doc.id.toString(),
@@ -148,7 +148,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     operation === 'updateByID' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.updateByID?.enabled
   ) {
-    const log: ActivityLog = {
+    const log: AuditorLog = {
       action: 'updateByID',
       collection: collection.slug,
       documentId: result.id.toString(),

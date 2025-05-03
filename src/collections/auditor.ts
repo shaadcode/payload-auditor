@@ -5,7 +5,7 @@ import type { AuditHookOperationType } from '../types/pluginOptions.js'
 import { defaultCollectionValues } from '../Constant/Constant.js'
 import { autoLogCleaner } from './hooks/beforeChange.js'
 
-export type ActivityLog = {
+export type AuditorLog = {
   action: AuditHookOperationType
   collection: string
   documentId?: string
