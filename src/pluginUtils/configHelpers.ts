@@ -3,7 +3,7 @@ import type { BasePayload, Config } from 'payload'
 import type { TrackedCollection } from './../types/pluginOptions.js'
 import type { Duration } from './../utils/toMS.js'
 
-import ActivityLogsCollection from '../collections/auditor.js'
+import auditor from '../collections/auditor.js'
 import { autoLogCleaner } from '../collections/hooks/beforeChange.js'
 import { bufferManager } from '../core/buffer/bufferManager.js'
 import { collectionHooks } from '../core/log-builders/index.js'
@@ -72,10 +72,10 @@ export const validateAndAttachHooksToCollections = (
 }
 
 export const attachHooksToActivityLogsCollection = (autoDeleteInterval: Duration) => {
-  ActivityLogsCollection.hooks = {
-    ...ActivityLogsCollection.hooks,
+  auditor.hooks = {
+    ...auditor.hooks,
     beforeChange: [
-      ...(ActivityLogsCollection.hooks?.beforeChange || []),
+      ...(auditor.hooks?.beforeChange || []),
       (args) =>
         autoLogCleaner({
           ...args,
@@ -86,7 +86,7 @@ export const attachHooksToActivityLogsCollection = (autoDeleteInterval: Duration
     ],
   }
 
-  return ActivityLogsCollection
+  return auditor
 }
 
 export const wrapOnInitWithBufferManager = (originalOnInit: Config['onInit']) => {
@@ -97,3 +97,5 @@ export const wrapOnInitWithBufferManager = (originalOnInit: Config['onInit']) =>
     bufferManager(payload)
   }
 }
+
+export const accessibilityConfiguration = () => {}

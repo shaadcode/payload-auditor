@@ -14,19 +14,12 @@ export type ActivityLog = {
   userAgent: string
 }
 
-const ActivityLogsCollection: CollectionConfig = {
+const auditor: CollectionConfig = {
   slug: defaultCollectionValues.slug,
-  access: {
-    create: ({ req }) => req.user?.role === 'admin',
-    delete: ({ req }) => req.user?.role === 'admin',
-    read: ({ req }) => req.user?.role === 'admin',
-    update: ({ req }) => req.user?.role === 'admin',
-  },
   admin: {
     defaultColumns: ['action', 'collection', 'user', 'timestamp'],
     useAsTitle: 'action',
   },
-
   fields: [
     {
       name: 'action',
@@ -64,4 +57,4 @@ const ActivityLogsCollection: CollectionConfig = {
   },
 }
 
-export default ActivityLogsCollection
+export default auditor
