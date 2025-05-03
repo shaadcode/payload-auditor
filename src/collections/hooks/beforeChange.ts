@@ -1,6 +1,6 @@
 import type { BeforeChangeHook } from 'node_modules/payload/dist/collections/config/types.js'
 
-import type { ActivityLog } from './../../collections/activity-logs.js'
+import type { ActivityLog } from '../auditor.js'
 import type { Duration } from './../../utils/toMS.js'
 
 import { defaultAutoDeleteLog, defaultCollectionValues } from './../../Constant/Constant.js'

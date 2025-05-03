@@ -1,6 +1,6 @@
 import type { CollectionAfterReadHook } from 'payload'
 
-import type { ActivityLog } from './../../../../collections/activity-logs.js'
+import type { ActivityLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'

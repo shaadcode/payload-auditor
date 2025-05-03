@@ -3,7 +3,7 @@ import type { BasePayload, Config } from 'payload'
 import type { TrackedCollection } from './../types/pluginOptions.js'
 import type { Duration } from './../utils/toMS.js'
 
-import ActivityLogsCollection from '../collections/activity-logs.js'
+import ActivityLogsCollection from '../collections/auditor.js'
 import { autoLogCleaner } from '../collections/hooks/beforeChange.js'
 import { bufferManager } from '../core/buffer/bufferManager.js'
 import { collectionHooks } from '../core/log-builders/index.js'

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events'
 
-import type { ActivityLog } from './../../collections/activity-logs.js'
+import type { ActivityLog } from '../../collections/auditor.js'
 
 const globalEmitter = (global as any).payloadAuditorEmitter || new EventEmitter()
 

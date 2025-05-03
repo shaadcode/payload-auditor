@@ -1,6 +1,6 @@
 import type { Payload } from 'payload'
 
-import type { ActivityLog } from './../../collections/activity-logs.js'
+import type { ActivityLog } from '../../collections/auditor.js'
 
 import { defaultCollectionValues } from './../../Constant/Constant.js'
 export const insertMany = async (payload: Payload, logs: ActivityLog[]) => {

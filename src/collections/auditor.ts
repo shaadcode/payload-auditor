@@ -1,8 +1,8 @@
 import type { CollectionConfig } from 'payload'
 
-import type { AuditHookOperationType } from './../types/pluginOptions.js'
+import type { AuditHookOperationType } from '../types/pluginOptions.js'
 
-import { defaultCollectionValues } from './../Constant/Constant.js'
+import { defaultCollectionValues } from '../Constant/Constant.js'
 import { autoLogCleaner } from './hooks/beforeChange.js'
 
 export type ActivityLog = {
@@ -17,7 +17,10 @@ export type ActivityLog = {
 const ActivityLogsCollection: CollectionConfig = {
   slug: defaultCollectionValues.slug,
   access: {
-    admin: () => true,
+    create: ({ req }) => req.user?.role === 'admin',
+    delete: ({ req }) => req.user?.role === 'admin',
+    read: ({ req }) => req.user?.role === 'admin',
+    update: ({ req }) => req.user?.role === 'admin',
   },
   admin: {
     defaultColumns: ['action', 'collection', 'user', 'timestamp'],
