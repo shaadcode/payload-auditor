@@ -443,6 +443,13 @@ type CollectionConfig = {
       read: string[]
     }
   }
+
+  buffer?: {
+    flushStrategy?: 'realtime' | 'size' | 'time'
+    size?: number
+    time?: Duration
+  }
+
   /**
    * 📝 Collection tracking management
    *

@@ -38,7 +38,7 @@ export const auditorPlugin =
     )
     config.collections = [...(config.collections || []), logsCollection]
 
-    config.onInit = wrapOnInitWithBufferManager(config.onInit)
+    config.onInit = wrapOnInitWithBufferManager(config.onInit, opts)
 
     return config
   }

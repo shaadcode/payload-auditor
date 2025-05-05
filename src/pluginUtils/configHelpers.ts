@@ -95,12 +95,15 @@ export const attachHooksToActivityLogsCollection = (autoDeleteInterval: Duration
   return auditor
 }
 
-export const wrapOnInitWithBufferManager = (originalOnInit: Config['onInit']) => {
+export const wrapOnInitWithBufferManager = (
+  originalOnInit: Config['onInit'],
+  pluginOptions: PluginOptions,
+) => {
   return async (payload: BasePayload) => {
     if (originalOnInit) {
       await originalOnInit(payload)
     }
-    bufferManager(payload)
+    bufferManager(payload, pluginOptions)
   }
 }
 
