@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineConfig } from 'vitest/config'
 
 const dirname =
@@ -7,6 +8,7 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/writing-tests/test-addon
 export default defineConfig({
+  plugins: [tsconfigPaths()],
   test: {
     coverage: {
       exclude: ['**/*.d.ts'],
