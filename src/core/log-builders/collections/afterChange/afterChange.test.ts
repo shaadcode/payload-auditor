@@ -14,7 +14,7 @@ vi.mock('./../../../events/emitter.ts', () => ({
   emitEvent: vi.fn(),
 }))
 
-describe('afterChangeCollectionLogBuilder', () => {
+describe('afterChange collection hook', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
