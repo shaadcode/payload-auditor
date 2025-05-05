@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/shaadcode/payload-auditor/compare/v1.3.0...v1.4.0) (2025-05-05)
+
+
+### Features
+
+* **config:** buffer management for how logs are injected into the database ([dc57683](https://github.com/shaadcode/payload-auditor/commit/dc57683a63cfe9d4b1573c7938ffc1d59f372eef))
+* **testing:** replacing jest with vitest ([74f9a87](https://github.com/shaadcode/payload-auditor/commit/74f9a873224033d8a3d4caf5c8f6b8b0cad8f385))
+* **testing:** vitest supports typescript alias ([ed2b5db](https://github.com/shaadcode/payload-auditor/commit/ed2b5db77acad78a82720b7da4151d057bac078a))
+
 # [1.3.0](https://github.com/shaadcode/payload-auditor/compare/v1.2.7...v1.3.0) (2025-05-03)
 
 
