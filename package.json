@@ -54,7 +54,7 @@
     "check-types": "npx tsc --noEmit",
     "prepublishOnly": "pnpm clean && pnpm build",
     "test:plugin": "pnpm clean && pnpm build && pnpm link && pnpm --dir ./dev link payload-auditor && pnpm dev",
-    "test": "jest",
+    "test": "vitest",
     "prepare": "husky",
     "semantic-release": "semantic-release --dry-run",
     "commit": "cz",
@@ -101,7 +101,8 @@
     "semantic-release": "^24.2.3",
     "sharp": "0.32.6",
     "sort-package-json": "^2.10.0",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "vitest": "^3.1.2"
   },
   "peerDependencies": {
     "payload": "^3.29.0"

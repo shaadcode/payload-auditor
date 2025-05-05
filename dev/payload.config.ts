@@ -39,24 +39,19 @@ export default buildConfig({
   plugins: [
     auditorPlugin({
       collection: {
+        buffer: {
+          flushStrategy: 'time',
+          time: '1m',
+        },
         trackCollections: [
           {
             slug: 'media',
-            disabled: false,
             hooks: {
-              beforeValidate: {
+              afterOperation: {
                 create: {
                   enabled: true,
                 },
-              },
-            },
-          },
-          {
-            slug: 'users',
-            disabled: false,
-            hooks: {
-              refresh: {
-                refresh: {
+                update: {
                   enabled: true,
                 },
               },
