@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/shaadcode/payload-auditor/compare/v1.4.0...v1.4.1) (2025-05-05)
+
+
+### Bug Fixes
+
+* remove path ./vitest.config.ts from tsconfig ([996be1c](https://github.com/shaadcode/payload-auditor/commit/996be1c7f7b2631634f603fba21f12775e4bcea3))
+
 # [1.4.0](https://github.com/shaadcode/payload-auditor/compare/v1.3.0...v1.4.0) (2025-05-05)
 
 
