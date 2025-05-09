@@ -12,11 +12,6 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
   operation,
   req,
 }) => {
-  console.log(operation)
-  if (operation === 'update') {
-    console.log(args)
-  }
-
   if (
     operation === 'create' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.create?.enabled
