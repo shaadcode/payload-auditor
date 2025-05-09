@@ -6,7 +6,7 @@ vi.mock('src/core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
-describe('beforeLogin collection hook', () => {
+describe('beforeRead collection hook', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
