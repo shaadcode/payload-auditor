@@ -11,7 +11,7 @@ vi.mock('src/core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
-describe('afterError collection hook', () => {
+describe('afterForgotPassword collection hook', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -19,7 +19,7 @@ describe('afterError collection hook', () => {
     const mockArgs = {
       args: {},
       collection: {
-        slug: 'test',
+        slug: 'users',
       } as SanitizedCollectionConfig,
       context: {
         userHookConfig: {
@@ -58,7 +58,7 @@ describe('afterError collection hook', () => {
         },
       },
       collection: {
-        slug: 'test',
+        slug: 'users',
       } as SanitizedCollectionConfig,
       context: {
         userHookConfig: {
@@ -79,7 +79,7 @@ describe('afterError collection hook', () => {
 
     const expectedLog: AuditorLog = {
       action: 'forgotPassword',
-      collection: 'test',
+      collection: 'users',
       timestamp: expect.any(Date),
       user: 'userId',
       userAgent: 'test-agent',
@@ -91,7 +91,7 @@ describe('afterError collection hook', () => {
     const mockArgs = {
       args: {},
       collection: {
-        slug: 'test',
+        slug: 'users',
       } as SanitizedCollectionConfig,
       context: {
         userHookConfig: {
