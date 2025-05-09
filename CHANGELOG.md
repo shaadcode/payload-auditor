@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/shaadcode/payload-auditor/compare/v1.4.1...v1.4.2) (2025-05-09)
+
+
+### Bug Fixes
+
+* **hooks:** fixed issue where me and refresh hooks were not logged ([78ab40c](https://github.com/shaadcode/payload-auditor/commit/78ab40ced47ea4ef6d8350b2d1f327d391d7b697))
+
 ## [1.4.1](https://github.com/shaadcode/payload-auditor/compare/v1.4.0...v1.4.1) (2025-05-05)
 
 
