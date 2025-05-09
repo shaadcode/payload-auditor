@@ -10,7 +10,7 @@ const refreshCollectionLogBuilder: CollectionRefreshHook = ({
   context,
   user,
 }) => {
-  if ((context.userHookConfig as TrackedCollection).hooks?.afterLogin?.login?.enabled) {
+  if ((context.userHookConfig as TrackedCollection).hooks?.refresh?.refresh?.enabled) {
     const log: AuditorLog = {
       action: 'refresh',
       collection: args.collection.config.slug,
