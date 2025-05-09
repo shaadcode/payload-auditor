@@ -6,7 +6,7 @@ vi.mock('src/core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
-describe('beforeChange collection hook', () => {
+describe('beforeDelete collection hook', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
