@@ -11,8 +11,12 @@
   "keywords": [
     "payload",
     "plugin",
-    "audit",
-    "logger"
+    "auditor",
+    "logger",
+    "payload-plugin",
+    "payload-cms",
+    "security",
+    "payloadcms"
   ],
   "exports": {
     ".": {
