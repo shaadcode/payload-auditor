@@ -10,6 +10,8 @@ const afterForgotPasswordCollectionLogBuilder: CollectionAfterForgotPasswordHook
   collection,
   context,
 }) => {
+  const hook = 'afterForgotPassword'
+
   const config = context.userHookConfig as TrackedCollection
 
   if (config?.hooks?.afterForgotPassword?.forgotPassword?.enabled) {
@@ -28,6 +30,7 @@ const afterForgotPasswordCollectionLogBuilder: CollectionAfterForgotPasswordHook
       const log: AuditorLog = {
         action: 'forgotPassword',
         collection: collection.slug,
+        hook,
         timestamp: new Date(),
         user: userId,
         userAgent,

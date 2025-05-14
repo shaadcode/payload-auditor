@@ -65,6 +65,7 @@ describe('beforeValidate collection hook', () => {
         expect.objectContaining({
           action: 'create',
           collection: 'posts',
+          hook: 'beforeValidate',
           timestamp: expect.any(Date),
           user: 'user123',
           userAgent: 'Mozilla/5.0',
@@ -100,6 +101,7 @@ describe('beforeValidate collection hook', () => {
         expect.objectContaining({
           action: 'create',
           collection: 'posts',
+          hook: 'beforeValidate',
           timestamp: expect.any(Date),
           user: 'anonymous',
           userAgent: 'Chrome/91',
@@ -135,6 +137,7 @@ describe('beforeValidate collection hook', () => {
         expect.objectContaining({
           action: 'create',
           collection: 'posts',
+          hook: 'beforeValidate',
           timestamp: expect.any(Date),
           user: 'user123',
           userAgent: 'unknown',
@@ -198,6 +201,7 @@ describe('beforeValidate collection hook', () => {
           action: 'update',
           collection: 'posts',
           documentId: 'doc123',
+          hook: 'beforeValidate',
           timestamp: expect.any(Date),
           user: 'user456',
           userAgent: 'Mozilla/5.0',
@@ -234,6 +238,7 @@ describe('beforeValidate collection hook', () => {
           action: 'update',
           collection: 'posts',
           documentId: 'doc456',
+          hook: 'beforeValidate',
           timestamp: expect.any(Date),
           user: 'anonymous',
           userAgent: 'Edge/90',
@@ -270,6 +275,7 @@ describe('beforeValidate collection hook', () => {
           action: 'update',
           collection: 'posts',
           documentId: 'doc789',
+          hook: 'beforeValidate',
           timestamp: expect.any(Date),
           user: 'user789',
           userAgent: 'unknown',

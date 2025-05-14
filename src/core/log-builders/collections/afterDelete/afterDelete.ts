@@ -12,11 +12,13 @@ const afterDeleteCollectionLogBuilder: CollectionAfterDeleteHook = ({
   doc,
   req,
 }) => {
+  const hook = 'afterDelete'
   if ((context.userHookConfig as TrackedCollection).hooks?.afterDelete?.delete?.enabled) {
     const log: AuditorLog = {
       action: 'delete',
       collection: collection.slug,
       documentId: doc.id,
+      hook,
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

@@ -105,6 +105,7 @@ describe('afterLogin collection hook', () => {
     const expectedLog: AuditorLog = {
       action: 'login',
       collection: 'users',
+      hook: 'afterLogin',
       timestamp: expect.any(Date),
       user: 'id-123',
       userAgent: 'test-agent',

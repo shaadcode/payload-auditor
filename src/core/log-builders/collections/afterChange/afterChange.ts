@@ -13,6 +13,7 @@ const afterChangeCollectionLogBuilder: CollectionAfterChangeHook = ({
   previousDoc,
   req,
 }) => {
+  const hook = 'afterChange'
   if (
     operation === 'create' &&
     (context.userHookConfig as TrackedCollection).hooks?.afterChange?.create?.enabled
@@ -21,6 +22,7 @@ const afterChangeCollectionLogBuilder: CollectionAfterChangeHook = ({
       action: operation,
       collection: collection.slug,
       documentId: doc.id,
+      hook,
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -35,6 +37,7 @@ const afterChangeCollectionLogBuilder: CollectionAfterChangeHook = ({
       action: operation,
       collection: collection.slug,
       documentId: doc.id,
+      hook,
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

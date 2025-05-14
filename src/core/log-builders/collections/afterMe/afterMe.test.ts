@@ -103,6 +103,7 @@ describe('afterMe collection hook', () => {
     const expectedLog: AuditorLog = {
       action: 'me',
       collection: 'users',
+      hook: 'afterMe',
       timestamp: expect.any(Date),
       user: 'id-123',
       userAgent: 'test-agent',

@@ -16,6 +16,7 @@ const beforeDeleteCollectionLogBuilder: CollectionBeforeDeleteHook = ({
       action: 'delete',
       collection: collection.slug,
       documentId: id.toString(),
+      hook: 'beforeDelete',
       timestamp: new Date(),
       user: req?.user?.id || 'anonymous',
       userAgent: req.headers.get('user-agent') || 'unknown',

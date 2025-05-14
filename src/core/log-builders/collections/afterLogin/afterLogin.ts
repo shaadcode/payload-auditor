@@ -12,10 +12,12 @@ const afterLoginCollectionLogBuilder: CollectionAfterLoginHook = ({
   token,
   user,
 }) => {
+  const hook = 'afterLogin'
   if ((context.userHookConfig as TrackedCollection).hooks?.afterLogin?.login?.enabled) {
     const log: AuditorLog = {
       action: 'login',
       collection: collection.slug,
+      hook,
       timestamp: new Date(),
       user: user.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

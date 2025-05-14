@@ -15,6 +15,7 @@ const afterMeCollectionLogBuilder: CollectionAfterMeHook = ({
     const log: AuditorLog = {
       action: 'me',
       collection: collection.slug,
+      hook: 'afterMe',
       timestamp: new Date(),
       user: req?.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

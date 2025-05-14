@@ -57,6 +57,7 @@ describe('beforeLogin collection hook', () => {
       expect.objectContaining({
         action: 'login',
         collection: 'users',
+        hook: 'beforeLogin',
         timestamp: expect.any(Date),
         user: 'user123',
         userAgent: 'Mozilla/5.0',

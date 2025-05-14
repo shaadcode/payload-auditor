@@ -18,6 +18,7 @@ const afterReadCollectionLogBuilder: CollectionAfterReadHook = ({
       action: 'read',
       collection: collection.slug,
       documentId: doc.id,
+      hook: 'afterRead',
       timestamp: new Date(),
       user: req?.user?.id || 'anonymous',
       userAgent: req.headers.get('user-agent') || 'unknown',

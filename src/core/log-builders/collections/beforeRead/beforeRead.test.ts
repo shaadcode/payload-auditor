@@ -133,6 +133,7 @@ describe('beforeRead collection hook', () => {
         action: 'read',
         collection: 'posts',
         documentId: 'doc789',
+        hook: 'beforeRead',
         timestamp: expect.any(Date),
         user: 'user456',
         userAgent: 'unknown',

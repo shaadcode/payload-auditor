@@ -101,6 +101,7 @@ describe('afterLogout collection hook', () => {
     const expectedLog: AuditorLog = {
       action: 'logout',
       collection: 'users',
+      hook: 'afterLogout',
       timestamp: expect.any(Date),
       user: 'id-123',
       userAgent: 'test-agent',

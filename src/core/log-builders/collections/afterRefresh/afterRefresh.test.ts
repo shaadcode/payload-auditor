@@ -81,6 +81,7 @@ describe('afterRefresh collection hook', () => {
       expect.objectContaining({
         action: 'refresh',
         collection: 'sessions',
+        hook: 'afterRefresh',
         timestamp: expect.any(Date),
         user: 'user123',
         userAgent: 'firefox',

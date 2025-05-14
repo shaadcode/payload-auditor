@@ -14,6 +14,7 @@ const refreshCollectionLogBuilder: CollectionRefreshHook = ({
     const log: AuditorLog = {
       action: 'refresh',
       collection: args.collection.config.slug,
+      hook: 'refresh',
       timestamp: new Date(),
       user: user?.id || null,
       userAgent: args.req.headers.get('user-agent') || 'unknown',

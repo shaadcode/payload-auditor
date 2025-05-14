@@ -17,6 +17,7 @@ const beforeReadCollectionLogBuilder: CollectionBeforeReadHook = ({
       action: 'read',
       collection: collection.slug,
       documentId: doc.id,
+      hook: 'beforeRead',
       timestamp: new Date(),
       user: req.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

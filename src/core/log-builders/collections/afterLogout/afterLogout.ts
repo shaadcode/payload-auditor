@@ -10,10 +10,12 @@ const afterLogoutCollectionLogBuilder: CollectionAfterLogoutHook = ({
   context,
   req,
 }) => {
+  const hook = 'afterLogout'
   if ((context.userHookConfig as TrackedCollection).hooks?.afterLogout?.logout?.enabled) {
     const log: AuditorLog = {
       action: 'logout',
       collection: collection.slug,
+      hook,
       timestamp: new Date(),
       user: req.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

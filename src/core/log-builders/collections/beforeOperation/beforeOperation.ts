@@ -19,9 +19,10 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     const log: AuditorLog = {
       action: 'create',
       collection: collection.slug,
+      hook: 'beforeOperation',
       timestamp: new Date(),
       user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'unknown',
+      userAgent: req.headers.get('user-agent') || 'anonymous',
     }
     emitEvent('logGenerated', log)
   }
@@ -33,9 +34,10 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
       action: 'delete',
       collection: collection.slug,
       documentId: args.id,
+      hook: 'beforeOperation',
       timestamp: new Date(),
       user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'unknown',
+      userAgent: req.headers.get('user-agent') || 'anonymous',
     }
     emitEvent('logGenerated', log)
   }
@@ -54,9 +56,10 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     const log: AuditorLog = {
       action: 'forgotPassword',
       collection: collection.slug,
+      hook: 'beforeOperation',
       timestamp: new Date(),
       user: userId || 'anonymous',
-      userAgent: req.headers.get('user-agent') || 'unknown',
+      userAgent: req.headers.get('user-agent') || 'anonymous',
     }
     emitEvent('logGenerated', log)
   }
@@ -74,9 +77,10 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     const log: AuditorLog = {
       action: 'login',
       collection: collection.slug,
+      hook: 'beforeOperation',
       timestamp: new Date(),
       user: userId || 'anonymous',
-      userAgent: req.headers.get('user-agent') || 'unknown',
+      userAgent: req.headers.get('user-agent') || 'anonymous',
     }
     emitEvent('logGenerated', log)
   }
@@ -87,9 +91,10 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     const log: AuditorLog = {
       action: 'refresh',
       collection: collection.slug,
+      hook: 'beforeOperation',
       timestamp: new Date(),
       user: req.user?.id || 'anonymous',
-      userAgent: req.headers.get('user-agent') || 'unknown',
+      userAgent: req.headers.get('user-agent') || 'anonymous',
     }
     emitEvent('logGenerated', log)
   }
@@ -100,9 +105,10 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     const log: AuditorLog = {
       action: 'update',
       collection: collection.slug,
+      hook: 'beforeOperation',
       timestamp: new Date(),
       user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'unknown',
+      userAgent: req.headers.get('user-agent') || 'anonymous',
     }
     emitEvent('logGenerated', log)
   }

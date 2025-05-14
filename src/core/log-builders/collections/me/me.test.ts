@@ -62,6 +62,7 @@ describe('me collection hook', () => {
       expect.objectContaining({
         action: 'me',
         collection: 'users',
+        hook: 'me',
         timestamp: expect.any(Date),
         user: 'user123',
         userAgent: 'Mozilla/5.0',
@@ -96,6 +97,7 @@ describe('me collection hook', () => {
       expect.objectContaining({
         action: 'me',
         collection: 'users',
+        hook: 'me',
         timestamp: expect.any(Date),
         user: 'anonymous',
         userAgent: 'Chrome/91',
@@ -130,6 +132,7 @@ describe('me collection hook', () => {
       expect.objectContaining({
         action: 'me',
         collection: 'users',
+        hook: 'me',
         timestamp: expect.any(Date),
         user: 'user456',
         userAgent: 'unknown',

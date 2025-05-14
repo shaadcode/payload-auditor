@@ -15,6 +15,7 @@ const beforeLoginCollectionLogBuilder: CollectionBeforeLoginHook = ({
     const log: AuditorLog = {
       action: 'login',
       collection: collection.slug,
+      hook: 'beforeLogin',
       timestamp: new Date(),
       user: user.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

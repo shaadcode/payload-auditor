@@ -80,6 +80,7 @@ describe('afterForgotPassword collection hook', () => {
     const expectedLog: AuditorLog = {
       action: 'forgotPassword',
       collection: 'users',
+      hook: 'afterForgotPassword',
       timestamp: expect.any(Date),
       user: 'userId',
       userAgent: 'test-agent',

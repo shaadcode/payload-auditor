@@ -1,3 +1,4 @@
+import type { AuditorLog } from 'src/collections/auditor.js'
 import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
 import { emitEvent } from 'src/core/events/emitter.js'
@@ -85,10 +86,11 @@ describe('afterRead collection hook', () => {
         action: 'read',
         collection: 'articles',
         documentId: 'articleId',
+        hook: 'afterRead',
         timestamp: expect.any(Date),
         user: 'userX',
         userAgent: 'firefox',
-      }),
+      } as AuditorLog),
     )
   })
 

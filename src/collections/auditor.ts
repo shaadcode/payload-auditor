@@ -9,6 +9,7 @@ export type AuditorLog = {
   action: AuditHookOperationType
   collection: string
   documentId?: string
+  hook: string
   timestamp: Date
   user: unknown
   userAgent?: string
@@ -43,6 +44,10 @@ const auditor: CollectionConfig = {
     },
     {
       name: 'userAgent',
+      type: 'text',
+    },
+    {
+      name: 'hook',
       type: 'text',
     },
     {

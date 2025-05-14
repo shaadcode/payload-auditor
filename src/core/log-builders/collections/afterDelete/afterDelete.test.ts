@@ -87,6 +87,7 @@ describe('afterDelete collection hook', () => {
       action: 'delete',
       collection: 'test',
       documentId: 'docId',
+      hook: 'afterDelete',
       timestamp: expect.any(Date),
       user: 'userId',
       userAgent: 'user-agent',

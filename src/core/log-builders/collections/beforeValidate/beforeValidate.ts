@@ -20,6 +20,7 @@ const beforeValidateCollectionLogBuilder: CollectionBeforeValidateHook = ({
     const log: AuditorLog = {
       action: operation,
       collection: collection.slug,
+      hook: 'beforeValidate',
       timestamp: new Date(),
       user: req?.user?.id || 'anonymous',
       userAgent: req.headers.get('user-agent') || 'unknown',
@@ -34,6 +35,7 @@ const beforeValidateCollectionLogBuilder: CollectionBeforeValidateHook = ({
       action: operation,
       collection: collection.slug,
       documentId: originalDoc.id,
+      hook: 'beforeValidate',
       timestamp: new Date(),
       user: req?.user?.id || 'anonymous',
       userAgent: req.headers.get('user-agent') || 'unknown',

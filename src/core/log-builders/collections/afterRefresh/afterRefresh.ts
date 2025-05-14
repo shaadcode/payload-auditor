@@ -16,6 +16,7 @@ const afterRefreshCollectionLogBuilder: CollectionAfterRefreshHook = ({
     const log: AuditorLog = {
       action: 'refresh',
       collection: collection.slug,
+      hook: 'afterRefresh',
       timestamp: new Date(),
       user: req.user?.id || null,
       userAgent: req.headers.get('user-agent') || 'unknown',

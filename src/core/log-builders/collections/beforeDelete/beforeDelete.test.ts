@@ -60,6 +60,7 @@ describe('beforeDelete collection hook', () => {
         action: 'delete',
         collection: 'comments',
         documentId: '456',
+        hook: 'beforeDelete',
         timestamp: expect.any(Date),
         user: 'admin',
         userAgent: 'mozilla',

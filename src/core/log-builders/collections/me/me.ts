@@ -14,6 +14,7 @@ const meCollectionLogBuilder: CollectionMeHook = ({
     const log: AuditorLog = {
       action: 'me',
       collection: args.collection.config.slug,
+      hook: 'me',
       timestamp: new Date(),
       user: user.id || 'anonymous',
       userAgent: args.req.headers.get('user-agent') || 'unknown',

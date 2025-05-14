@@ -94,6 +94,7 @@ describe('afterError collection hook', () => {
       action: 'error',
       collection: 'test',
       documentId: 'unknown',
+      hook: 'afterError',
       timestamp: expect.any(Date),
       user: 'userId',
       userAgent: 'user-agent',

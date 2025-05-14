@@ -62,6 +62,7 @@ describe('refresh collection hook', () => {
       expect.objectContaining({
         action: 'refresh',
         collection: 'users',
+        hook: 'refresh',
         timestamp: expect.any(Date),
         user: 'user123',
         userAgent: 'Mozilla/5.0',
@@ -96,6 +97,7 @@ describe('refresh collection hook', () => {
       expect.objectContaining({
         action: 'refresh',
         collection: 'users',
+        hook: 'refresh',
         timestamp: expect.any(Date),
         user: null,
         userAgent: 'Safari',
@@ -130,6 +132,7 @@ describe('refresh collection hook', () => {
       expect.objectContaining({
         action: 'refresh',
         collection: 'users',
+        hook: 'refresh',
         timestamp: expect.any(Date),
         user: 'user456',
         userAgent: 'unknown',

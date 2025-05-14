@@ -62,6 +62,7 @@ describe('beforeOperation collection hook', () => {
         expect.objectContaining({
           action: 'create',
           collection: 'articles',
+          hook: 'beforeOperation',
           timestamp: expect.any(Date),
           user: 'user42',
           userAgent: 'Mozilla/5.0',
@@ -112,7 +113,7 @@ describe('beforeOperation collection hook', () => {
         'logGenerated',
         expect.objectContaining({
           user: null,
-          userAgent: 'unknown',
+          userAgent: 'anonymous',
         }),
       )
     })
@@ -164,6 +165,8 @@ describe('beforeOperation collection hook', () => {
       expect(emitEvent).toHaveBeenCalledWith(
         'logGenerated',
         expect.objectContaining({
+          hook: 'beforeOperation',
+
           action: 'delete',
           collection: 'files',
           documentId: 'abc123',
@@ -228,7 +231,7 @@ describe('beforeOperation collection hook', () => {
         expect.objectContaining({
           documentId: 'id-test',
           user: null,
-          userAgent: 'unknown',
+          userAgent: 'anonymous',
         }),
       )
     })
@@ -289,6 +292,8 @@ describe('beforeOperation collection hook', () => {
       expect(emitEvent).toHaveBeenCalledWith(
         'logGenerated',
         expect.objectContaining({
+          hook: 'beforeOperation',
+
           action: 'forgotPassword',
           user: 'user-found',
           userAgent: 'Mozilla/5.0',
@@ -357,7 +362,7 @@ describe('beforeOperation collection hook', () => {
         'logGenerated',
         expect.objectContaining({
           user: 'anonymous',
-          userAgent: 'unknown',
+          userAgent: 'anonymous',
         }),
       )
     })
@@ -418,6 +423,8 @@ describe('beforeOperation collection hook', () => {
       expect(emitEvent).toHaveBeenCalledWith(
         'logGenerated',
         expect.objectContaining({
+          hook: 'beforeOperation',
+
           action: 'login',
           collection: 'users',
           timestamp: expect.any(Date),
@@ -488,7 +495,7 @@ describe('beforeOperation collection hook', () => {
         'logGenerated',
         expect.objectContaining({
           user: 'anonymous',
-          userAgent: 'unknown',
+          userAgent: 'anonymous',
         }),
       )
     })
@@ -602,7 +609,7 @@ describe('beforeOperation collection hook', () => {
         'logGenerated',
         expect.objectContaining({
           user: 'user77',
-          userAgent: 'unknown',
+          userAgent: 'anonymous',
         }),
       )
     })
@@ -654,6 +661,8 @@ describe('beforeOperation collection hook', () => {
       expect(emitEvent).toHaveBeenCalledWith(
         'logGenerated',
         expect.objectContaining({
+          hook: 'beforeOperation',
+
           action: 'update',
           collection: 'posts',
           timestamp: expect.any(Date),
@@ -716,7 +725,7 @@ describe('beforeOperation collection hook', () => {
         'logGenerated',
         expect.objectContaining({
           user: 'user456',
-          userAgent: 'unknown',
+          userAgent: 'anonymous',
         }),
       )
     })
