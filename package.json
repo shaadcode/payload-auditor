@@ -43,7 +43,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "pnpm copyfiles && pnpm build:types && pnpm build:swc",
+    "build": "pnpm test && pnpm check-types && pnpm copyfiles && pnpm build:types && pnpm build:swc",
     "build:swc": "swc ./src -d ./dist --delete-dir-on-start --config-file .swcrc --strip-leading-paths --ignore **/*.test.ts **/*.test.tsx **/__tests__/**",
     "build:types": "tsc --outDir dist --rootDir ./src",
     "clean": "rimraf {dist,*.tsbuildinfo}",
@@ -55,10 +55,11 @@
     "lint": "eslint",
     "lint:fix": "eslint ./src --fix",
     "manual-publish": "npm publish --access public",
-    "check-types": "npx tsc --noEmit",
+    "check-types": "npx tsc --noEmit --pretty",
     "prepublishOnly": "pnpm clean && pnpm build",
     "test:plugin": "pnpm clean && pnpm build && pnpm link && pnpm --dir ./dev link payload-auditor && pnpm dev",
-    "test": "vitest",
+    "test:watch": "vitest",
+    "test": "vitest run",
     "prepare": "husky",
     "semantic-release": "semantic-release --dry-run",
     "commit": "cz",
