@@ -1,3 +1,17 @@
+# [1.5.0](https://github.com/shaadcode/payload-auditor/compare/v1.4.2...v1.5.0) (2025-05-15)
+
+
+### Bug Fixes
+
+* **build:** not including test files in the final build ([ec9b96a](https://github.com/shaadcode/payload-auditor/commit/ec9b96a7dcf33c9780913a4e8ece4753b3c64f7d))
+
+
+### Features
+
+* **core:** add the ability to change labels and slug for the plugin's internal collection ([e4d843d](https://github.com/shaadcode/payload-auditor/commit/e4d843d5f3aabcd4aafce60e04dde2d6844ebf1e))
+* **logger:** add a hook type field ([af7b817](https://github.com/shaadcode/payload-auditor/commit/af7b817f020240e16ab689a08e41112135535cfb))
+* **logger:** add a log type field for each hook ([2e51824](https://github.com/shaadcode/payload-auditor/commit/2e518240c84068d670d7184c2c16d2542a9729d6))
+
 ## [1.4.2](https://github.com/shaadcode/payload-auditor/compare/v1.4.1...v1.4.2) (2025-05-09)
 
 
