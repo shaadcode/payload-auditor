@@ -1,5 +1,5 @@
 import type { RequestContext } from 'next/dist/server/base-server.js'
-import type { CollectionAfterMeHook, PayloadRequest, SanitizedCollectionConfig } from 'payload'
+import type { PayloadRequest, SanitizedCollectionConfig } from 'payload'
 import type { AuditorLog } from 'src/collections/auditor.js'
 import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
@@ -37,7 +37,7 @@ describe('afterMe collection hook', () => {
         },
       } as unknown as PayloadRequest,
       response: {} as unknown,
-    } as Parameters<CollectionAfterMeHook>[0]
+    } as any
     const result = await afterMeCollectionLogBuilder(mockArgs)
 
     expect(result).toEqual({})
@@ -63,7 +63,7 @@ describe('afterMe collection hook', () => {
         },
       } as unknown as PayloadRequest,
       response: {} as unknown,
-    } as Parameters<CollectionAfterMeHook>[0]
+    } as any
     const result = await afterMeCollectionLogBuilder(mockArgs)
 
     expect(result).toEqual({})
@@ -95,7 +95,7 @@ describe('afterMe collection hook', () => {
           id: 'id-123',
         },
       },
-    } as unknown as Parameters<CollectionAfterMeHook>[0]
+    } as unknown as any
     const result = await afterMeCollectionLogBuilder(mockArgs)
     expect(result).toEqual({})
     expect(emitEvent).toHaveBeenCalledTimes(1)
@@ -136,7 +136,7 @@ describe('afterMe collection hook', () => {
           id: 'id-123',
         },
       },
-    } as unknown as Parameters<CollectionAfterMeHook>[0]
+    } as unknown as any
     const result = await afterMeCollectionLogBuilder(mockArgs)
 
     expect(result).toEqual({})

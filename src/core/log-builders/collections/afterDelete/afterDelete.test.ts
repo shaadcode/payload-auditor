@@ -1,5 +1,5 @@
 import type { RequestContext } from 'next/dist/server/base-server.js'
-import type { CollectionAfterDeleteHook, PayloadRequest, SanitizedCollectionConfig } from 'payload'
+import type { PayloadRequest, SanitizedCollectionConfig } from 'payload'
 import type { AuditorLog } from 'src/collections/auditor.js'
 import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
@@ -42,7 +42,7 @@ describe('afterDelete collection hook', () => {
           id: 'userId',
         },
       } as unknown as PayloadRequest,
-    } as Parameters<CollectionAfterDeleteHook>[0]
+    } as any
     const result = await afterDeleteCollectionLogBuilder(mockArgs)
 
     expect(result).toEqual({})
@@ -76,7 +76,7 @@ describe('afterDelete collection hook', () => {
           id: 'userId',
         },
       } as unknown as PayloadRequest,
-    } as Parameters<CollectionAfterDeleteHook>[0]
+    } as any
 
     const result = await afterDeleteCollectionLogBuilder(mockArgs)
 
@@ -122,7 +122,7 @@ describe('afterDelete collection hook', () => {
           id: 'userId',
         },
       } as unknown as PayloadRequest,
-    } as Parameters<CollectionAfterDeleteHook>[0]
+    } as any
     const result = await afterDeleteCollectionLogBuilder(mockArgs)
 
     expect(result).toEqual({})

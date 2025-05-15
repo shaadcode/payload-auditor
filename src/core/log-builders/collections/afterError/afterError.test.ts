@@ -1,10 +1,5 @@
 import type { RequestContext } from 'next/dist/server/base-server.js'
-import type {
-  CollectionAfterErrorHook,
-  ErrorResult,
-  PayloadRequest,
-  SanitizedCollectionConfig,
-} from 'payload'
+import type { ErrorResult, PayloadRequest, SanitizedCollectionConfig } from 'payload'
 import type { AuditorLog } from 'src/collections/auditor.js'
 import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
@@ -48,7 +43,7 @@ describe('afterError collection hook', () => {
         },
       } as unknown as PayloadRequest,
       result: {} as ErrorResult,
-    } as Parameters<CollectionAfterErrorHook>[0]
+    } as any
     const result = await afterErrorCollectionLogBuilder(mockArgs)
 
     expect(result).toEqual({})
@@ -83,7 +78,7 @@ describe('afterError collection hook', () => {
         },
       } as unknown as PayloadRequest,
       result: {} as ErrorResult,
-    } as Parameters<CollectionAfterErrorHook>[0]
+    } as any
 
     const result = await afterErrorCollectionLogBuilder(mockArgs)
 
@@ -130,7 +125,7 @@ describe('afterError collection hook', () => {
         },
       } as unknown as PayloadRequest,
       result: {} as ErrorResult,
-    } as Parameters<CollectionAfterErrorHook>[0]
+    } as any
     const result = await afterErrorCollectionLogBuilder(mockArgs)
 
     expect(result).toEqual({})

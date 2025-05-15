@@ -1,5 +1,5 @@
 import type { RequestContext } from 'next/dist/server/base-server.js'
-import type { CollectionAfterForgotPasswordHook, SanitizedCollectionConfig } from 'payload'
+import type { SanitizedCollectionConfig } from 'payload'
 import type { AuditorLog } from 'src/collections/auditor.js'
 import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
@@ -32,7 +32,7 @@ describe('afterForgotPassword collection hook', () => {
           },
         } as TrackedCollection,
       } as unknown as RequestContext,
-    } as Parameters<CollectionAfterForgotPasswordHook>[0]
+    } as any
     const result = await afterForgotPasswordCollectionLogBuilder(mockArgs)
 
     expect(result).toEqual({})
@@ -71,7 +71,7 @@ describe('afterForgotPassword collection hook', () => {
           },
         } as TrackedCollection,
       } as unknown as RequestContext,
-    } as Parameters<CollectionAfterForgotPasswordHook>[0]
+    } as any
     const result = await afterForgotPasswordCollectionLogBuilder(mockArgs)
 
     expect(result).toEqual({})
@@ -102,7 +102,7 @@ describe('afterForgotPassword collection hook', () => {
           },
         } as TrackedCollection,
       } as unknown as RequestContext,
-    } as Parameters<CollectionAfterForgotPasswordHook>[0]
+    } as any
     const result = await afterForgotPasswordCollectionLogBuilder(mockArgs)
 
     expect(result).toEqual({})
