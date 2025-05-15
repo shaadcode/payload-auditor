@@ -20,7 +20,7 @@ export type AuditorLog = {
 const auditor: CollectionConfig = {
   slug: defaultCollectionValues.slug,
   admin: {
-    defaultColumns: ['action', 'collection', 'user', 'timestamp'],
+    defaultColumns: ['action', 'type', 'collection', 'user', 'timestamp'],
     useAsTitle: 'action',
   },
   fields: [
@@ -74,6 +74,7 @@ const auditor: CollectionConfig = {
   hooks: {
     beforeChange: [autoLogCleaner],
   },
+  labels: defaultCollectionValues.labels,
   timestamps: false,
 }
 

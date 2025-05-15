@@ -4,9 +4,9 @@ import type { PluginOptions } from './types/pluginOptions.js'
 
 import { defaultAutoDeleteLog, defaultPluginOpts } from './Constant/Constant.js'
 import {
+  attachCollectionConfig,
   attachHooksToActivityLogsCollection,
   buildAccessControl,
-  validateAndAttachHooksToCollections,
   wrapOnInitWithBufferManager,
 } from './pluginUtils/configHelpers.js'
 /**
@@ -27,15 +27,13 @@ export const auditorPlugin =
     }
 
     buildAccessControl(opts)
+    config.collections = attachCollectionConfig(config.collections, opts.collection)
 
-    config.collections = validateAndAttachHooksToCollections(
-      config.collections,
-      opts.collection!.trackCollections,
-    )
-
+    // TODO: combine to attachCollectionConfig function
     const logsCollection = attachHooksToActivityLogsCollection(
       opts.autoDeleteInterval ?? defaultAutoDeleteLog,
     )
+    // TODO: combine to attachCollectionConfig function
     config.collections = [...(config.collections || []), logsCollection]
 
     config.onInit = wrapOnInitWithBufferManager(config.onInit, opts)

@@ -1,4 +1,4 @@
-import type { Access, HookOperationType } from 'payload'
+import type { Access, HookOperationType, LabelFunction, StaticLabel } from 'payload'
 
 import type { Duration } from './../utils/toMS.js'
 
@@ -56,8 +56,6 @@ export type HookOperationConfig = {
    *
    */
   enabled?: boolean
-  logMessageTemplate?: string
-  metadata?: Record<string, any>
 }
 
 export type HookTrackingOperationMap = {
@@ -377,7 +375,10 @@ export type TrackedCollection = {
   slug: string
 }
 
-type CollectionConfig = {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const allowedSlugs = ['activities', 'auditor', 'logger'] as const
+
+export type CollectionConfig = {
   /**
    * 📝 auditor Collection Accessibility Settings
    *
@@ -443,12 +444,42 @@ type CollectionConfig = {
       read: string[]
     }
   }
-
+  /**
+   * 📝 Buffer management for injecting data into the database
+   *
+   *
+   *
+   * @default undefined
+   *
+   *
+   * 📦 Usage Example
+   *
+   * @example <caption>🧪 Data Injection into Database Based on Time</caption>
+   * ```ts
+   *  buffer: {
+   *       flushStrategy: 'time',
+   *     }
+   * ```
+   *
+   * ---
+   * ## ⚠️ Critical Notes
+   * -
+   *
+   */
   buffer?: {
     flushStrategy?: 'realtime' | 'size' | 'time'
     size?: number
     time?: Duration
   }
+
+  labels?:
+    | {
+        plural?: LabelFunction | StaticLabel | undefined
+        singular?: LabelFunction | StaticLabel
+      }
+    | undefined
+
+  slug?: (typeof allowedSlugs)[number] | ({} & string)
 
   /**
    * 📝 Collection tracking management
