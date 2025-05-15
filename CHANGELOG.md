@@ -1,3 +1,13 @@
+## [1.5.1](https://github.com/shaadcode/payload-auditor/compare/v1.5.0...v1.5.1) (2025-05-15)
+
+
+### Bug Fixes
+
+* **config:** fix crashing the entire application when the user does not create a collection ([34cecb8](https://github.com/shaadcode/payload-auditor/commit/34cecb86eef1fbdc2bce31282e9570aee7793f3d))
+* **core:** fix not receiving custom slug in plugin core ([83bd150](https://github.com/shaadcode/payload-auditor/commit/83bd15049fd7e9ccae9e99d5e90fb9075c33872e))
+* fix missing types for plugin configuration ([4bc398e](https://github.com/shaadcode/payload-auditor/commit/4bc398ed2840761049a2659632a27f231beaf6fb))
+* **testing:** fix test errors ([a325bd7](https://github.com/shaadcode/payload-auditor/commit/a325bd700605474be55a8169adecc18e98518b21))
+
 # [1.5.0](https://github.com/shaadcode/payload-auditor/compare/v1.4.2...v1.5.0) (2025-05-15)
 
 
