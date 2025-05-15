@@ -19,6 +19,7 @@ const afterChangeCollectionLogBuilder: CollectionAfterChangeHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterChange?.create?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: operation,
       collection: collection.slug,
       documentId: doc.id,
@@ -34,6 +35,7 @@ const afterChangeCollectionLogBuilder: CollectionAfterChangeHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterChange?.update?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: operation,
       collection: collection.slug,
       documentId: doc.id,

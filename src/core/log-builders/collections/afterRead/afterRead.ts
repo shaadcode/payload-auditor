@@ -15,6 +15,7 @@ const afterReadCollectionLogBuilder: CollectionAfterReadHook = ({
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.afterRead?.read?.enabled) {
     const log: AuditorLog = {
+      type: 'info',
       action: 'read',
       collection: collection.slug,
       documentId: doc.id,

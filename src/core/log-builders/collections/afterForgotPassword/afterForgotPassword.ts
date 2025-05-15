@@ -28,6 +28,7 @@ const afterForgotPasswordCollectionLogBuilder: CollectionAfterForgotPasswordHook
 
     if (userId) {
       const log: AuditorLog = {
+        type: 'security',
         action: 'forgotPassword',
         collection: collection.slug,
         hook,

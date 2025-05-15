@@ -50,6 +50,7 @@ describe('afterChange collection hook', () => {
     expect(emitEvent).toHaveBeenCalledTimes(1)
 
     const expectedLog: AuditorLog = {
+      type: 'audit',
       action: 'create',
       collection: 'test-collection',
       documentId: '123',
@@ -124,6 +125,7 @@ describe('afterChange collection hook', () => {
     expect(emitEvent).toHaveBeenCalledTimes(1)
 
     const expectedLog: AuditorLog = {
+      type: 'audit',
       action: 'update',
       collection: 'test-collection',
       documentId: '123',

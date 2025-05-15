@@ -1,3 +1,5 @@
+import type { AuditorLog } from 'src/collections/auditor.js'
+
 import { emitEvent } from 'src/core/events/emitter.js'
 import beforeChangeCollectionLogBuilder from 'src/core/log-builders/collections/beforeChange/beforeChange.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -72,21 +74,19 @@ describe('beforeChange collection hook', () => {
         originalDoc: { id: '321' },
         req: { headers: { get: () => 'firefox' }, user: { id: 'userX' } },
       }
-
+      const log: AuditorLog = {
+        type: 'audit',
+        action: 'create',
+        collection: 'articles',
+        documentId: '321',
+        hook: 'beforeChange',
+        timestamp: expect.any(Date),
+        user: 'userX',
+        userAgent: 'firefox',
+      }
       beforeChangeCollectionLogBuilder(mockArgs as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          action: 'create',
-          collection: 'articles',
-          documentId: '321',
-          hook: 'beforeChange',
-          timestamp: expect.any(Date),
-          user: 'userX',
-          userAgent: 'firefox',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should log with null user if user is missing', () => {
@@ -183,20 +183,19 @@ describe('beforeChange collection hook', () => {
         originalDoc: { id: '1234' },
         req: { headers: { get: () => 'safari' }, user: { id: 'admin' } },
       }
-
+      const log: AuditorLog = {
+        type: 'audit',
+        action: 'update',
+        collection: 'settings',
+        documentId: '1234',
+        hook: 'beforeChange',
+        timestamp: expect.any(Date),
+        user: 'admin',
+        userAgent: 'safari',
+      }
       beforeChangeCollectionLogBuilder(mockArgs as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          action: 'update',
-          collection: 'settings',
-          documentId: '1234',
-          hook: 'beforeChange',
-          user: 'admin',
-          userAgent: 'safari',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should log with null user if user is missing', () => {
@@ -216,16 +215,13 @@ describe('beforeChange collection hook', () => {
         originalDoc: { id: '0001' },
         req: { headers: { get: () => 'opera' }, user: null },
       }
-
+      const log: Partial<AuditorLog> = {
+        user: null,
+        userAgent: 'opera',
+      }
       beforeChangeCollectionLogBuilder(mockArgs as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          user: null,
-          userAgent: 'opera',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
   })
 })

@@ -91,6 +91,7 @@ describe('afterError collection hook', () => {
     expect(emitEvent).toHaveBeenCalledTimes(1)
 
     const expectedLog: AuditorLog = {
+      type: 'error',
       action: 'error',
       collection: 'test',
       documentId: 'unknown',

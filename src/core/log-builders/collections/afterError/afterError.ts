@@ -16,6 +16,7 @@ const afterErrorCollectionLogBuilder: CollectionAfterErrorHook = ({
   const hook = 'afterError'
   if ((context.userHookConfig as TrackedCollection).hooks?.afterError?.error?.enabled) {
     const log: AuditorLog = {
+      type: 'error',
       action: 'error',
       collection: collection.slug,
       documentId: 'unknown',

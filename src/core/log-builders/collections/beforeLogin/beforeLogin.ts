@@ -13,6 +13,7 @@ const beforeLoginCollectionLogBuilder: CollectionBeforeLoginHook = ({
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.beforeLogin?.login?.enabled) {
     const log: AuditorLog = {
+      type: 'security',
       action: 'login',
       collection: collection.slug,
       hook: 'beforeLogin',

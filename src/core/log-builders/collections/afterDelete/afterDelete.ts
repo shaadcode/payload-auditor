@@ -15,6 +15,7 @@ const afterDeleteCollectionLogBuilder: CollectionAfterDeleteHook = ({
   const hook = 'afterDelete'
   if ((context.userHookConfig as TrackedCollection).hooks?.afterDelete?.delete?.enabled) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'delete',
       collection: collection.slug,
       documentId: doc.id,

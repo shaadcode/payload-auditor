@@ -13,6 +13,7 @@ const beforeDeleteCollectionLogBuilder: CollectionBeforeDeleteHook = ({
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.beforeDelete?.delete?.enabled) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'delete',
       collection: collection.slug,
       documentId: id.toString(),

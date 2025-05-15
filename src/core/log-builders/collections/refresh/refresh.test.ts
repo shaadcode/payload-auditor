@@ -1,3 +1,5 @@
+import type { AuditorLog } from 'src/collections/auditor.js'
+
 import { emitEvent } from 'src/core/events/emitter.js'
 import refreshCollectionLogBuilder from 'src/core/log-builders/collections/refresh/refresh.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -54,20 +56,18 @@ describe('refresh collection hook', () => {
     }
 
     const user = { id: 'user123' }
-
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'refresh',
+      collection: 'users',
+      hook: 'refresh',
+      timestamp: expect.any(Date),
+      user: 'user123',
+      userAgent: 'Mozilla/5.0',
+    }
     await refreshCollectionLogBuilder({ args: mockArgs, context, user } as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'refresh',
-        collection: 'users',
-        hook: 'refresh',
-        timestamp: expect.any(Date),
-        user: 'user123',
-        userAgent: 'Mozilla/5.0',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 
   it('should log with null user if user is not defined', async () => {
@@ -89,20 +89,18 @@ describe('refresh collection hook', () => {
     }
 
     const user = null
-
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'refresh',
+      collection: 'users',
+      hook: 'refresh',
+      timestamp: expect.any(Date),
+      user: null,
+      userAgent: 'Safari',
+    }
     await refreshCollectionLogBuilder({ args: mockArgs, context, user } as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'refresh',
-        collection: 'users',
-        hook: 'refresh',
-        timestamp: expect.any(Date),
-        user: null,
-        userAgent: 'Safari',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 
   it('should handle missing user-agent gracefully', async () => {
@@ -124,19 +122,17 @@ describe('refresh collection hook', () => {
     }
 
     const user = { id: 'user456' }
-
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'refresh',
+      collection: 'users',
+      hook: 'refresh',
+      timestamp: expect.any(Date),
+      user: 'user456',
+      userAgent: 'unknown',
+    }
     await refreshCollectionLogBuilder({ args: mockArgs, context, user } as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'refresh',
-        collection: 'users',
-        hook: 'refresh',
-        timestamp: expect.any(Date),
-        user: 'user456',
-        userAgent: 'unknown',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 })

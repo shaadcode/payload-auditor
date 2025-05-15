@@ -1,3 +1,5 @@
+import type { AuditorLog } from 'src/collections/auditor.js'
+
 import { emitEvent } from 'src/core/events/emitter.js'
 import beforeDeleteCollectionLogBuilder from 'src/core/log-builders/collections/beforeDelete/beforeDelete.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -51,21 +53,19 @@ describe('beforeDelete collection hook', () => {
         user: { id: 'admin' },
       },
     }
-
+    const log: AuditorLog = {
+      type: 'audit',
+      action: 'delete',
+      collection: 'comments',
+      documentId: '456',
+      hook: 'beforeDelete',
+      timestamp: expect.any(Date),
+      user: 'admin',
+      userAgent: 'mozilla',
+    }
     beforeDeleteCollectionLogBuilder(mockArgs as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'delete',
-        collection: 'comments',
-        documentId: '456',
-        hook: 'beforeDelete',
-        timestamp: expect.any(Date),
-        user: 'admin',
-        userAgent: 'mozilla',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 
   it('should not log if delete config is missing entirely', () => {
@@ -107,15 +107,12 @@ describe('beforeDelete collection hook', () => {
         user: null,
       },
     }
-
+    const log: Partial<AuditorLog> = {
+      user: 'anonymous',
+      userAgent: 'safari',
+    }
     beforeDeleteCollectionLogBuilder(mockArgs as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        user: 'anonymous',
-        userAgent: 'safari',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 })

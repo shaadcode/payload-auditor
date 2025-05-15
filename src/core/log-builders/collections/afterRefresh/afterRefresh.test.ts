@@ -1,3 +1,4 @@
+import type { AuditorLog } from 'src/collections/auditor.js'
 import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
 import { emitEvent } from 'src/core/events/emitter.js'
@@ -73,20 +74,19 @@ describe('afterRefresh collection hook', () => {
         user: { id: 'user123' },
       },
     }
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'refresh',
+      collection: 'sessions',
+      hook: 'afterRefresh',
+      timestamp: expect.any(Date),
+      user: 'user123',
+      userAgent: 'firefox',
+    }
 
     afterRefreshCollectionLogBuilder(mockArgs as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'refresh',
-        collection: 'sessions',
-        hook: 'afterRefresh',
-        timestamp: expect.any(Date),
-        user: 'user123',
-        userAgent: 'firefox',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 
   it('should log with null user if user is not set', () => {

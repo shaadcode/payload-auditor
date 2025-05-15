@@ -149,6 +149,7 @@ describe('afterOperation collection hook', () => {
       expect(emitEvent).toHaveBeenCalledTimes(1)
 
       const expectedLog: AuditorLog = {
+        type: 'audit',
         action: 'create',
         collection: 'users',
         documentId: 'id-123456',
@@ -297,6 +298,7 @@ describe('afterOperation collection hook', () => {
       expect(emitEvent).toHaveBeenCalledTimes(3)
 
       const expectedLog: AuditorLog = {
+        type: 'audit',
         action: 'delete',
         collection: 'posts',
         documentId: 'docId',
@@ -436,6 +438,7 @@ describe('afterOperation collection hook', () => {
       expect(emitEvent).toHaveBeenCalled()
 
       const expectedLog: AuditorLog = {
+        type: 'audit',
         action: 'deleteByID',
         collection: 'posts',
         documentId: 'docId',
@@ -565,6 +568,7 @@ describe('afterOperation collection hook', () => {
       expect(emitEvent).toHaveBeenCalled()
 
       const expectedLog: AuditorLog = {
+        type: 'audit',
         action: 'deleteByID',
         collection: 'posts',
         documentId: 'docId',
@@ -696,6 +700,7 @@ describe('afterOperation collection hook', () => {
       expect(emitEvent).toHaveBeenCalled()
 
       const expectedLog: AuditorLog = {
+        type: 'audit',
         action: 'find',
         collection: 'users',
         documentId: 'unknown',
@@ -808,6 +813,7 @@ describe('afterOperation collection hook', () => {
       )
 
       const expectedLog: AuditorLog = {
+        type: 'audit',
         action: 'findByID',
         collection: 'articles',
         documentId: 'abc123',

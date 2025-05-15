@@ -1,3 +1,5 @@
+import type { AuditorLog } from 'src/collections/auditor.js'
+
 import { emitEvent } from 'src/core/events/emitter.js'
 import beforeOperationCollectionLogBuilder from 'src/core/log-builders/collections/beforeOperation/beforeOperation.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -91,6 +93,10 @@ describe('beforeOperation collection hook', () => {
 
     it('should handle missing user or user-agent', async () => {
       const args = {}
+      const log: Partial<AuditorLog> = {
+        user: null,
+        userAgent: 'anonymous',
+      }
       await beforeOperationCollectionLogBuilder({
         args,
         collection: { slug: 'files' },
@@ -109,13 +115,7 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          user: null,
-          userAgent: 'anonymous',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
   })
   describe('delete operation', () => {
@@ -143,6 +143,16 @@ describe('beforeOperation collection hook', () => {
     })
 
     it('should log if delete hook is enabled', async () => {
+      const log: AuditorLog = {
+        type: 'audit',
+        action: 'delete',
+        collection: 'files',
+        documentId: 'abc123',
+        hook: 'beforeOperation',
+        timestamp: expect.any(Date),
+        user: 'user42',
+        userAgent: 'Mozilla/5.0',
+      }
       await beforeOperationCollectionLogBuilder({
         args: { id: 'abc123' },
         collection: { slug: 'files' },
@@ -162,22 +172,15 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          hook: 'beforeOperation',
-
-          action: 'delete',
-          collection: 'files',
-          documentId: 'abc123',
-          timestamp: expect.any(Date),
-          user: 'user42',
-          userAgent: 'Mozilla/5.0',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should not throw error if documentId is missing', async () => {
+      const log: Partial<AuditorLog> = {
+        documentId: undefined,
+        user: null,
+        userAgent: 'unknown-agent',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {},
         collection: { slug: 'docs' },
@@ -196,17 +199,15 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          documentId: undefined,
-          user: null,
-          userAgent: 'unknown-agent',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should handle null user-agent and user gracefully', async () => {
+      const log: Partial<AuditorLog> = {
+        documentId: 'id-test',
+        user: null,
+        userAgent: 'anonymous',
+      }
       await beforeOperationCollectionLogBuilder({
         args: { id: 'id-test' },
         collection: { slug: 'entities' },
@@ -226,14 +227,7 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          documentId: 'id-test',
-          user: null,
-          userAgent: 'anonymous',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
   })
   describe('forgotPassword operation', () => {
@@ -267,6 +261,14 @@ describe('beforeOperation collection hook', () => {
         docs: [{ id: 'user-found' }],
       })
 
+      const log: Partial<AuditorLog> = {
+        type: 'audit',
+        action: 'forgotPassword',
+        hook: 'beforeOperation',
+        user: 'user-found',
+        userAgent: 'Mozilla/5.0',
+      }
+
       await beforeOperationCollectionLogBuilder({
         args: {
           data: { email: 'me@example.com' },
@@ -289,21 +291,16 @@ describe('beforeOperation collection hook', () => {
       } as any)
 
       expect(findMock).toHaveBeenCalled()
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          hook: 'beforeOperation',
-
-          action: 'forgotPassword',
-          user: 'user-found',
-          userAgent: 'Mozilla/5.0',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should fallback to "anonymous" if user not found', async () => {
       const findMock = vi.fn().mockResolvedValue({ docs: [] })
-
+      const log: Partial<AuditorLog> = {
+        type: 'audit',
+        user: 'anonymous',
+        userAgent: 'CustomAgent',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {
           data: { email: 'notfound@example.com' },
@@ -325,18 +322,16 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          user: 'anonymous',
-          userAgent: 'CustomAgent',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should handle missing headers and payload.find gracefully', async () => {
       const findMock = vi.fn().mockResolvedValue(undefined)
-
+      const log: Partial<AuditorLog> = {
+        type: 'audit',
+        user: 'anonymous',
+        userAgent: 'anonymous',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {
           data: { email: 'test@test.com' },
@@ -358,13 +353,7 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          user: 'anonymous',
-          userAgent: 'anonymous',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
   })
   describe('login operation', () => {
@@ -397,7 +386,15 @@ describe('beforeOperation collection hook', () => {
       const findMock = vi.fn().mockResolvedValue({
         docs: [{ id: 'user123' }],
       })
-
+      const log: Partial<AuditorLog> = {
+        type: 'audit',
+        action: 'login',
+        collection: 'users',
+        hook: 'beforeOperation',
+        timestamp: expect.any(Date),
+        user: 'user123',
+        userAgent: 'Mozilla/5.0',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {
           data: { email: 'me@example.com' },
@@ -420,23 +417,16 @@ describe('beforeOperation collection hook', () => {
       } as any)
 
       expect(findMock).toHaveBeenCalled()
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          hook: 'beforeOperation',
-
-          action: 'login',
-          collection: 'users',
-          timestamp: expect.any(Date),
-          user: 'user123',
-          userAgent: 'Mozilla/5.0',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should log as "anonymous" if user not found', async () => {
       const findMock = vi.fn().mockResolvedValue({ docs: [] })
-
+      const log: Partial<AuditorLog> = {
+        type: 'audit',
+        user: 'anonymous',
+        userAgent: 'Chrome/91',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {
           data: { email: 'notfound@example.com' },
@@ -458,18 +448,15 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          user: 'anonymous',
-          userAgent: 'Chrome/91',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should handle missing headers or find gracefully', async () => {
       const findMock = vi.fn().mockResolvedValue(undefined)
-
+      const log: Partial<AuditorLog> = {
+        user: 'anonymous',
+        userAgent: 'anonymous',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {
           data: { email: 'error@example.com' },
@@ -491,13 +478,7 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          user: 'anonymous',
-          userAgent: 'anonymous',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
   })
   describe('refresh operation', () => {
@@ -525,6 +506,15 @@ describe('beforeOperation collection hook', () => {
     })
 
     it('should log if refresh hook is enabled', async () => {
+      const log: AuditorLog = {
+        type: 'audit',
+        action: 'refresh',
+        collection: 'sessions',
+        hook: 'beforeOperation',
+        timestamp: expect.any(Date),
+        user: 'user42',
+        userAgent: 'Mozilla/5.0',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {},
         collection: { slug: 'sessions' },
@@ -544,19 +534,14 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          action: 'refresh',
-          collection: 'sessions',
-          timestamp: expect.any(Date),
-          user: 'user42',
-          userAgent: 'Mozilla/5.0',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should log as "anonymous" if user is not defined', async () => {
+      const log: Partial<AuditorLog> = {
+        user: 'anonymous',
+        userAgent: 'Safari/13.1',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {},
         collection: { slug: 'sessions' },
@@ -576,16 +561,14 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          user: 'anonymous',
-          userAgent: 'Safari/13.1',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should handle missing user-agent gracefully', async () => {
+      const log: Partial<AuditorLog> = {
+        user: 'user77',
+        userAgent: 'anonymous',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {},
         collection: { slug: 'sessions' },
@@ -605,13 +588,7 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          user: 'user77',
-          userAgent: 'anonymous',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
   })
   describe('update operation', () => {
@@ -639,6 +616,15 @@ describe('beforeOperation collection hook', () => {
     })
 
     it('should log if update hook is enabled', async () => {
+      const log: AuditorLog = {
+        type: 'audit',
+        action: 'update',
+        collection: 'posts',
+        hook: 'beforeOperation',
+        timestamp: expect.any(Date),
+        user: 'user123',
+        userAgent: 'Mozilla/5.0',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {},
         collection: { slug: 'posts' },
@@ -658,21 +644,14 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          hook: 'beforeOperation',
-
-          action: 'update',
-          collection: 'posts',
-          timestamp: expect.any(Date),
-          user: 'user123',
-          userAgent: 'Mozilla/5.0',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should log with null user if user is not defined', async () => {
+      const log: Partial<AuditorLog> = {
+        user: null,
+        userAgent: 'Chrome/91',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {},
         collection: { slug: 'posts' },
@@ -692,16 +671,14 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          user: null,
-          userAgent: 'Chrome/91',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
 
     it('should handle missing user-agent gracefully', async () => {
+      const log: Partial<AuditorLog> = {
+        user: 'user456',
+        userAgent: 'anonymous',
+      }
       await beforeOperationCollectionLogBuilder({
         args: {},
         collection: { slug: 'posts' },
@@ -721,13 +698,7 @@ describe('beforeOperation collection hook', () => {
         },
       } as any)
 
-      expect(emitEvent).toHaveBeenCalledWith(
-        'logGenerated',
-        expect.objectContaining({
-          user: 'user456',
-          userAgent: 'anonymous',
-        }),
-      )
+      expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
     })
   })
 })

@@ -14,6 +14,7 @@ const afterRefreshCollectionLogBuilder: CollectionAfterRefreshHook = ({
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.afterRefresh?.refresh?.enabled) {
     const log: AuditorLog = {
+      type: 'info',
       action: 'refresh',
       collection: collection.slug,
       hook: 'afterRefresh',

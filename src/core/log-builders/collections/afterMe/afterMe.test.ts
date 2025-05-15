@@ -101,6 +101,7 @@ describe('afterMe collection hook', () => {
     expect(emitEvent).toHaveBeenCalledTimes(1)
 
     const expectedLog: AuditorLog = {
+      type: 'info',
       action: 'me',
       collection: 'users',
       hook: 'afterMe',

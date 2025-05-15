@@ -19,6 +19,7 @@ const beforeChangeCollectionLogBuilder: CollectionBeforeChangeHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.beforeChange?.create?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: operation,
       collection: collection.slug,
       documentId: originalDoc.id,
@@ -34,6 +35,7 @@ const beforeChangeCollectionLogBuilder: CollectionBeforeChangeHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.beforeChange?.update?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: operation,
       collection: collection.slug,
       documentId: originalDoc.id,

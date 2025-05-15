@@ -78,6 +78,7 @@ describe('afterForgotPassword collection hook', () => {
     expect(emitEvent).toHaveBeenCalledTimes(1)
 
     const expectedLog: AuditorLog = {
+      type: 'security',
       action: 'forgotPassword',
       collection: 'users',
       hook: 'afterForgotPassword',

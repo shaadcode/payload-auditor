@@ -77,21 +77,19 @@ describe('afterRead collection hook', () => {
         user: { id: 'userX' },
       },
     }
-
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'read',
+      collection: 'articles',
+      documentId: 'articleId',
+      hook: 'afterRead',
+      timestamp: expect.any(Date),
+      user: 'userX',
+      userAgent: 'firefox',
+    }
     afterReadCollectionLogBuilder(mockArgs as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'read',
-        collection: 'articles',
-        documentId: 'articleId',
-        hook: 'afterRead',
-        timestamp: expect.any(Date),
-        user: 'userX',
-        userAgent: 'firefox',
-      } as AuditorLog),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 
   it('should default to anonymous user if user is not set', () => {

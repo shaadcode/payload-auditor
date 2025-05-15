@@ -12,6 +12,7 @@ const meCollectionLogBuilder: CollectionMeHook = ({
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.me?.me?.enabled) {
     const log: AuditorLog = {
+      type: 'info',
       action: 'me',
       collection: args.collection.config.slug,
       hook: 'me',

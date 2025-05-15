@@ -99,6 +99,7 @@ describe('afterLogout collection hook', () => {
     expect(emitEvent).toHaveBeenCalledTimes(1)
 
     const expectedLog: AuditorLog = {
+      type: 'security',
       action: 'logout',
       collection: 'users',
       hook: 'afterLogout',

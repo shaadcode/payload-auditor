@@ -1,3 +1,5 @@
+import type { AuditorLog } from 'src/collections/auditor.js'
+
 import { emitEvent } from 'src/core/events/emitter.js'
 import meCollectionLogBuilder from 'src/core/log-builders/collections/me/me.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -54,20 +56,18 @@ describe('me collection hook', () => {
     }
 
     const user = { id: 'user123' }
-
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'me',
+      collection: 'users',
+      hook: 'me',
+      timestamp: expect.any(Date),
+      user: 'user123',
+      userAgent: 'Mozilla/5.0',
+    }
     await meCollectionLogBuilder({ args: mockArgs, context, user } as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'me',
-        collection: 'users',
-        hook: 'me',
-        timestamp: expect.any(Date),
-        user: 'user123',
-        userAgent: 'Mozilla/5.0',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 
   it('should log as "anonymous" if user id is not defined', async () => {
@@ -89,20 +89,18 @@ describe('me collection hook', () => {
     }
 
     const user = { id: null }
-
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'me',
+      collection: 'users',
+      hook: 'me',
+      timestamp: expect.any(Date),
+      user: 'anonymous',
+      userAgent: 'Chrome/91',
+    }
     await meCollectionLogBuilder({ args: mockArgs, context, user } as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'me',
-        collection: 'users',
-        hook: 'me',
-        timestamp: expect.any(Date),
-        user: 'anonymous',
-        userAgent: 'Chrome/91',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 
   it('should handle missing user-agent gracefully', async () => {
@@ -124,19 +122,17 @@ describe('me collection hook', () => {
     }
 
     const user = { id: 'user456' }
-
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'me',
+      collection: 'users',
+      hook: 'me',
+      timestamp: expect.any(Date),
+      user: 'user456',
+      userAgent: 'unknown',
+    }
     await meCollectionLogBuilder({ args: mockArgs, context, user } as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'me',
-        collection: 'users',
-        hook: 'me',
-        timestamp: expect.any(Date),
-        user: 'user456',
-        userAgent: 'unknown',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 })

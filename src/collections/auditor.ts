@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import type { hookTypes } from 'src/pluginUtils/configHelpers.js'
 
 import type { AuditHookOperationType } from '../types/pluginOptions.js'
 
@@ -9,8 +10,9 @@ export type AuditorLog = {
   action: AuditHookOperationType
   collection: string
   documentId?: string
-  hook: string
+  hook: (typeof hookTypes)[number]
   timestamp: Date
+  type: 'audit' | 'debug' | 'error' | 'info' | 'security' | 'warning'
   user: unknown
   userAgent?: string
 }
@@ -49,6 +51,15 @@ const auditor: CollectionConfig = {
     {
       name: 'hook',
       type: 'text',
+    },
+    {
+      name: 'type',
+      type: 'select',
+      defaultValue: 'info',
+      options: ['info', 'debug', 'warning', 'error', 'audit', 'security'] as Array<
+        AuditorLog['type']
+      >,
+      required: true,
     },
     {
       name: 'createdAt',

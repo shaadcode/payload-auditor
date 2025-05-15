@@ -15,6 +15,7 @@ const afterLoginCollectionLogBuilder: CollectionAfterLoginHook = ({
   const hook = 'afterLogin'
   if ((context.userHookConfig as TrackedCollection).hooks?.afterLogin?.login?.enabled) {
     const log: AuditorLog = {
+      type: 'security',
       action: 'login',
       collection: collection.slug,
       hook,

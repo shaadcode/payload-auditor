@@ -84,6 +84,7 @@ describe('afterDelete collection hook', () => {
     expect(emitEvent).toHaveBeenCalledTimes(1)
 
     const expectedLog: AuditorLog = {
+      type: 'audit',
       action: 'delete',
       collection: 'test',
       documentId: 'docId',

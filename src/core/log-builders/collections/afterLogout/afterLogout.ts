@@ -13,6 +13,7 @@ const afterLogoutCollectionLogBuilder: CollectionAfterLogoutHook = ({
   const hook = 'afterLogout'
   if ((context.userHookConfig as TrackedCollection).hooks?.afterLogout?.logout?.enabled) {
     const log: AuditorLog = {
+      type: 'security',
       action: 'logout',
       collection: collection.slug,
       hook,

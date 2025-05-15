@@ -1,3 +1,5 @@
+import type { AuditorLog } from 'src/collections/auditor.js'
+
 import { emitEvent } from 'src/core/events/emitter.js'
 import beforeReadCollectionLogBuilder from 'src/core/log-builders/collections/beforeRead/beforeRead.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -54,20 +56,20 @@ describe('beforeRead collection hook', () => {
         user: { id: 'user123' },
       },
     }
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'read',
+      collection: 'posts',
+      documentId: 'doc123',
+      hook: 'beforeRead',
+      timestamp: expect.any(Date),
+      user: 'user123',
+      userAgent: 'Mozilla/5.0',
+    }
 
     beforeReadCollectionLogBuilder(mockArgs as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'read',
-        collection: 'posts',
-        documentId: 'doc123',
-        timestamp: expect.any(Date),
-        user: 'user123',
-        userAgent: 'Mozilla/5.0',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 
   it('should log as "anonymous" if user is not defined', () => {
@@ -89,20 +91,19 @@ describe('beforeRead collection hook', () => {
         user: null,
       },
     }
-
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'read',
+      collection: 'posts',
+      documentId: 'doc456',
+      hook: 'beforeRead',
+      timestamp: expect.any(Date),
+      user: null,
+      userAgent: 'Chrome/91',
+    }
     beforeReadCollectionLogBuilder(mockArgs as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'read',
-        collection: 'posts',
-        documentId: 'doc456',
-        timestamp: expect.any(Date),
-        user: null,
-        userAgent: 'Chrome/91',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 
   it('should handle missing user-agent gracefully', () => {
@@ -124,20 +125,19 @@ describe('beforeRead collection hook', () => {
         user: { id: 'user456' },
       },
     }
+    const log: AuditorLog = {
+      type: 'info',
+      action: 'read',
+      collection: 'posts',
+      documentId: 'doc789',
+      hook: 'beforeRead',
+      timestamp: expect.any(Date),
+      user: 'user456',
+      userAgent: 'unknown',
+    }
 
     beforeReadCollectionLogBuilder(mockArgs as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'read',
-        collection: 'posts',
-        documentId: 'doc789',
-        hook: 'beforeRead',
-        timestamp: expect.any(Date),
-        user: 'user456',
-        userAgent: 'unknown',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 })

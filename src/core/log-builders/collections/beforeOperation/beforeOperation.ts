@@ -17,6 +17,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.create?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'create',
       collection: collection.slug,
       hook: 'beforeOperation',
@@ -31,6 +32,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.delete?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'delete',
       collection: collection.slug,
       documentId: args.id,
@@ -54,6 +56,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
 
     const userId = userDoc?.docs?.[0]?.id
     const log: AuditorLog = {
+      type: 'audit',
       action: 'forgotPassword',
       collection: collection.slug,
       hook: 'beforeOperation',
@@ -75,6 +78,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
 
     const userId = userDoc?.docs?.[0]?.id
     const log: AuditorLog = {
+      type: 'audit',
       action: 'login',
       collection: collection.slug,
       hook: 'beforeOperation',
@@ -89,6 +93,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.refresh?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'refresh',
       collection: collection.slug,
       hook: 'beforeOperation',
@@ -103,6 +108,7 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
     (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.update?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'update',
       collection: collection.slug,
       hook: 'beforeOperation',

@@ -1,3 +1,5 @@
+import type { AuditorLog } from 'src/collections/auditor.js'
+
 import { emitEvent } from 'src/core/events/emitter.js'
 import beforeLoginCollectionLogBuilder from 'src/core/log-builders/collections/beforeLogin/beforeLogin.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -49,20 +51,18 @@ describe('beforeLogin collection hook', () => {
       },
       user: { id: 'user123' },
     }
-
+    const log: AuditorLog = {
+      type: 'security',
+      action: 'login',
+      collection: 'users',
+      hook: 'beforeLogin',
+      timestamp: expect.any(Date),
+      user: 'user123',
+      userAgent: 'Mozilla/5.0',
+    }
     beforeLoginCollectionLogBuilder(mockArgs as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        action: 'login',
-        collection: 'users',
-        hook: 'beforeLogin',
-        timestamp: expect.any(Date),
-        user: 'user123',
-        userAgent: 'Mozilla/5.0',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 
   it('should not log if login config is missing entirely', () => {
@@ -102,15 +102,12 @@ describe('beforeLogin collection hook', () => {
       },
       user: { id: null },
     }
-
+    const log: Partial<AuditorLog> = {
+      user: null,
+      userAgent: 'Chrome',
+    }
     beforeLoginCollectionLogBuilder(mockArgs as any)
 
-    expect(emitEvent).toHaveBeenCalledWith(
-      'logGenerated',
-      expect.objectContaining({
-        user: null,
-        userAgent: 'Chrome',
-      }),
-    )
+    expect(emitEvent).toHaveBeenCalledWith('logGenerated', expect.objectContaining(log))
   })
 })

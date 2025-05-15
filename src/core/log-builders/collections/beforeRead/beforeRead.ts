@@ -14,6 +14,7 @@ const beforeReadCollectionLogBuilder: CollectionBeforeReadHook = ({
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.beforeRead?.read?.enabled) {
     const log: AuditorLog = {
+      type: 'info',
       action: 'read',
       collection: collection.slug,
       documentId: doc.id,

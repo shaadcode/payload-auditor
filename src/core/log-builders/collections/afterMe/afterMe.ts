@@ -13,6 +13,7 @@ const afterMeCollectionLogBuilder: CollectionAfterMeHook = ({
 }) => {
   if ((context.userHookConfig as TrackedCollection).hooks?.afterMe?.me?.enabled) {
     const log: AuditorLog = {
+      type: 'info',
       action: 'me',
       collection: collection.slug,
       hook: 'afterMe',

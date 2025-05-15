@@ -18,6 +18,7 @@ const beforeValidateCollectionLogBuilder: CollectionBeforeValidateHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.beforeValidate?.create?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'debug',
       action: operation,
       collection: collection.slug,
       hook: 'beforeValidate',
@@ -32,6 +33,7 @@ const beforeValidateCollectionLogBuilder: CollectionBeforeValidateHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.beforeValidate?.update?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'debug',
       action: operation,
       collection: collection.slug,
       documentId: originalDoc.id,

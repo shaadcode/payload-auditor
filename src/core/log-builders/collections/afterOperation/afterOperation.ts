@@ -19,6 +19,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.create?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'create',
       collection: collection.slug,
       documentId: result.id.toString(),
@@ -35,6 +36,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
   ) {
     for (const doc of result.docs) {
       const log: AuditorLog = {
+        type: 'audit',
         action: 'delete',
         collection: collection.slug,
         documentId: doc.id.toString(),
@@ -51,6 +53,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.deleteByID?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'deleteByID',
       collection: collection.slug,
       documentId: result.id.toString(),
@@ -66,6 +69,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.find?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'find',
       collection: collection.slug,
       documentId: 'unknown',
@@ -81,6 +85,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.findByID?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'findByID',
       collection: collection.slug,
       documentId: result.id.toString(),
@@ -96,6 +101,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.forgotPassword?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'forgotPassword',
       collection: collection.slug,
       documentId: 'unknown',
@@ -111,6 +117,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.login?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'login',
       collection: collection.slug,
       documentId: result.user.id.toString(),
@@ -126,6 +133,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.refresh?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'refresh',
       collection: collection.slug,
       documentId: result.user.id,
@@ -142,6 +150,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
   ) {
     for (const doc of result.docs) {
       const log: AuditorLog = {
+        type: 'audit',
         action: 'update',
         collection: collection.slug,
         documentId: doc.id.toString(),
@@ -158,6 +167,7 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     (context.userHookConfig as TrackedCollection).hooks?.afterOperation?.updateByID?.enabled
   ) {
     const log: AuditorLog = {
+      type: 'audit',
       action: 'updateByID',
       collection: collection.slug,
       documentId: result.id.toString(),
