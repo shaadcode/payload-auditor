@@ -11,6 +11,7 @@ type AutoLogCleanerProps = {
 }
 
 export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
+  context,
   data,
   operation,
   req,
@@ -21,7 +22,9 @@ export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
     )
 
     const oldLogs = await req.payload.find({
-      collection: defaultCollectionValues.slug,
+      collection: context.pluginOptions.collection?.slug
+        ? context.pluginOptions.collection?.slug
+        : defaultCollectionValues.slug,
       limit: 1000,
       where: {
         createdAt: {
@@ -34,7 +37,9 @@ export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
       const deletePromises = oldLogs.docs.map((log) =>
         req.payload.delete({
           id: log.id,
-          collection: defaultCollectionValues.slug,
+          collection: context.pluginOptions.collection?.slug
+            ? context.pluginOptions.collection?.slug
+            : defaultCollectionValues.slug,
         }),
       )
 

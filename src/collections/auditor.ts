@@ -4,7 +4,6 @@ import type { hookTypes } from 'src/pluginUtils/configHelpers.js'
 import type { AuditHookOperationType } from '../types/pluginOptions.js'
 
 import { defaultCollectionValues } from '../Constant/Constant.js'
-import { autoLogCleaner } from './hooks/beforeChange.js'
 
 export type AuditorLog = {
   action: AuditHookOperationType
@@ -71,9 +70,6 @@ const auditor: CollectionConfig = {
       required: true,
     },
   ],
-  hooks: {
-    beforeChange: [autoLogCleaner],
-  },
   labels: defaultCollectionValues.labels,
   timestamps: false,
 }

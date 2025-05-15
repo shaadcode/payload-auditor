@@ -48,7 +48,10 @@ export const hookTypes = [
 //   // }
 // }
 
-export const attachHooksToActivityLogsCollection = (autoDeleteInterval: Duration) => {
+export const attachHooksToActivityLogsCollection = (
+  autoDeleteInterval: Duration,
+  pluginOptions: PluginOptions,
+) => {
   auditor.hooks = {
     ...auditor.hooks,
     beforeChange: [
@@ -56,6 +59,9 @@ export const attachHooksToActivityLogsCollection = (autoDeleteInterval: Duration
       (args) =>
         autoLogCleaner({
           ...args,
+          context: {
+            pluginOptions,
+          },
           data: {
             autoDeleteInterval,
           },
@@ -120,6 +126,10 @@ export const attachCollectionConfig = (
   }
 
   // Attaching Log Builders
+  // if (
+  //   pluginCollectionsConfig.trackCollections &&
+  //   pluginCollectionsConfig.trackCollections.length > 0
+  // ) {
   userCollectionsConfig = (userCollectionsConfig || []).map((collection) => {
     const tracked = pluginCollectionsConfig.trackCollections.find(
       (tc) => tc.slug === collection.slug,
@@ -149,6 +159,7 @@ export const attachCollectionConfig = (
 
     return collection
   })
+  // }
 
   // Attaching settings to plugin's internal collection hooks
   // ...

@@ -32,6 +32,7 @@ export const auditorPlugin =
     // TODO: combine to attachCollectionConfig function
     const logsCollection = attachHooksToActivityLogsCollection(
       opts.autoDeleteInterval ?? defaultAutoDeleteLog,
+      opts,
     )
     // TODO: combine to attachCollectionConfig function
     config.collections = [...(config.collections || []), logsCollection]
