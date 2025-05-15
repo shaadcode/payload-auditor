@@ -23,10 +23,10 @@ export const bufferManager = (payload: Payload, pluginOptions: PluginOptions) =>
 
     if (flushStrategy === 'size') {
       if (BUFFER.length >= BATCH_SIZE) {
-        await flushBuffer()
+        await flushBuffer(pluginOptions)
       }
     } else if (flushStrategy === 'realtime') {
-      await flushBuffer()
+      await flushBuffer(pluginOptions)
     }
   })
 
@@ -34,19 +34,21 @@ export const bufferManager = (payload: Payload, pluginOptions: PluginOptions) =>
     // Every few seconds, empty the buffer (even if it's not full)
     setInterval(async () => {
       if (BUFFER.length > 0) {
-        await flushBuffer()
+        await flushBuffer(pluginOptions)
       }
     }, FLUSH_INTERVAL)
   }
 }
 
-const flushBuffer = async () => {
+const flushBuffer = async (pluginOptions: PluginOptions) => {
   const logsToInsert = [...BUFFER]
   BUFFER.length = 0
   await Promise.all(
     logsToInsert.map((log) =>
       payloadInstance.create({
-        collection: defaultCollectionValues.slug,
+        collection: pluginOptions.collection?.slug
+          ? pluginOptions.collection?.slug
+          : defaultCollectionValues.slug,
         data: log,
       }),
     ),
