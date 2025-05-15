@@ -543,13 +543,25 @@ export type CollectionConfig = {
     time?: Duration
   }
 
+  /**
+   * 📝 Uses internal payload CMS configuration for labels
+   *
+   * 📖 You can customize the plugin's built-in collection label.
+   * @see {@link https://payloadcms.com/docs/configuration/collections#config-options}
+   */
   labels?:
     | {
         plural?: LabelFunction | StaticLabel | undefined
         singular?: LabelFunction | StaticLabel
       }
     | undefined
-
+  /**
+   * 📝 Uses internal payload CMS configuration for slug
+   *
+   * 📖 You can customize the plugin's built-in collection slug.
+   *
+   * @see {@link https://payloadcms.com/docs/configuration/collections#config-options}
+   */
   slug?: (typeof allowedSlugs)[number] | ({} & string)
 
   /**
