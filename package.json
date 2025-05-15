@@ -44,8 +44,9 @@
   ],
   "scripts": {
     "build": "pnpm test && pnpm check-types && pnpm copyfiles && pnpm build:types && pnpm build:swc",
-    "build:swc": "swc ./src -d ./dist --delete-dir-on-start --config-file .swcrc --strip-leading-paths --ignore **/*.test.ts **/*.test.tsx **/__tests__/**",
+    "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths --ignore **/*.test.ts **/*.test.tsx **/__tests__/**",
     "build:types": "tsc --outDir dist --rootDir ./src",
+    "build:only": "pnpm copyfiles && pnpm build:types && pnpm build:swc",
     "clean": "rimraf {dist,*.tsbuildinfo}",
     "copyfiles": "copyfiles -u 1 \"src/**/*.{html,css,scss,ttf,woff,woff2,eot,svg,jpg,png,json}\" dist/",
     "dev": "payload run ./dev/server.mts",
