@@ -40,7 +40,9 @@ export default buildConfig({
 
 ## 🔧 Plugin Options
 
-Customize the plugin with the following configuration:
+The plugin is designed in a way that allows you to customize it deeply. Of course, the project is fully documented and you can use its documentation well during development.
+
+Customize the plugin with the following configuration(for example):
 
 ```ts
 auditorPlugin({
@@ -61,6 +63,33 @@ auditorPlugin({
   },
 }),
 ```
+
+
+
+## ✨ **Things you can customize:**
+
+- 🔒 **You can control the accessibility of logs.** Due to the increased security of the plugin, other operations are not available.
+
+- 🛠️ **You can manage how logs are injected into the database.**
+
+- 🏷️ **You can change the internal collection label and slug.**
+
+- 📊 **You can specify which collections you want to track.**
+
+
+
+## ✨ **How to customize logging for each collection:**
+
+For logging, we have integrated the entire plugin with **Payload CMS hooks** for each collection that you allow tracking, so you can **track the entire application**. **payload-auditor** does logging **not based on the hooks themselves, but on the operations inside each hook**. Reading the collection hooks documentation can give you a much better understanding of how the plugin works.  
+
+🔍 **In summary, for each collection, you can make the following changes:**  
+
+- 🏷️ **Set the collection slug you want.** This is the basis for tracking, which makes the plugin find your collection.  
+- ⚙️ **Enable the required hooks.** As mentioned, this plugin supports all Payload CMS hooks.  
+- 🔄 **Enable custom operations in each hook.** Maybe you need a hook but don't want to use all the operations inside that hook for logging. For example, inside the `afterOperation` hook, only the `create` operation creates a log.  
+- ⏸️ **You can temporarily stop tracking this collection.** 
+
+
 
 ---
 
