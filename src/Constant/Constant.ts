@@ -1,6 +1,5 @@
 import type { LabelFunction, StaticLabel } from 'payload'
 
-import type { PluginOptions } from './../types/pluginOptions.js'
 import type { Duration } from './../utils/toMS.js'
 
 type DefaultCollectionValues = {
@@ -23,8 +22,7 @@ export const defaultCollectionValues: DefaultCollectionValues = {
 
 export const defaultAutoDeleteLog: Duration = '1mo'
 
-export const defaultPluginOpts: Required<PluginOptions> = {
-  autoDeleteInterval: defaultAutoDeleteLog,
+export const defaultPluginOpts = {
   collection: {
     trackCollections: [],
   },

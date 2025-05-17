@@ -2,12 +2,12 @@ import type { Config, Plugin } from 'payload'
 
 import type { PluginOptions } from './types/pluginOptions.js'
 
-import { defaultAutoDeleteLog, defaultPluginOpts } from './Constant/Constant.js'
+import { defaultPluginOpts } from './Constant/Constant.js'
 import {
+  attachAutomationConfig,
   attachCollectionConfig,
-  attachHooksToActivityLogsCollection,
   buildAccessControl,
-  wrapOnInitWithBufferManager,
+  OnInitManager,
 } from './pluginUtils/configHelpers.js'
 /**
  * 📝 The main function of plugin packaging
@@ -21,23 +21,18 @@ import {
 export const auditorPlugin =
   (opts: PluginOptions = defaultPluginOpts): Plugin =>
   (incomingConfig: Config): Config => {
-    const config = incomingConfig
+    let config = incomingConfig
     if (opts.enabled === false) {
       return config
     }
-
+    // Accessibility customization
+    // TODO: combine to attachCollectionConfig function
     buildAccessControl(opts)
+
+    config = attachAutomationConfig(config, opts)
     config.collections = attachCollectionConfig(config.collections, opts.collection)
 
-    // TODO: combine to attachCollectionConfig function
-    const logsCollection = attachHooksToActivityLogsCollection(
-      opts.autoDeleteInterval ?? defaultAutoDeleteLog,
-      opts,
-    )
-    // TODO: combine to attachCollectionConfig function
-    config.collections = [...(config.collections || []), logsCollection]
-
-    config.onInit = wrapOnInitWithBufferManager(config.onInit, opts)
+    config.onInit = OnInitManager(config.onInit, opts)
 
     return config
   }

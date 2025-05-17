@@ -6,8 +6,8 @@ import { defaultAutoDeleteLog, defaultCollectionValues } from './../../Constant/
 import ms from './../../utils/toMS.js'
 
 type AutoLogCleanerProps = {
-  autoDeleteInterval: Duration
   id: string
+  olderThan: Duration
 }
 
 export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
@@ -17,9 +17,7 @@ export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
   req,
 }) => {
   try {
-    const thirtySecondsAgo = new Date(
-      Date.now() - ms(data.autoDeleteInterval || defaultAutoDeleteLog),
-    )
+    const thirtySecondsAgo = new Date(Date.now() - ms(data.olderThan || defaultAutoDeleteLog))
 
     const oldLogs = await req.payload.find({
       collection: context.pluginOptions.collection?.slug

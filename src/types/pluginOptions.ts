@@ -598,49 +598,103 @@ export type CollectionConfig = {
   trackCollections: TrackedCollection[]
 }
 
+// export type CountStrategy = {
+//   amountToDelete: number
+//   deletionCount: number
+//   name: 'count'
+// }
+
+// export type TimeStrategy = {
+//   name: 'time'
+//   olderThan: Duration
+// }
+
+export type ManualStrategy = {
+  name: 'manual'
+  olderThan: Duration
+}
+export type AutomationConfig = {
+  logCleanup: {
+    // disabled?: boolean
+    // schedule?: CronConfig
+    strategy?: ManualStrategy
+    // CountStrategy
+    //  | TimeStrategy
+    // taskConfig?: TaskConfig<DeleteOldLogResultTask>
+    // withJobs?: boolean
+  }
+}
+
 export type PluginOptions = {
+  // /**
+  //  * 📝 Defines the interval for automatic deletion of logs or data.
+  //  *
+  //  * 📖 This interval is specified as a string containing a number followed by a time unit.
+  //  *
+  //  * 📌@type {Duration}
+  //  *
+  //  * @default "1mo"
+  //  *
+  //  * Supported time units include:
+  //  * - 'd' for days
+  //  * - 'h' for hours
+  //  * - 'm' for minutes
+  //  * - 'mo' for months
+  //  * - 's' for seconds
+  //  * - 'w' for weeks
+  //  * - 'y' for years
+  //  *
+  //  * ---
+  //  * 📦 Usage Example
+  //  *
+  //  * @example <caption>🧪 For 7 days</caption>
+  //  * ```
+  //  * autoDeleteInterval?: "7d",
+  //  * ```
+  //  *
+  //  * @example <caption>🧪 For 2 weeks</caption>
+  //  * ```
+  //  * autoDeleteInterval?: "2w",
+  //  * ```
+  //  *
+  //  * ---
+  //  * 💡 Tips:
+  //  * - Use small durations for testing (e.g., `'5s'`)
+  //  * - For production, prefer longer intervals (e.g., `'1w'`, `'1mo'`)
+  //  *
+  //  * ⚠️ Keep in mind:
+  //  * - Values below `'1s'` may be invalid.
+  //  * - Only use supported suffixes: `s`, `m`, `h`, `d`, `w`, `mo`, `y`
+  //  *
+  //  */
+  // autoDeleteInterval?: Duration
   /**
-   * 📝 Defines the interval for automatic deletion of logs or data.
+   * 📝 Automatic plugin process management
    *
-   * 📖 This interval is specified as a string containing a number followed by a time unit.
    *
-   * 📌@type {Duration}
+   * 📌@type {AutomationConfig}
    *
-   * @default "1mo"
+   * @default undefined
    *
-   * Supported time units include:
-   * - 'd' for days
-   * - 'h' for hours
-   * - 'm' for minutes
-   * - 'mo' for months
-   * - 's' for seconds
-   * - 'w' for weeks
-   * - 'y' for years
    *
-   * ---
    * 📦 Usage Example
    *
-   * @example <caption>🧪 For 7 days</caption>
-   * ```
-   * autoDeleteInterval?: "7d",
+   * @example <caption>🧪 Setting a strategy for the log cleaner</caption>
    * ```
    *
-   * @example <caption>🧪 For 2 weeks</caption>
-   * ```
-   * autoDeleteInterval?: "2w",
-   * ```
+   *   automation:{
+   *     logCleanup: {
+   *       strategy: "time"
+   *     }
+   *   }
    *
+   *```
    * ---
-   * 💡 Tips:
-   * - Use small durations for testing (e.g., `'5s'`)
-   * - For production, prefer longer intervals (e.g., `'1w'`, `'1mo'`)
-   *
-   * ⚠️ Keep in mind:
-   * - Values below `'1s'` may be invalid.
-   * - Only use supported suffixes: `s`, `m`, `h`, `d`, `w`, `mo`, `y`
+   * ### ⚠️ Critical Notes
+   * -
    *
    */
-  autoDeleteInterval?: Duration
+  automation?: AutomationConfig
 
   /**
    * 📝 Settings related to collections and the collection used by the plugin
@@ -665,7 +719,6 @@ export type PluginOptions = {
    *
    */
   collection?: CollectionConfig
-
   /**
    * 📝 Enable or disable the plugin
    *

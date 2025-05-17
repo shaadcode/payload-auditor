@@ -13,7 +13,6 @@ const beforeChangeCollectionLogBuilder: CollectionBeforeChangeHook = ({
   originalDoc,
   req,
 }) => {
-  console.log(originalDoc)
   if (
     operation === 'create' &&
     (context.userHookConfig as TrackedCollection).hooks?.beforeChange?.create?.enabled

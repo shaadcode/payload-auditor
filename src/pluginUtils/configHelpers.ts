@@ -1,12 +1,12 @@
 import type { Access, BasePayload, Config } from 'payload'
 
 import type { CollectionConfig, PluginOptions } from './../types/pluginOptions.js'
-import type { Duration } from './../utils/toMS.js'
 
 import auditor from '../collections/auditor.js'
-import { autoLogCleaner } from '../collections/hooks/beforeChange.js'
 import { bufferManager } from '../core/buffer/bufferManager.js'
 import { collectionHooks } from '../core/log-builders/index.js'
+import { autoLogCleaner } from './../collections/hooks/beforeChange.js'
+import { cleanupStrategies } from './../Constant/automation.js'
 
 type AccessOps = 'create' | 'delete' | 'read' | 'update'
 
@@ -48,41 +48,29 @@ export const hookTypes = [
 //   // }
 // }
 
-export const attachHooksToActivityLogsCollection = (
-  autoDeleteInterval: Duration,
-  pluginOptions: PluginOptions,
-) => {
-  auditor.hooks = {
-    ...auditor.hooks,
-    beforeChange: [
-      ...(auditor.hooks?.beforeChange || []),
-      (args) =>
-        autoLogCleaner({
-          ...args,
-          context: {
-            pluginOptions,
-          },
-          data: {
-            autoDeleteInterval,
-          },
-        }),
-    ],
-  }
+// export const attachHooksToActivityLogsCollection = (
+//   autoDeleteInterval: Duration,
+//   pluginOpts: PluginOptions,
+// ) => {
+//   auditor.hooks = {
+//     ...auditor.hooks,
+//     beforeChange: [
+//       ...(auditor.hooks?.beforeChange || []),
+//       (args) =>
+//         autoLogCleaner({
+//           ...args,
+//           context: {
+//             pluginOptions: pluginOpts,
+//           },
+//           data: {
+//             olderThan: autoDeleteInterval,
+//           },
+//         }),
+//     ],
+//   }
 
-  return auditor
-}
-
-export const wrapOnInitWithBufferManager = (
-  originalOnInit: Config['onInit'],
-  pluginOptions: PluginOptions,
-) => {
-  return async (payload: BasePayload) => {
-    if (originalOnInit) {
-      await originalOnInit(payload)
-    }
-    bufferManager(payload, pluginOptions)
-  }
-}
+//   return auditor
+// }
 
 export const buildAccessControl = (pluginOpts: PluginOptions) => {
   const roles: RoleAccessMap = pluginOpts?.collection?.Accessibility?.roles ?? {}
@@ -160,9 +148,104 @@ export const attachCollectionConfig = (
     return collection
   })
   // }
+  userCollectionsConfig = [...userCollectionsConfig, auditor]
 
   // Attaching settings to plugin's internal collection hooks
   // ...
 
   return userCollectionsConfig
+}
+
+export const attachAutomationConfig = (
+  incomingConfig: Config,
+  pluginOpts: PluginOptions,
+): Config => {
+  // if (pluginOpts.automation?.logCleanup.disabled) {
+  //   return incomingConfig
+  // } else
+
+  auditor.hooks = {
+    ...auditor.hooks,
+    beforeChange: [
+      ...(auditor.hooks?.beforeChange || []),
+      (args) =>
+        autoLogCleaner({
+          ...args,
+          context: {
+            pluginOptions: pluginOpts,
+          },
+          data: {
+            olderThan:
+              pluginOpts.automation?.logCleanup?.strategy?.olderThan ??
+              cleanupStrategies.manual.olderThan,
+          },
+        }),
+    ],
+  }
+
+  // incomingConfig.collections = [...(incomingConfig.collections || []), auditor]
+  return incomingConfig
+
+  // if (!incomingConfig.jobs) {
+  //   incomingConfig.jobs = {} as JobsConfig
+  // }
+  // const existingAutoRun = incomingConfig.jobs?.autoRun
+
+  // // log cleanup values
+  // const logCleanupScheduleCron: string =
+  //   pluginOpts.automation?.logCleanup.schedule?.cron ??
+  //   defaultAutomationValues?.logCleanup.schedule.cron
+  // const logCleanupScheduleLimit: number =
+  //   pluginOpts.automation?.logCleanup.schedule?.limit ??
+  //   defaultAutomationValues.logCleanup.schedule.limit
+  // const logCleanupScheduleQueue: string =
+  //   pluginOpts.automation?.logCleanup.schedule?.queue ??
+  //   defaultAutomationValues.logCleanup.schedule.queue
+
+  // incomingConfig.jobs = {
+  //   ...incomingConfig,
+
+  //   // add plugin tasks
+  //   tasks: [...(incomingConfig.jobs.tasks || []), deleteOldLogTask(pluginOpts)],
+  // }
+
+  // // create plugin auto run
+  // incomingConfig.jobs.autoRun = async (payload) => {
+  //   // It is possible that autoRun is a function
+  //   const previous =
+  //     typeof existingAutoRun === 'function' ? await existingAutoRun(payload) : existingAutoRun || []
+  //   return [
+  //     ...previous,
+  //     {
+  //       cron: logCleanupScheduleCron,
+  //       limit: logCleanupScheduleLimit,
+  //       queue: logCleanupScheduleQueue,
+  //     },
+  //   ]
+  // }
+
+  // return incomingConfig
+}
+
+export const OnInitManager = (originalOnInit: Config['onInit'], pluginOpts: PluginOptions) => {
+  return async (payload: BasePayload) => {
+    if (originalOnInit) {
+      await originalOnInit(payload)
+    }
+
+    bufferManager(payload, pluginOpts)
+
+    // add jobs
+    // await payload.jobs.queue({
+    //   input: {
+    //     slug: 'mojtaba',
+    //     olderThan: '313m',
+    //     pluginOpts,
+    //   },
+    //   queue:
+    //     pluginOpts.automation?.logCleanup.schedule?.queue ??
+    //     defaultAutomationValues.logCleanup.schedule.queue,
+    //   task: pluginOpts.automation?.logCleanup.taskConfig?.slug ?? defaultCleanupTaskValues.slug,
+    // })
+  }
 }
