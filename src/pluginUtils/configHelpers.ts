@@ -114,41 +114,41 @@ export const attachCollectionConfig = (
   }
 
   // Attaching Log Builders
-  // if (
-  //   pluginCollectionsConfig.trackCollections &&
-  //   pluginCollectionsConfig.trackCollections.length > 0
-  // ) {
-  userCollectionsConfig = (userCollectionsConfig || []).map((collection) => {
-    const tracked = pluginCollectionsConfig.trackCollections.find(
-      (tc) => tc.slug === collection.slug,
-    )
+  if (
+    pluginCollectionsConfig.trackCollections &&
+    pluginCollectionsConfig.trackCollections.length > 0
+  ) {
+    userCollectionsConfig = (userCollectionsConfig || []).map((collection) => {
+      const tracked = pluginCollectionsConfig.trackCollections.find(
+        (tc) => tc.slug === collection.slug,
+      )
 
-    if (tracked && !tracked.disabled) {
-      collection.hooks = collection.hooks || {}
+      if (tracked && !tracked.disabled) {
+        collection.hooks = collection.hooks || {}
 
-      for (const hookType of hookTypes) {
-        const opConfigs = tracked.hooks ? tracked.hooks[hookType] : undefined
+        for (const hookType of hookTypes) {
+          const opConfigs = tracked.hooks ? tracked.hooks[hookType] : undefined
 
-        if (opConfigs) {
-          // @ts-ignore
-          collection.hooks[hookType] = [
-            ...(collection.hooks[hookType] || []),
-            (args: any) =>
-              collectionHooks[hookType]({
-                ...args,
-                context: {
-                  userHookConfig: tracked,
-                },
-              }),
-          ]
+          if (opConfigs) {
+            // @ts-ignore
+            collection.hooks[hookType] = [
+              ...(collection.hooks[hookType] || []),
+              (args: any) =>
+                collectionHooks[hookType]({
+                  ...args,
+                  context: {
+                    userHookConfig: tracked,
+                  },
+                }),
+            ]
+          }
         }
       }
-    }
 
-    return collection
-  })
-  // }
-  userCollectionsConfig = [...userCollectionsConfig, auditor]
+      return collection
+    })
+    userCollectionsConfig = [...userCollectionsConfig, auditor]
+  }
 
   // Attaching settings to plugin's internal collection hooks
   // ...
