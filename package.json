@@ -59,7 +59,7 @@
     "check-types": "npx tsc --noEmit --pretty",
     "prepublishOnly": "pnpm clean && pnpm build",
     "test:plugin": "pnpm clean && pnpm build && pnpm link && pnpm --dir ./dev link payload-auditor && pnpm dev",
-    "test:watch": "vitest",
+    "test:watch": "vitest --reporter=verbose ",
     "test": "vitest run",
     "prepare": "husky",
     "semantic-release": "semantic-release --dry-run",
