@@ -50,13 +50,11 @@
 //   //       limit:
 //   //         input.pluginOpts.automation.logCleanup.strategy.deletionCount ??
 //   //         defaultAutomationLogCleanup.deletionCount,
-//   //       sort: 'createdAt', // قدیمی‌ترین‌ها اول
+//   //       sort: 'createdAt',
 //   //     })
 
-//   //     // آی‌دی‌ها رو استخراج کن
 //   //     const idsToDelete = logsToDelete.docs.map((log) => log.id)
 
-//   //     // حذف کن بر اساس آیدی‌ها (بدون limit)
 //   //     const deletedLogs = await req.payload.delete({
 //   //       collection: input.pluginOpts.collection?.slug ?? defaultCollectionValues.slug,
 //   //       where: {

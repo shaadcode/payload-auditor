@@ -30,10 +30,6 @@ const afterOperationCollectionLogBuilder: CollectionAfterOperationHook = ({
     userAgent: req.headers.get('user-agent') || 'unknown',
   }
 
-  if (operation === 'refresh' || operation === 'login') {
-    console.log(hookConfig)
-  }
-
   const emitWrapper = (fields: AuditorLog) => {
     if (operationConfig?.enabled) {
       emitEvent('logGenerated', fields)
