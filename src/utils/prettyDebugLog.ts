@@ -20,7 +20,7 @@ export const prettyDebugLog = (
       console.groupEnd()
     } else if (type === 'manual') {
       console.log('-----------------------------------------')
-      console.log(`| %c🔍 Debug Log - ${title} [${subtitle}] |`)
+      console.log(`| %c🔍 Debug Log - ${title} ${subtitle && `[${subtitle}]`} |`)
       console.log('-----------------------------------------')
       for (const [key, value] of Object.entries(data)) {
         console.log(`|- %c${key}:`, 'color: #666; font-weight: 600;', value)

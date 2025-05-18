@@ -4,25 +4,28 @@ import type { AuditorLog } from '../../collections/auditor.js'
 import type { PluginOptions } from './../../types/pluginOptions.js'
 
 import { defaultCollectionValues } from './../../Constant/Constant.js'
+import { handleBufferDebugMode } from './../../core/buffer/helpers/handleBufferDebugMode.js'
 import { onEventLog } from './../../core/events/emitter.js'
 import ms from './../../utils/toMS.js'
 
-const BUFFER: AuditorLog[] = []
+const store: AuditorLog[] = []
 
 let payloadInstance: Payload
 
 export const bufferManager = (payload: Payload, pluginOptions: PluginOptions) => {
-  const BATCH_SIZE = pluginOptions.collection?.buffer?.size ?? 10
-  const FLUSH_INTERVAL = ms(pluginOptions.collection?.buffer?.time ?? '5s')
-  const flushStrategy = pluginOptions.collection?.buffer?.flushStrategy ?? 'time'
+  const bufferConfig = pluginOptions.collection?.buffer
+  const size = bufferConfig?.size ?? 10
+  const interval = ms(bufferConfig?.time ?? '5s')
+  const flushStrategy = bufferConfig?.flushStrategy ?? 'time'
   payloadInstance = payload
 
   // When the log is generated, add it to the buffer.
   onEventLog('logGenerated', async (log: AuditorLog) => {
-    BUFFER.push(log)
+    handleBufferDebugMode({ flushStrategy, interval, size }, bufferConfig)
+    store.push(log)
 
     if (flushStrategy === 'size') {
-      if (BUFFER.length >= BATCH_SIZE) {
+      if (store.length >= size) {
         await flushBuffer(pluginOptions)
       }
     } else if (flushStrategy === 'realtime') {
@@ -33,16 +36,16 @@ export const bufferManager = (payload: Payload, pluginOptions: PluginOptions) =>
   if (flushStrategy === 'time') {
     // Every few seconds, empty the buffer (even if it's not full)
     setInterval(async () => {
-      if (BUFFER.length > 0) {
+      if (store.length > 0) {
         await flushBuffer(pluginOptions)
       }
-    }, FLUSH_INTERVAL)
+    }, interval)
   }
 }
 
 const flushBuffer = async (pluginOptions: PluginOptions) => {
-  const logsToInsert = [...BUFFER]
-  BUFFER.length = 0
+  const logsToInsert = [...store]
+  store.length = 0
   await Promise.all(
     logsToInsert.map((log) =>
       payloadInstance.create({

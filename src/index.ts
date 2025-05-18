@@ -31,7 +31,6 @@ export const auditorPlugin =
 
     config = attachAutomationConfig(config, opts)
     config.collections = attachCollectionConfig(config.collections, opts.collection)
-
     config.onInit = OnInitManager(config.onInit, opts)
 
     return config
