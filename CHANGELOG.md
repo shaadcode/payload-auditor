@@ -1,3 +1,16 @@
+# [1.6.0](https://github.com/shaadcode/payload-auditor/compare/v1.5.1...v1.6.0) (2025-05-18)
+
+
+### Bug Fixes
+
+* **config:** fixed crash when not defining a collection during configuration ([128bebd](https://github.com/shaadcode/payload-auditor/commit/128bebd39f5d79108501e766e8cfaa0a1142bee3))
+
+
+### Features
+
+* **core:** add debug mode for buffer management ([1385112](https://github.com/shaadcode/payload-auditor/commit/1385112dfa7ff6bf8ae4460b055496621f5566cd))
+* **logger:** add debug mode to check logs at the hook and operation level ([8eefe21](https://github.com/shaadcode/payload-auditor/commit/8eefe21733fb897d7f44d98c8467a85576bd208b))
+
 ## [1.5.1](https://github.com/shaadcode/payload-auditor/compare/v1.5.0...v1.5.1) (2025-05-15)
 
 
