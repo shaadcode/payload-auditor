@@ -1,10 +1,11 @@
-import type { AuditorLog } from 'src/collections/auditor.js'
-
-import { emitEvent } from 'src/core/events/emitter.js'
-import beforeDeleteCollectionLogBuilder from 'src/core/log-builders/collections/beforeDelete/beforeDelete.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import beforeDeleteCollectionLogBuilder from './../../../../core/log-builders/collections/beforeDelete/beforeDelete.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -55,10 +56,10 @@ describe('beforeDelete collection hook', () => {
     }
     const log: AuditorLog = {
       type: 'audit',
-      action: 'delete',
       collection: 'comments',
       documentId: '456',
       hook: 'beforeDelete',
+      operation: 'delete',
       timestamp: expect.any(Date),
       user: 'admin',
       userAgent: 'mozilla',

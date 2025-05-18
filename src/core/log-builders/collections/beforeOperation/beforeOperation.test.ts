@@ -1,10 +1,11 @@
-import type { AuditorLog } from 'src/collections/auditor.js'
-
-import { emitEvent } from 'src/core/events/emitter.js'
-import beforeOperationCollectionLogBuilder from 'src/core/log-builders/collections/beforeOperation/beforeOperation.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import beforeOperationCollectionLogBuilder from './../../../../core/log-builders/collections/beforeOperation/beforeOperation.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -62,9 +63,9 @@ describe('beforeOperation collection hook', () => {
       expect(emitEvent).toHaveBeenCalledWith(
         'logGenerated',
         expect.objectContaining({
-          action: 'create',
           collection: 'articles',
           hook: 'beforeOperation',
+          operation: 'create',
           timestamp: expect.any(Date),
           user: 'user42',
           userAgent: 'Mozilla/5.0',
@@ -94,7 +95,7 @@ describe('beforeOperation collection hook', () => {
     it('should handle missing user or user-agent', async () => {
       const args = {}
       const log: Partial<AuditorLog> = {
-        user: null,
+        user: 'anonymous',
         userAgent: 'anonymous',
       }
       await beforeOperationCollectionLogBuilder({
@@ -145,10 +146,10 @@ describe('beforeOperation collection hook', () => {
     it('should log if delete hook is enabled', async () => {
       const log: AuditorLog = {
         type: 'audit',
-        action: 'delete',
         collection: 'files',
         documentId: 'abc123',
         hook: 'beforeOperation',
+        operation: 'delete',
         timestamp: expect.any(Date),
         user: 'user42',
         userAgent: 'Mozilla/5.0',
@@ -178,7 +179,7 @@ describe('beforeOperation collection hook', () => {
     it('should not throw error if documentId is missing', async () => {
       const log: Partial<AuditorLog> = {
         documentId: undefined,
-        user: null,
+        user: 'anonymous',
         userAgent: 'unknown-agent',
       }
       await beforeOperationCollectionLogBuilder({
@@ -205,7 +206,7 @@ describe('beforeOperation collection hook', () => {
     it('should handle null user-agent and user gracefully', async () => {
       const log: Partial<AuditorLog> = {
         documentId: 'id-test',
-        user: null,
+        user: 'anonymous',
         userAgent: 'anonymous',
       }
       await beforeOperationCollectionLogBuilder({
@@ -263,8 +264,8 @@ describe('beforeOperation collection hook', () => {
 
       const log: Partial<AuditorLog> = {
         type: 'audit',
-        action: 'forgotPassword',
         hook: 'beforeOperation',
+        operation: 'forgotPassword',
         user: 'user-found',
         userAgent: 'Mozilla/5.0',
       }
@@ -388,9 +389,9 @@ describe('beforeOperation collection hook', () => {
       })
       const log: Partial<AuditorLog> = {
         type: 'audit',
-        action: 'login',
         collection: 'users',
         hook: 'beforeOperation',
+        operation: 'login',
         timestamp: expect.any(Date),
         user: 'user123',
         userAgent: 'Mozilla/5.0',
@@ -508,9 +509,9 @@ describe('beforeOperation collection hook', () => {
     it('should log if refresh hook is enabled', async () => {
       const log: AuditorLog = {
         type: 'audit',
-        action: 'refresh',
         collection: 'sessions',
         hook: 'beforeOperation',
+        operation: 'refresh',
         timestamp: expect.any(Date),
         user: 'user42',
         userAgent: 'Mozilla/5.0',
@@ -618,9 +619,9 @@ describe('beforeOperation collection hook', () => {
     it('should log if update hook is enabled', async () => {
       const log: AuditorLog = {
         type: 'audit',
-        action: 'update',
         collection: 'posts',
         hook: 'beforeOperation',
+        operation: 'update',
         timestamp: expect.any(Date),
         user: 'user123',
         userAgent: 'Mozilla/5.0',
@@ -649,7 +650,7 @@ describe('beforeOperation collection hook', () => {
 
     it('should log with null user if user is not defined', async () => {
       const log: Partial<AuditorLog> = {
-        user: null,
+        user: 'anonymous',
         userAgent: 'Chrome/91',
       }
       await beforeOperationCollectionLogBuilder({

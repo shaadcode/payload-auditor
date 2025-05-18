@@ -1,13 +1,15 @@
 import type { RequestContext } from 'next/dist/server/base-server.js'
 import type { CollectionAfterLogoutHook, SanitizedCollectionConfig } from 'payload'
-import type { AuditorLog } from 'src/collections/auditor.js'
-import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
-import { emitEvent } from 'src/core/events/emitter.js'
-import afterLogoutCollectionLogBuilder from 'src/core/log-builders/collections/afterLogout/afterLogout.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+import type { TrackedCollection } from './../../../../types/pluginOptions.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import afterLogoutCollectionLogBuilder from './../../../../core/log-builders/collections/afterLogout/afterLogout.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -100,9 +102,9 @@ describe('afterLogout collection hook', () => {
 
     const expectedLog: AuditorLog = {
       type: 'security',
-      action: 'logout',
       collection: 'users',
       hook: 'afterLogout',
+      operation: 'logout',
       timestamp: expect.any(Date),
       user: 'id-123',
       userAgent: 'test-agent',

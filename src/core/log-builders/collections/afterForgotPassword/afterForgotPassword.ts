@@ -4,6 +4,7 @@ import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
+import { handleDebugMode } from './../../../../core/log-builders/collections/helpers/handleDebugMode.js'
 
 const afterForgotPasswordCollectionLogBuilder: CollectionAfterForgotPasswordHook = async ({
   args,
@@ -11,13 +12,21 @@ const afterForgotPasswordCollectionLogBuilder: CollectionAfterForgotPasswordHook
   context,
 }) => {
   const hook = 'afterForgotPassword'
+  const hookConfig = (context.userHookConfig as TrackedCollection).hooks?.afterForgotPassword
+  const operationConfig = hookConfig?.forgotPassword
+  const email = args.data?.email
+  const userAgent = args.req.headers.get('user-agent') || 'unknown'
+  const allFields: AuditorLog = {
+    type: 'security',
+    collection: collection.slug,
+    hook,
+    operation: 'forgotPassword',
+    timestamp: new Date(),
+    user: 'anonymous',
+    userAgent,
+  }
 
-  const config = context.userHookConfig as TrackedCollection
-
-  if (config?.hooks?.afterForgotPassword?.forgotPassword?.enabled) {
-    const email = args.data?.email
-    const userAgent = args.req.headers.get('user-agent') || 'unknown'
-
+  if (operationConfig?.enabled) {
     const userDoc = await args.req.payload.find({
       collection: collection.slug,
       limit: 1,
@@ -25,21 +34,12 @@ const afterForgotPasswordCollectionLogBuilder: CollectionAfterForgotPasswordHook
     })
 
     const userId = userDoc?.docs?.[0]?.id
+    allFields.user = userId
 
-    if (userId) {
-      const log: AuditorLog = {
-        type: 'security',
-        action: 'forgotPassword',
-        collection: collection.slug,
-        hook,
-        timestamp: new Date(),
-        user: userId,
-        userAgent,
-      }
-
-      emitEvent('logGenerated', log)
-    }
+    emitEvent('logGenerated', allFields)
   }
+
+  handleDebugMode(hookConfig, operationConfig, allFields, 'forgotPassword')
 
   return {}
 }

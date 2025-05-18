@@ -1,11 +1,12 @@
-import type { AuditorLog } from 'src/collections/auditor.js'
-import type { TrackedCollection } from 'src/types/pluginOptions.js'
-
-import { emitEvent } from 'src/core/events/emitter.js'
-import afterReadCollectionLogBuilder from 'src/core/log-builders/collections/afterRead/afterRead.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+import type { TrackedCollection } from './../../../../types/pluginOptions.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import afterReadCollectionLogBuilder from './../../../../core/log-builders/collections/afterRead/afterRead.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -79,10 +80,10 @@ describe('afterRead collection hook', () => {
     }
     const log: AuditorLog = {
       type: 'info',
-      action: 'read',
       collection: 'articles',
       documentId: 'articleId',
       hook: 'afterRead',
+      operation: 'read',
       timestamp: expect.any(Date),
       user: 'userX',
       userAgent: 'firefox',

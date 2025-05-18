@@ -6,10 +6,10 @@ import type { AuditHookOperationType } from '../types/pluginOptions.js'
 import { defaultCollectionValues } from '../Constant/Constant.js'
 
 export type AuditorLog = {
-  action: AuditHookOperationType
   collection: string
   documentId?: string
   hook: (typeof hookTypes)[number]
+  operation: AuditHookOperationType
   timestamp: Date
   type: 'audit' | 'debug' | 'error' | 'info' | 'security' | 'warning'
   user: unknown
@@ -19,12 +19,12 @@ export type AuditorLog = {
 const auditor: CollectionConfig = {
   slug: defaultCollectionValues.slug,
   admin: {
-    defaultColumns: ['action', 'type', 'collection', 'user', 'timestamp'],
-    useAsTitle: 'action',
+    defaultColumns: ['operation', 'type', 'collection', 'user', 'timestamp'],
+    useAsTitle: 'operation',
   },
   fields: [
     {
-      name: 'action',
+      name: 'operation',
       type: 'text',
       required: true,
     },

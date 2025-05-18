@@ -1,10 +1,11 @@
-import type { AuditorLog } from 'src/collections/auditor.js'
-
-import { emitEvent } from 'src/core/events/emitter.js'
-import beforeChangeCollectionLogBuilder from 'src/core/log-builders/collections/beforeChange/beforeChange.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import beforeChangeCollectionLogBuilder from './../../../../core/log-builders/collections/beforeChange/beforeChange.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -76,10 +77,10 @@ describe('beforeChange collection hook', () => {
       }
       const log: AuditorLog = {
         type: 'audit',
-        action: 'create',
         collection: 'articles',
         documentId: '321',
         hook: 'beforeChange',
+        operation: 'create',
         timestamp: expect.any(Date),
         user: 'userX',
         userAgent: 'firefox',
@@ -185,10 +186,10 @@ describe('beforeChange collection hook', () => {
       }
       const log: AuditorLog = {
         type: 'audit',
-        action: 'update',
         collection: 'settings',
         documentId: '1234',
         hook: 'beforeChange',
+        operation: 'update',
         timestamp: expect.any(Date),
         user: 'admin',
         userAgent: 'safari',

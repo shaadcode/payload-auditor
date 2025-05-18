@@ -1,10 +1,11 @@
-import type { AuditorLog } from 'src/collections/auditor.js'
-
-import { emitEvent } from 'src/core/events/emitter.js'
-import beforeReadCollectionLogBuilder from 'src/core/log-builders/collections/beforeRead/beforeRead.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import beforeReadCollectionLogBuilder from './../../../../core/log-builders/collections/beforeRead/beforeRead.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -58,10 +59,10 @@ describe('beforeRead collection hook', () => {
     }
     const log: AuditorLog = {
       type: 'info',
-      action: 'read',
       collection: 'posts',
       documentId: 'doc123',
       hook: 'beforeRead',
+      operation: 'read',
       timestamp: expect.any(Date),
       user: 'user123',
       userAgent: 'Mozilla/5.0',
@@ -93,12 +94,12 @@ describe('beforeRead collection hook', () => {
     }
     const log: AuditorLog = {
       type: 'info',
-      action: 'read',
       collection: 'posts',
       documentId: 'doc456',
       hook: 'beforeRead',
+      operation: 'read',
       timestamp: expect.any(Date),
-      user: null,
+      user: 'anonymous',
       userAgent: 'Chrome/91',
     }
     beforeReadCollectionLogBuilder(mockArgs as any)
@@ -127,10 +128,10 @@ describe('beforeRead collection hook', () => {
     }
     const log: AuditorLog = {
       type: 'info',
-      action: 'read',
       collection: 'posts',
       documentId: 'doc789',
       hook: 'beforeRead',
+      operation: 'read',
       timestamp: expect.any(Date),
       user: 'user456',
       userAgent: 'unknown',

@@ -1,13 +1,15 @@
 import type { RequestContext } from 'next/dist/server/base-server.js'
 import type { PayloadRequest, SanitizedCollectionConfig } from 'payload'
-import type { AuditorLog } from 'src/collections/auditor.js'
-import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
-import { emitEvent } from 'src/core/events/emitter.js'
-import afterMeCollectionLogBuilder from 'src/core/log-builders/collections/afterMe/afterMe.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+import type { TrackedCollection } from './../../../../types/pluginOptions.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import afterMeCollectionLogBuilder from './../../../../core/log-builders/collections/afterMe/afterMe.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -102,9 +104,9 @@ describe('afterMe collection hook', () => {
 
     const expectedLog: AuditorLog = {
       type: 'info',
-      action: 'me',
       collection: 'users',
       hook: 'afterMe',
+      operation: 'me',
       timestamp: expect.any(Date),
       user: 'id-123',
       userAgent: 'test-agent',

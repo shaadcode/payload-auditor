@@ -1,13 +1,16 @@
 import type { RequestContext } from 'next/dist/server/base-server.js'
 import type { SanitizedCollectionConfig } from 'payload'
-import type { AuditorLog } from 'src/collections/auditor.js'
-import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
-import { emitEvent } from 'src/core/events/emitter.js'
-import afterForgotPasswordCollectionLogBuilder from 'src/core/log-builders/collections/afterForgotPassword/afterForgotPassword.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+import type { TrackedCollection } from './../../../../types/pluginOptions.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import afterForgotPasswordCollectionLogBuilder from './../../../../core/log-builders/collections/afterForgotPassword/afterForgotPassword.js'
+import { buildMockArgs } from './../../../../core/log-builders/collections/mockData/args.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -16,24 +19,9 @@ describe('afterForgotPassword collection hook', () => {
     vi.clearAllMocks()
   })
   it('Should not log if forgot password operation is not enabled', async () => {
-    const mockArgs = {
-      args: {},
-      collection: {
-        slug: 'users',
-      } as SanitizedCollectionConfig,
-      context: {
-        userHookConfig: {
-          hooks: {
-            afterForgotPassword: {
-              forgotPassword: {
-                enabled: false,
-              },
-            },
-          },
-        } as TrackedCollection,
-      } as unknown as RequestContext,
-    } as any
-    const result = await afterForgotPasswordCollectionLogBuilder(mockArgs)
+    const mockArgs = buildMockArgs()
+
+    const result = await afterForgotPasswordCollectionLogBuilder(mockArgs as any)
 
     expect(result).toEqual({})
 
@@ -79,9 +67,9 @@ describe('afterForgotPassword collection hook', () => {
 
     const expectedLog: AuditorLog = {
       type: 'security',
-      action: 'forgotPassword',
       collection: 'users',
       hook: 'afterForgotPassword',
+      operation: 'forgotPassword',
       timestamp: expect.any(Date),
       user: 'userId',
       userAgent: 'test-agent',
@@ -90,20 +78,9 @@ describe('afterForgotPassword collection hook', () => {
   })
 
   it('Should not log, it is wrong when the hook is activated', async () => {
-    const mockArgs = {
-      args: {},
-      collection: {
-        slug: 'users',
-      } as SanitizedCollectionConfig,
-      context: {
-        userHookConfig: {
-          hooks: {
-            afterLogin: {},
-          },
-        } as TrackedCollection,
-      } as unknown as RequestContext,
-    } as any
-    const result = await afterForgotPasswordCollectionLogBuilder(mockArgs)
+    const mockArgs = buildMockArgs()
+
+    const result = await afterForgotPasswordCollectionLogBuilder(mockArgs as any)
 
     expect(result).toEqual({})
 

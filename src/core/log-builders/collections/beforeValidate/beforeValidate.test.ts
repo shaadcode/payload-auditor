@@ -1,10 +1,11 @@
-import type { AuditorLog } from 'src/collections/auditor.js'
-
-import { emitEvent } from 'src/core/events/emitter.js'
-import beforeValidateCollectionLogBuilder from 'src/core/log-builders/collections/beforeValidate/beforeValidate.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import beforeValidateCollectionLogBuilder from './../../../../core/log-builders/collections/beforeValidate/beforeValidate.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -61,9 +62,9 @@ describe('beforeValidate collection hook', () => {
       }
       const log: AuditorLog = {
         type: 'debug',
-        action: 'create',
         collection: 'posts',
         hook: 'beforeValidate',
+        operation: 'create',
         timestamp: expect.any(Date),
         user: 'user123',
         userAgent: 'Mozilla/5.0',
@@ -95,9 +96,9 @@ describe('beforeValidate collection hook', () => {
       }
       const log: AuditorLog = {
         type: 'debug',
-        action: 'create',
         collection: 'posts',
         hook: 'beforeValidate',
+        operation: 'create',
         timestamp: expect.any(Date),
         user: 'anonymous',
         userAgent: 'Chrome/91',
@@ -129,9 +130,9 @@ describe('beforeValidate collection hook', () => {
       }
       const log: AuditorLog = {
         type: 'debug',
-        action: 'create',
         collection: 'posts',
         hook: 'beforeValidate',
+        operation: 'create',
         timestamp: expect.any(Date),
         user: 'user123',
         userAgent: 'unknown',
@@ -190,10 +191,10 @@ describe('beforeValidate collection hook', () => {
       }
       const log: AuditorLog = {
         type: 'debug',
-        action: 'update',
         collection: 'posts',
         documentId: 'doc123',
         hook: 'beforeValidate',
+        operation: 'update',
         timestamp: expect.any(Date),
         user: 'user456',
         userAgent: 'Mozilla/5.0',
@@ -225,10 +226,10 @@ describe('beforeValidate collection hook', () => {
       }
       const log: AuditorLog = {
         type: 'debug',
-        action: 'update',
         collection: 'posts',
         documentId: 'doc456',
         hook: 'beforeValidate',
+        operation: 'update',
         timestamp: expect.any(Date),
         user: 'anonymous',
         userAgent: 'Edge/90',
@@ -260,10 +261,10 @@ describe('beforeValidate collection hook', () => {
       }
       const log: AuditorLog = {
         type: 'debug',
-        action: 'update',
         collection: 'posts',
         documentId: 'doc789',
         hook: 'beforeValidate',
+        operation: 'update',
         timestamp: expect.any(Date),
         user: 'user789',
         userAgent: 'unknown',

@@ -1,10 +1,11 @@
-import type { AuditorLog } from 'src/collections/auditor.js'
-
-import { emitEvent } from 'src/core/events/emitter.js'
-import beforeLoginCollectionLogBuilder from 'src/core/log-builders/collections/beforeLogin/beforeLogin.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import beforeLoginCollectionLogBuilder from './../../../../core/log-builders/collections/beforeLogin/beforeLogin.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -53,9 +54,9 @@ describe('beforeLogin collection hook', () => {
     }
     const log: AuditorLog = {
       type: 'security',
-      action: 'login',
       collection: 'users',
       hook: 'beforeLogin',
+      operation: 'login',
       timestamp: expect.any(Date),
       user: 'user123',
       userAgent: 'Mozilla/5.0',

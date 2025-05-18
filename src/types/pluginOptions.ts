@@ -1,5 +1,6 @@
 import type { Access, HookOperationType, LabelFunction, StaticLabel } from 'payload'
 
+import type { AuditorLog } from './../collections/auditor.js'
 import type { Duration } from './../utils/toMS.js'
 
 export type HookStage =
@@ -32,6 +33,16 @@ export type AuditHookOperationType =
   | 'updateByID'
   | HookOperationType
 
+export type HookOperationDebugModeConfig = {
+  displayType?: 'manual' | 'table'
+  enabled?: boolean
+  fields?: Partial<Record<keyof AuditorLog, boolean>>
+}
+
+export type ModesConfig = {
+  debug?: HookOperationDebugModeConfig
+}
+
 export type HookOperationConfig = {
   /**
    * 📝 Specifies whether logging is enabled or disabled for this operation within the hook
@@ -56,6 +67,7 @@ export type HookOperationConfig = {
    *
    */
   enabled?: boolean
+  modes?: ModesConfig
 }
 
 export type HookTrackingOperationMap = {
@@ -66,6 +78,8 @@ export type HookTrackingOperationMap = {
      * Triggered when a new item is created.
      */
     create?: HookOperationConfig
+    modes?: ModesConfig
+
     /**
      * Update operation
      *
@@ -80,6 +94,7 @@ export type HookTrackingOperationMap = {
      * Triggered when an item is deleted.
      */
     delete?: HookOperationConfig
+    modes?: ModesConfig
   }
   afterError: {
     /**
@@ -88,6 +103,7 @@ export type HookTrackingOperationMap = {
      * Triggered when an error occurs during another operation.
      */
     error?: HookOperationConfig
+    modes?: ModesConfig
   }
   afterForgotPassword: {
     /**
@@ -96,6 +112,7 @@ export type HookTrackingOperationMap = {
      * Triggered when a password recovery request is made.
      */
     forgotPassword?: HookOperationConfig
+    modes?: ModesConfig
   }
   afterLogin: {
     /**
@@ -104,6 +121,7 @@ export type HookTrackingOperationMap = {
      * Triggered when a user logs in.
      */
     login?: HookOperationConfig
+    modes?: ModesConfig
   }
   afterLogout: {
     /**
@@ -112,6 +130,7 @@ export type HookTrackingOperationMap = {
      * Triggered when a user logs out.
      */
     logout?: HookOperationConfig
+    modes?: ModesConfig
   }
   afterMe: {
     /**
@@ -120,8 +139,10 @@ export type HookTrackingOperationMap = {
      * Triggered when a user fetches their own profile information.
      */
     me?: HookOperationConfig
+    modes?: ModesConfig
   }
   afterOperation: {
+    countVersions?: HookOperationConfig
     /**
      * Create operation
      *
@@ -164,6 +185,7 @@ export type HookTrackingOperationMap = {
      * Triggered when a user logs in.
      */
     login?: HookOperationConfig
+    modes?: ModesConfig
     /**
      * Refresh operation
      *
@@ -176,6 +198,7 @@ export type HookTrackingOperationMap = {
      * Triggered when an existing item is updated.
      */
     update?: HookOperationConfig
+
     /**
      * Update by ID operation
      *
@@ -184,6 +207,7 @@ export type HookTrackingOperationMap = {
     updateByID?: HookOperationConfig
   }
   afterRead: {
+    modes?: ModesConfig
     /**
      * Read operation
      *
@@ -192,6 +216,7 @@ export type HookTrackingOperationMap = {
     read?: HookOperationConfig
   }
   afterRefresh: {
+    modes?: ModesConfig
     /**
      * Refresh operation
      *
@@ -206,6 +231,7 @@ export type HookTrackingOperationMap = {
      * Triggered when a new item is created.
      */
     create?: HookOperationConfig
+    modes?: ModesConfig
     /**
      * Update operation
      *
@@ -220,6 +246,7 @@ export type HookTrackingOperationMap = {
      * Triggered when an item is deleted.
      */
     delete?: HookOperationConfig
+    modes?: ModesConfig
   }
   beforeLogin: {
     /**
@@ -228,6 +255,7 @@ export type HookTrackingOperationMap = {
      * Triggered when a user logs in.
      */
     login?: HookOperationConfig
+    modes?: ModesConfig
   }
   beforeOperation: {
     /**
@@ -254,6 +282,7 @@ export type HookTrackingOperationMap = {
      * Triggered when a user logs in.
      */
     login?: HookOperationConfig
+    modes?: ModesConfig
     /**
      * Read operation
      *
@@ -274,6 +303,7 @@ export type HookTrackingOperationMap = {
     update?: HookOperationConfig
   }
   beforeRead: {
+    modes?: ModesConfig
     /**
      * Read operation
      *
@@ -288,6 +318,7 @@ export type HookTrackingOperationMap = {
      * Triggered when a new item is created.
      */
     create?: HookOperationConfig
+    modes?: ModesConfig
     /**
      * Update operation
      *
@@ -302,8 +333,10 @@ export type HookTrackingOperationMap = {
      * Triggered when a user fetches their own profile information.
      */
     me: HookOperationConfig
+    modes?: ModesConfig
   }
   refresh: {
+    modes?: ModesConfig
     /**
      * Refresh operation
      *

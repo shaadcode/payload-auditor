@@ -1,11 +1,12 @@
-import type { AuditorLog } from 'src/collections/auditor.js'
-import type { TrackedCollection } from 'src/types/pluginOptions.js'
-
-import { emitEvent } from 'src/core/events/emitter.js'
-import afterRefreshCollectionLogBuilder from 'src/core/log-builders/collections/afterRefresh/afterRefresh.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+import type { TrackedCollection } from './../../../../types/pluginOptions.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import afterRefreshCollectionLogBuilder from './../../../../core/log-builders/collections/afterRefresh/afterRefresh.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -76,9 +77,9 @@ describe('afterRefresh collection hook', () => {
     }
     const log: AuditorLog = {
       type: 'info',
-      action: 'refresh',
       collection: 'sessions',
       hook: 'afterRefresh',
+      operation: 'refresh',
       timestamp: expect.any(Date),
       user: 'user123',
       userAgent: 'firefox',

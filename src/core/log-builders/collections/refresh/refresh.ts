@@ -1,27 +1,32 @@
-import type { CollectionRefreshHook } from 'payload'
-import type { AuditorLog } from 'src/collections/auditor.js'
-import type { TrackedCollection } from 'src/types/pluginOptions.js'
+import type { CollectionRefreshHook, RequestContext } from 'payload'
+
+import type { AuditorLog } from './../../../../collections/auditor.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
-
+import { handleDebugMode } from './../../../../core/log-builders/collections/helpers/handleDebugMode.js'
 const refreshCollectionLogBuilder: CollectionRefreshHook = ({
   args,
   // @ts-ignore
   context,
   user,
 }) => {
-  if ((context.userHookConfig as TrackedCollection).hooks?.refresh?.refresh?.enabled) {
-    const log: AuditorLog = {
-      type: 'info',
-      action: 'refresh',
-      collection: args.collection.config.slug,
-      hook: 'refresh',
-      timestamp: new Date(),
-      user: user?.id || null,
-      userAgent: args.req.headers.get('user-agent') || 'unknown',
-    }
-    emitEvent('logGenerated', log)
+  const hook = 'refresh'
+  const hookConfig = (context as RequestContext).userHookConfig?.hooks?.refresh
+  const operationConfig = hookConfig?.refresh
+
+  const allFields: AuditorLog = {
+    type: 'info',
+    collection: args.collection.config.slug,
+    hook,
+    operation: 'refresh',
+    timestamp: new Date(),
+    user: user?.id || 'anonymous',
+    userAgent: args.req.headers.get('user-agent') || 'unknown',
   }
+  if (operationConfig?.enabled) {
+    emitEvent('logGenerated', allFields)
+  }
+  handleDebugMode(hookConfig, operationConfig, allFields, 'read')
 }
 
 export default refreshCollectionLogBuilder

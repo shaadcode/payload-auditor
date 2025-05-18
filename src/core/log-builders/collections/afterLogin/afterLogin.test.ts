@@ -1,13 +1,16 @@
 import type { RequestContext } from 'next/dist/server/base-server.js'
 import type { CollectionAfterLoginHook, SanitizedCollectionConfig } from 'payload'
-import type { AuditorLog } from 'src/collections/auditor.js'
-import type { TrackedCollection } from 'src/types/pluginOptions.js'
 
-import { emitEvent } from 'src/core/events/emitter.js'
-import afterLoginCollectionLogBuilder from 'src/core/log-builders/collections/afterLogin/afterLogin.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+import type { TrackedCollection } from './../../../../types/pluginOptions.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import afterLoginCollectionLogBuilder from './../../../../core/log-builders/collections/afterLogin/afterLogin.js'
+import { buildMockArgs } from './../../../../core/log-builders/collections/mockData/args.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -16,29 +19,17 @@ describe('afterLogin collection hook', () => {
     vi.clearAllMocks()
   })
   it('Should not log if login operation is not enabled', async () => {
-    const mockArgs = {
-      args: {},
-      collection: {
-        slug: 'users',
-      } as SanitizedCollectionConfig,
-      context: {
-        userHookConfig: {
-          hooks: {
-            afterLogin: {
-              login: {
-                enabled: false,
-              },
-            },
+    const mockArgs = buildMockArgs({
+      req: {
+        headers: {
+          get() {
+            return 'user-agent'
           },
-        } as TrackedCollection,
-      } as unknown as RequestContext,
-      req: {},
-      token: {},
-      user: {
-        id: 'id-123',
+        },
       },
-    } as unknown as Parameters<CollectionAfterLoginHook>[0]
-    const result = await afterLoginCollectionLogBuilder(mockArgs)
+    })
+
+    const result = await afterLoginCollectionLogBuilder(mockArgs as any)
 
     expect(result).toEqual({})
 
@@ -46,25 +37,8 @@ describe('afterLogin collection hook', () => {
   })
 
   it('Should not log if login operation is not defined', async () => {
-    const mockArgs = {
-      args: {},
-      collection: {
-        slug: 'users',
-      } as SanitizedCollectionConfig,
-      context: {
-        userHookConfig: {
-          hooks: {
-            afterLogin: {},
-          },
-        } as TrackedCollection,
-      } as unknown as RequestContext,
-      req: {},
-      token: {},
-      user: {
-        id: 'id-123',
-      },
-    } as unknown as Parameters<CollectionAfterLoginHook>[0]
-    const result = await afterLoginCollectionLogBuilder(mockArgs)
+    const mockArgs = buildMockArgs()
+    const result = await afterLoginCollectionLogBuilder(mockArgs as any)
 
     expect(result).toEqual({})
 
@@ -104,9 +78,9 @@ describe('afterLogin collection hook', () => {
 
     const expectedLog: AuditorLog = {
       type: 'security',
-      action: 'login',
       collection: 'users',
       hook: 'afterLogin',
+      operation: 'login',
       timestamp: expect.any(Date),
       user: 'id-123',
       userAgent: 'test-agent',

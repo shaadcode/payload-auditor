@@ -1,9 +1,13 @@
 import type { CollectionBeforeOperationHook } from 'payload'
 
 import type { AuditorLog } from '../../../../collections/auditor.js'
-import type { TrackedCollection } from './../../../../types/pluginOptions.js'
+import type {
+  HookOperationConfig,
+  HookTrackingOperationMap,
+} from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
+import { handleDebugMode } from './../../../../core/log-builders/collections/helpers/handleDebugMode.js'
 
 const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async ({
   args,
@@ -12,113 +16,63 @@ const beforeOperationCollectionLogBuilder: CollectionBeforeOperationHook = async
   operation,
   req,
 }) => {
-  if (
-    operation === 'create' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.create?.enabled
-  ) {
-    const log: AuditorLog = {
-      type: 'audit',
-      action: 'create',
-      collection: collection.slug,
-      hook: 'beforeOperation',
-      timestamp: new Date(),
-      user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'anonymous',
-    }
-    emitEvent('logGenerated', log)
-  }
-  if (
-    operation === 'delete' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.delete?.enabled
-  ) {
-    const log: AuditorLog = {
-      type: 'audit',
-      action: 'delete',
-      collection: collection.slug,
-      documentId: args.id,
-      hook: 'beforeOperation',
-      timestamp: new Date(),
-      user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'anonymous',
-    }
-    emitEvent('logGenerated', log)
+  const hook = 'beforeOperation'
+  const hookConfig = context.userHookConfig?.hooks
+    ?.beforeOperation as HookTrackingOperationMap['beforeOperation']
+  const operationConfig = hookConfig?.[operation as keyof typeof hookConfig] as
+    | HookOperationConfig
+    | undefined
+
+  const allFields: AuditorLog = {
+    type: 'audit',
+    collection: collection.slug,
+    hook,
+    operation,
+    timestamp: new Date(),
+    user: req?.user?.id || 'anonymous',
+    userAgent: req.headers.get('user-agent') || 'anonymous',
   }
 
-  if (
-    operation === 'forgotPassword' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.forgotPassword?.enabled
-  ) {
-    const userDoc = await args.req.payload.find({
-      collection: collection.slug,
-      limit: 1,
-      where: { email: { equals: args.data.email } },
-    })
-
-    const userId = userDoc?.docs?.[0]?.id
-    const log: AuditorLog = {
-      type: 'audit',
-      action: 'forgotPassword',
-      collection: collection.slug,
-      hook: 'beforeOperation',
-      timestamp: new Date(),
-      user: userId || 'anonymous',
-      userAgent: req.headers.get('user-agent') || 'anonymous',
+  const emitWrapper = (fields: AuditorLog) => {
+    if (operationConfig?.enabled) {
+      emitEvent('logGenerated', fields)
     }
-    emitEvent('logGenerated', log)
-  }
-  if (
-    operation === 'login' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.login?.enabled
-  ) {
-    const userDoc = await args.req.payload.find({
-      collection: collection.slug,
-      limit: 1,
-      where: { email: { equals: args.data.email } },
-    })
-
-    const userId = userDoc?.docs?.[0]?.id
-    const log: AuditorLog = {
-      type: 'audit',
-      action: 'login',
-      collection: collection.slug,
-      hook: 'beforeOperation',
-      timestamp: new Date(),
-      user: userId || 'anonymous',
-      userAgent: req.headers.get('user-agent') || 'anonymous',
-    }
-    emitEvent('logGenerated', log)
-  }
-  if (
-    operation === 'refresh' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.refresh?.enabled
-  ) {
-    const log: AuditorLog = {
-      type: 'audit',
-      action: 'refresh',
-      collection: collection.slug,
-      hook: 'beforeOperation',
-      timestamp: new Date(),
-      user: req.user?.id || 'anonymous',
-      userAgent: req.headers.get('user-agent') || 'anonymous',
-    }
-    emitEvent('logGenerated', log)
-  }
-  if (
-    operation === 'update' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeOperation?.update?.enabled
-  ) {
-    const log: AuditorLog = {
-      type: 'audit',
-      action: 'update',
-      collection: collection.slug,
-      hook: 'beforeOperation',
-      timestamp: new Date(),
-      user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'anonymous',
-    }
-    emitEvent('logGenerated', log)
   }
 
+  switch (operation) {
+    case 'create':
+    case 'refresh':
+    case 'update':
+      emitWrapper(allFields)
+      break
+    case 'delete':
+      emitWrapper({ ...allFields, documentId: args.id ? args.id.toString() : undefined })
+      break
+    case 'forgotPassword': {
+      const email = args.data?.email
+      const result = await args.req.payload.find({
+        collection: collection.slug,
+        limit: 1,
+        where: { email: { equals: email } },
+      })
+      const userId = result?.docs?.[0]?.id
+      emitWrapper({ ...allFields, user: userId || 'anonymous' })
+      break
+    }
+    case 'login': {
+      const email = args.data?.email
+      const result = await args.req.payload.find({
+        collection: collection.slug,
+        limit: 1,
+        where: { email: { equals: email } },
+      })
+      const userId = result?.docs?.[0]?.id
+      emitWrapper({ ...allFields, user: userId || 'anonymous' })
+      break
+    }
+  }
+
+  handleDebugMode(hookConfig, operationConfig, allFields, operation)
   return args
 }
 

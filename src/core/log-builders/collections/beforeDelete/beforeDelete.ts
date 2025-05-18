@@ -1,29 +1,33 @@
 import type { CollectionBeforeDeleteHook } from 'payload'
 
 import type { AuditorLog } from '../../../../collections/auditor.js'
-import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
-
+import { handleDebugMode } from './../../../../core/log-builders/collections/helpers/handleDebugMode.js'
 const beforeDeleteCollectionLogBuilder: CollectionBeforeDeleteHook = ({
   id,
   collection,
   context,
   req,
 }) => {
-  if ((context.userHookConfig as TrackedCollection).hooks?.beforeDelete?.delete?.enabled) {
-    const log: AuditorLog = {
-      type: 'audit',
-      action: 'delete',
-      collection: collection.slug,
-      documentId: id.toString(),
-      hook: 'beforeDelete',
-      timestamp: new Date(),
-      user: req?.user?.id || 'anonymous',
-      userAgent: req.headers.get('user-agent') || 'unknown',
-    }
-    emitEvent('logGenerated', log)
+  const hook = 'beforeDelete'
+  const hookConfig = context.userHookConfig?.hooks?.beforeDelete
+  const operationConfig = hookConfig?.delete
+  const allFields: AuditorLog = {
+    type: 'audit',
+    collection: collection.slug,
+    documentId: id.toString(),
+    hook,
+    operation: 'delete',
+    timestamp: new Date(),
+    user: req?.user?.id || 'anonymous',
+    userAgent: req.headers.get('user-agent') || 'unknown',
   }
+
+  if (operationConfig?.enabled) {
+    emitEvent('logGenerated', allFields)
+  }
+  handleDebugMode(hookConfig, operationConfig, allFields, 'delete')
 
   return {}
 }

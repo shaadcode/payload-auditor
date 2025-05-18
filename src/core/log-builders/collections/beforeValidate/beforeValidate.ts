@@ -1,10 +1,9 @@
 import type { CollectionBeforeValidateHook } from 'payload'
 
 import type { AuditorLog } from '../../../../collections/auditor.js'
-import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
-
+import { handleDebugMode } from './../../../../core/log-builders/collections/helpers/handleDebugMode.js'
 const beforeValidateCollectionLogBuilder: CollectionBeforeValidateHook = ({
   collection,
   context,
@@ -13,37 +12,24 @@ const beforeValidateCollectionLogBuilder: CollectionBeforeValidateHook = ({
   originalDoc,
   req,
 }) => {
-  if (
-    operation === 'create' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeValidate?.create?.enabled
-  ) {
-    const log: AuditorLog = {
-      type: 'debug',
-      action: operation,
-      collection: collection.slug,
-      hook: 'beforeValidate',
-      timestamp: new Date(),
-      user: req?.user?.id || 'anonymous',
-      userAgent: req.headers.get('user-agent') || 'unknown',
-    }
-    emitEvent('logGenerated', log)
+  const hook = 'beforeValidate'
+  const hookConfig = context.userHookConfig?.hooks?.beforeValidate
+  const operationConfig = hookConfig?.[operation]
+  const allFields: AuditorLog = {
+    type: 'debug',
+    collection: collection.slug,
+    documentId: operation === 'update' ? originalDoc?.id : undefined,
+    hook,
+    operation,
+    timestamp: new Date(),
+    user: req?.user?.id || 'anonymous',
+    userAgent: req.headers.get('user-agent') || 'unknown',
   }
-  if (
-    operation === 'update' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeValidate?.update?.enabled
-  ) {
-    const log: AuditorLog = {
-      type: 'debug',
-      action: operation,
-      collection: collection.slug,
-      documentId: originalDoc.id,
-      hook: 'beforeValidate',
-      timestamp: new Date(),
-      user: req?.user?.id || 'anonymous',
-      userAgent: req.headers.get('user-agent') || 'unknown',
-    }
-    emitEvent('logGenerated', log)
+  if (operationConfig?.enabled) {
+    emitEvent('logGenerated', allFields)
   }
+
+  handleDebugMode(hookConfig, operationConfig, allFields, 'read')
   return data
 }
 

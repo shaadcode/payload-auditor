@@ -3,6 +3,7 @@ import type { CollectionAfterChangeHook } from 'payload'
 import type { AuditorLog } from '../../../../collections/auditor.js'
 import type { TrackedCollection } from '../../../../types/pluginOptions.js'
 
+import { handleDebugMode } from '../../../../core/log-builders/collections/helpers/handleDebugMode.js'
 import { emitEvent } from '../../../events/emitter.js'
 
 const afterChangeCollectionLogBuilder: CollectionAfterChangeHook = ({
@@ -10,42 +11,27 @@ const afterChangeCollectionLogBuilder: CollectionAfterChangeHook = ({
   context,
   doc,
   operation,
-  previousDoc,
   req,
 }) => {
   const hook = 'afterChange'
-  if (
-    operation === 'create' &&
-    (context.userHookConfig as TrackedCollection).hooks?.afterChange?.create?.enabled
-  ) {
-    const log: AuditorLog = {
-      type: 'audit',
-      action: operation,
-      collection: collection.slug,
-      documentId: doc.id,
-      hook,
-      timestamp: new Date(),
-      user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'unknown',
-    }
-    emitEvent('logGenerated', log)
+  const hookConfig = (context.userHookConfig as TrackedCollection).hooks?.afterChange
+  const operationConfig = hookConfig?.[operation]
+  const allFields: AuditorLog = {
+    type: 'audit',
+    collection: collection.slug,
+    documentId: doc.id,
+    hook,
+    operation,
+    timestamp: new Date(),
+    user: req?.user?.id || null,
+    userAgent: req.headers.get('user-agent') || 'unknown',
   }
-  if (
-    operation === 'update' &&
-    (context.userHookConfig as TrackedCollection).hooks?.afterChange?.update?.enabled
-  ) {
-    const log: AuditorLog = {
-      type: 'audit',
-      action: operation,
-      collection: collection.slug,
-      documentId: doc.id,
-      hook,
-      timestamp: new Date(),
-      user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'unknown',
-    }
-    emitEvent('logGenerated', log)
+  if (operationConfig?.enabled) {
+    emitEvent('logGenerated', allFields)
   }
+
+  handleDebugMode(hookConfig, operationConfig, allFields, operation)
+
   return doc
 }
 

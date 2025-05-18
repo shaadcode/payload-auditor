@@ -1,10 +1,11 @@
-import type { AuditorLog } from 'src/collections/auditor.js'
-
-import { emitEvent } from 'src/core/events/emitter.js'
-import refreshCollectionLogBuilder from 'src/core/log-builders/collections/refresh/refresh.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import refreshCollectionLogBuilder from './../../../../core/log-builders/collections/refresh/refresh.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -58,9 +59,9 @@ describe('refresh collection hook', () => {
     const user = { id: 'user123' }
     const log: AuditorLog = {
       type: 'info',
-      action: 'refresh',
       collection: 'users',
       hook: 'refresh',
+      operation: 'refresh',
       timestamp: expect.any(Date),
       user: 'user123',
       userAgent: 'Mozilla/5.0',
@@ -91,11 +92,11 @@ describe('refresh collection hook', () => {
     const user = null
     const log: AuditorLog = {
       type: 'info',
-      action: 'refresh',
       collection: 'users',
       hook: 'refresh',
+      operation: 'refresh',
       timestamp: expect.any(Date),
-      user: null,
+      user: 'anonymous',
       userAgent: 'Safari',
     }
     await refreshCollectionLogBuilder({ args: mockArgs, context, user } as any)
@@ -124,9 +125,9 @@ describe('refresh collection hook', () => {
     const user = { id: 'user456' }
     const log: AuditorLog = {
       type: 'info',
-      action: 'refresh',
       collection: 'users',
       hook: 'refresh',
+      operation: 'refresh',
       timestamp: expect.any(Date),
       user: 'user456',
       userAgent: 'unknown',

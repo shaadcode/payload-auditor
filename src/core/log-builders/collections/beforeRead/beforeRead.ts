@@ -1,10 +1,9 @@
 import type { CollectionBeforeReadHook } from 'payload'
 
 import type { AuditorLog } from '../../../../collections/auditor.js'
-import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
-
+import { handleDebugMode } from './../../../../core/log-builders/collections/helpers/handleDebugMode.js'
 const beforeReadCollectionLogBuilder: CollectionBeforeReadHook = ({
   collection,
   context,
@@ -12,19 +11,24 @@ const beforeReadCollectionLogBuilder: CollectionBeforeReadHook = ({
   query,
   req,
 }) => {
-  if ((context.userHookConfig as TrackedCollection).hooks?.beforeRead?.read?.enabled) {
-    const log: AuditorLog = {
-      type: 'info',
-      action: 'read',
-      collection: collection.slug,
-      documentId: doc.id,
-      hook: 'beforeRead',
-      timestamp: new Date(),
-      user: req.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'unknown',
-    }
-    emitEvent('logGenerated', log)
+  const hook = 'beforeRead'
+  const hookConfig = context.userHookConfig?.hooks?.beforeRead
+  const operationConfig = hookConfig?.read
+  const allFields: AuditorLog = {
+    type: 'info',
+    collection: collection.slug,
+    documentId: doc.id,
+    hook,
+    operation: 'read',
+    timestamp: new Date(),
+    user: req?.user?.id || 'anonymous',
+    userAgent: req.headers.get('user-agent') || 'unknown',
   }
+  if (operationConfig?.enabled) {
+    emitEvent('logGenerated', allFields)
+  }
+
+  handleDebugMode(hookConfig, operationConfig, allFields, 'read')
   return doc
 }
 

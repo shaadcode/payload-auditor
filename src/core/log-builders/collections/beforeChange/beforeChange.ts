@@ -1,10 +1,9 @@
 import type { CollectionBeforeChangeHook } from 'payload'
 
 import type { AuditorLog } from '../../../../collections/auditor.js'
-import type { TrackedCollection } from './../../../../types/pluginOptions.js'
 
 import { emitEvent } from './../../../../core/events/emitter.js'
-
+import { handleDebugMode } from './../../../../core/log-builders/collections/helpers/handleDebugMode.js'
 const beforeChangeCollectionLogBuilder: CollectionBeforeChangeHook = ({
   collection,
   context,
@@ -13,38 +12,25 @@ const beforeChangeCollectionLogBuilder: CollectionBeforeChangeHook = ({
   originalDoc,
   req,
 }) => {
-  if (
-    operation === 'create' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeChange?.create?.enabled
-  ) {
-    const log: AuditorLog = {
-      type: 'audit',
-      action: operation,
-      collection: collection.slug,
-      documentId: originalDoc.id,
-      hook: 'beforeChange',
-      timestamp: new Date(),
-      user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'unknown',
-    }
-    emitEvent('logGenerated', log)
+  const hook = 'beforeChange'
+  const hookConfig = context.userHookConfig?.hooks?.beforeChange
+  const operationConfig = hookConfig?.[operation]
+  const allFields: AuditorLog = {
+    type: 'audit',
+    collection: collection.slug,
+    documentId: originalDoc?.id,
+    hook,
+    operation,
+    timestamp: new Date(),
+    user: req?.user?.id || null,
+    userAgent: req.headers.get('user-agent') || 'unknown',
   }
-  if (
-    operation === 'update' &&
-    (context.userHookConfig as TrackedCollection).hooks?.beforeChange?.update?.enabled
-  ) {
-    const log: AuditorLog = {
-      type: 'audit',
-      action: operation,
-      collection: collection.slug,
-      documentId: originalDoc.id,
-      hook: 'beforeChange',
-      timestamp: new Date(),
-      user: req?.user?.id || null,
-      userAgent: req.headers.get('user-agent') || 'unknown',
-    }
-    emitEvent('logGenerated', log)
+
+  if (operationConfig?.enabled) {
+    emitEvent('logGenerated', allFields)
   }
+  handleDebugMode(hookConfig, operationConfig, allFields, operation)
+
   return data
 }
 

@@ -1,10 +1,11 @@
-import type { AuditorLog } from 'src/collections/auditor.js'
-
-import { emitEvent } from 'src/core/events/emitter.js'
-import meCollectionLogBuilder from 'src/core/log-builders/collections/me/me.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('src/core/events/emitter.js', () => ({
+import type { AuditorLog } from './../../../../collections/auditor.js'
+
+import { emitEvent } from './../../../../core/events/emitter.js'
+import meCollectionLogBuilder from './../../../../core/log-builders/collections/me/me.js'
+
+vi.mock('./../../../../core/events/emitter.js', () => ({
   emitEvent: vi.fn(),
 }))
 
@@ -58,9 +59,9 @@ describe('me collection hook', () => {
     const user = { id: 'user123' }
     const log: AuditorLog = {
       type: 'info',
-      action: 'me',
       collection: 'users',
       hook: 'me',
+      operation: 'me',
       timestamp: expect.any(Date),
       user: 'user123',
       userAgent: 'Mozilla/5.0',
@@ -91,9 +92,9 @@ describe('me collection hook', () => {
     const user = { id: null }
     const log: AuditorLog = {
       type: 'info',
-      action: 'me',
       collection: 'users',
       hook: 'me',
+      operation: 'me',
       timestamp: expect.any(Date),
       user: 'anonymous',
       userAgent: 'Chrome/91',
@@ -124,9 +125,9 @@ describe('me collection hook', () => {
     const user = { id: 'user456' }
     const log: AuditorLog = {
       type: 'info',
-      action: 'me',
       collection: 'users',
       hook: 'me',
+      operation: 'me',
       timestamp: expect.any(Date),
       user: 'user456',
       userAgent: 'unknown',
