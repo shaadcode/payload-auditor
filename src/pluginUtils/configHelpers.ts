@@ -1,12 +1,16 @@
 import type { Access, BasePayload, Config } from 'payload'
 
-import type { CollectionConfig, PluginOptions } from './../types/pluginOptions.js'
+import type {
+  AllCollectionHooks,
+  CollectionConfig,
+  PluginOptions,
+} from './../types/pluginOptions.js'
 
 import auditor from '../collections/auditor.js'
 import { bufferManager } from '../core/buffer/bufferManager.js'
-import { collectionHooks } from '../core/log-builders/index.js'
 import { autoLogCleaner } from './../collections/hooks/beforeChange.js'
 import { cleanupStrategies } from './../Constant/automation.js'
+import { hookMap } from './../Constant/Constant.js'
 
 type AccessOps = 'create' | 'delete' | 'read' | 'update'
 
@@ -34,44 +38,6 @@ export const hookTypes = [
   'refresh',
   'me',
 ] as const
-
-// export const validateAndAttachHooksToCollections = (
-//   collections: Config['collections'],
-//   trackCollections: TrackedCollection[],
-// ): Config['collections'] => {
-//   // const allSlugs = (collections || []).map((c) => c.slug)
-//   // const invalidSlugs = trackCollections.filter((collection) => !allSlugs.includes(collection.slug))
-//   // if (invalidSlugs.length > 0) {
-//   //   console.warn(
-//   //     `[payload-auditor] The following collection slugs are invalid: ${invalidSlugs.join(', ')}`,
-//   //   )
-//   // }
-// }
-
-// export const attachHooksToActivityLogsCollection = (
-//   autoDeleteInterval: Duration,
-//   pluginOpts: PluginOptions,
-// ) => {
-//   auditor.hooks = {
-//     ...auditor.hooks,
-//     beforeChange: [
-//       ...(auditor.hooks?.beforeChange || []),
-//       (args) =>
-//         autoLogCleaner({
-//           ...args,
-//           context: {
-//             pluginOptions: pluginOpts,
-//           },
-//           data: {
-//             olderThan: autoDeleteInterval,
-//           },
-//         }),
-//     ],
-//   }
-
-//   return auditor
-// }
-
 export const buildAccessControl = (pluginOpts: PluginOptions) => {
   const roles: RoleAccessMap = pluginOpts?.collection?.Accessibility?.roles ?? {}
   const customAccess: CustomAccessMap = pluginOpts?.collection?.Accessibility?.customAccess ?? {}
@@ -126,15 +92,14 @@ export const attachCollectionConfig = (
       if (tracked && !tracked.disabled) {
         collection.hooks = collection.hooks || {}
 
-        for (const hookType of hookTypes) {
-          const opConfigs = tracked.hooks ? tracked.hooks[hookType] : undefined
-
-          if (opConfigs) {
+        if (tracked.hooks) {
+          for (const hookName in tracked.hooks) {
+            const typedHookName = hookName as keyof AllCollectionHooks
             // @ts-ignore
-            collection.hooks[hookType] = [
-              ...(collection.hooks[hookType] || []),
-              (args: any) =>
-                collectionHooks[hookType]({
+            collection.hooks[typedHookName] = [
+              ...(collection.hooks[typedHookName] || []),
+              async (args: any) =>
+                await hookMap[typedHookName]({
                   ...args,
                   context: {
                     userHookConfig: tracked,

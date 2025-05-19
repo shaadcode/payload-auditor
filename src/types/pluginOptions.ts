@@ -1,4 +1,27 @@
-import type { Access, HookOperationType, LabelFunction, StaticLabel } from 'payload'
+import type {
+  Access,
+  CollectionAfterChangeHook,
+  CollectionAfterDeleteHook,
+  CollectionAfterErrorHook,
+  CollectionAfterForgotPasswordHook,
+  CollectionAfterLoginHook,
+  CollectionAfterLogoutHook,
+  CollectionAfterMeHook,
+  CollectionAfterOperationHook,
+  CollectionAfterReadHook,
+  CollectionAfterRefreshHook,
+  CollectionBeforeChangeHook,
+  CollectionBeforeDeleteHook,
+  CollectionBeforeLoginHook,
+  CollectionBeforeOperationHook,
+  CollectionBeforeReadHook,
+  CollectionBeforeValidateHook,
+  CollectionMeHook,
+  CollectionRefreshHook,
+  HookOperationType,
+  LabelFunction,
+  StaticLabel,
+} from 'payload'
 
 import type { AuditorLog } from './../collections/auditor.js'
 import type { Duration } from './../utils/toMS.js'
@@ -32,6 +55,48 @@ export type AuditHookOperationType =
   | 'refresh'
   | 'updateByID'
   | HookOperationType
+
+export type HookOperations = {
+  afterChange: Parameters<CollectionAfterChangeHook>[0]['operation']
+  afterDelete: 'delete'
+  afterError: 'error'
+  afterForgotPassword: 'afterForgotPassword'
+  afterLogin: 'login'
+  afterLogout: 'logout'
+  afterMe: 'me'
+  afterOperation: Parameters<CollectionAfterOperationHook>[0]['operation']
+  afterRead: 'read'
+  afterRefresh: 'refresh'
+  beforeChange: Parameters<CollectionBeforeChangeHook>[0]['operation']
+  beforeDelete: 'delete'
+  beforeLogin: 'login'
+  beforeOperation: Parameters<CollectionBeforeOperationHook>[0]['operation']
+  beforeRead: 'read'
+  beforeValidate: Parameters<CollectionBeforeValidateHook>[0]['operation']
+  me: 'me'
+  refresh: 'refresh'
+}
+
+export type AllCollectionHooks = {
+  afterChange: CollectionAfterChangeHook
+  afterDelete: CollectionAfterDeleteHook
+  afterError: CollectionAfterErrorHook
+  afterForgotPassword: CollectionAfterForgotPasswordHook
+  afterLogin: CollectionAfterLoginHook
+  afterLogout: CollectionAfterLogoutHook
+  afterMe: CollectionAfterMeHook
+  afterOperation: CollectionAfterOperationHook
+  afterRead: CollectionAfterReadHook
+  afterRefresh: CollectionAfterRefreshHook
+  beforeChange: CollectionBeforeChangeHook
+  beforeDelete: CollectionBeforeDeleteHook
+  beforeLogin: CollectionBeforeLoginHook
+  beforeOperation: CollectionBeforeOperationHook
+  beforeRead: CollectionBeforeReadHook
+  beforeValidate: CollectionBeforeValidateHook
+  me: CollectionMeHook
+  refresh: CollectionRefreshHook
+}
 
 export type HookOperationDebugModeConfig = {
   /**
@@ -119,7 +184,10 @@ export type HookModesConfig = {
   debug?: HookOperationDebugModeConfig
 }
 
-export type HookOperationConfig = {
+export type HookOperationConfig<TCustomLogger extends keyof AllCollectionHooks> = {
+  customLogger?: (
+    args: { fields: AuditorLog } & Parameters<AllCollectionHooks[TCustomLogger]>[0],
+  ) => AuditorLog
   /**
    * 📝 Specifies whether logging is enabled or disabled for this operation within the hook
    *
@@ -143,6 +211,7 @@ export type HookOperationConfig = {
    *
    */
   enabled?: boolean
+
   /**
    * 📝 Auxiliary side modes
    *
@@ -158,7 +227,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a new item is created.
      */
-    create?: HookOperationConfig
+    create?: HookOperationConfig<'afterChange'>
 
     /**
      * 📝 Auxiliary side modes
@@ -173,7 +242,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when an existing item is updated.
      */
-    update?: HookOperationConfig
+    update?: HookOperationConfig<'afterChange'>
   }
   afterDelete: {
     /**
@@ -181,7 +250,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when an item is deleted.
      */
-    delete?: HookOperationConfig
+    delete?: HookOperationConfig<'afterDelete'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -196,7 +265,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when an error occurs during another operation.
      */
-    error?: HookOperationConfig
+    error?: HookOperationConfig<'afterDelete'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -211,7 +280,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a password recovery request is made.
      */
-    forgotPassword?: HookOperationConfig
+    forgotPassword?: HookOperationConfig<'afterForgotPassword'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -226,7 +295,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a user logs in.
      */
-    login?: HookOperationConfig
+    login?: HookOperationConfig<'afterLogin'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -241,7 +310,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a user logs out.
      */
-    logout?: HookOperationConfig
+    logout?: HookOperationConfig<'afterLogout'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -256,7 +325,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a user fetches their own profile information.
      */
-    me?: HookOperationConfig
+    me?: HookOperationConfig<'afterMe'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -266,49 +335,49 @@ export type HookTrackingOperationMap = {
     modes?: HookModesConfig
   }
   afterOperation: {
-    countVersions?: HookOperationConfig
+    countVersions?: HookOperationConfig<'afterOperation'>
     /**
      * Create operation
      *
      * Triggered when a new item is created.
      */
-    create?: HookOperationConfig
+    create?: HookOperationConfig<'afterOperation'>
     /**
      * Delete operation
      *
      * Triggered when an item is deleted.
      */
-    delete?: HookOperationConfig
+    delete?: HookOperationConfig<'afterOperation'>
     /**
      * Delete by ID operation
      *
      * Triggered when a specific item is deleted by its ID.
      */
-    deleteByID?: HookOperationConfig
+    deleteByID?: HookOperationConfig<'afterOperation'>
     /**
      * Find operation
      *
      * Triggered when items are queried based on specific conditions.
      */
-    find?: HookOperationConfig
+    find?: HookOperationConfig<'afterOperation'>
     /**
      * Find by ID operation
      *
      * Triggered when a specific item is retrieved by its ID.
      */
-    findByID?: HookOperationConfig
+    findByID?: HookOperationConfig<'afterOperation'>
     /**
      * Forgot password operation
      *
      * Triggered when a password recovery request is made.
      */
-    forgotPassword?: HookOperationConfig
+    forgotPassword?: HookOperationConfig<'afterOperation'>
     /**
      * Login operation
      *
      * Triggered when a user logs in.
      */
-    login?: HookOperationConfig
+    login?: HookOperationConfig<'afterOperation'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -321,20 +390,20 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when authentication tokens are refreshed.
      */
-    refresh?: HookOperationConfig
+    refresh?: HookOperationConfig<'afterOperation'>
     /**
      * Update operation
      *
      * Triggered when an existing item is updated.
      */
-    update?: HookOperationConfig
+    update?: HookOperationConfig<'afterOperation'>
 
     /**
      * Update by ID operation
      *
      * Triggered when a specific item is updated by its ID.
      */
-    updateByID?: HookOperationConfig
+    updateByID?: HookOperationConfig<'afterOperation'>
   }
   afterRead: {
     /**
@@ -349,7 +418,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when data is read.
      */
-    read?: HookOperationConfig
+    read?: HookOperationConfig<'afterRead'>
   }
   afterRefresh: {
     /**
@@ -364,7 +433,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when authentication tokens are refreshed.
      */
-    refresh?: HookOperationConfig
+    refresh?: HookOperationConfig<'afterRefresh'>
   }
   beforeChange: {
     /**
@@ -372,7 +441,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a new item is created.
      */
-    create?: HookOperationConfig
+    create?: HookOperationConfig<'beforeChange'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -385,7 +454,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when an existing item is updated.
      */
-    update?: HookOperationConfig
+    update?: HookOperationConfig<'beforeChange'>
   }
   beforeDelete: {
     /**
@@ -393,7 +462,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when an item is deleted.
      */
-    delete?: HookOperationConfig
+    delete?: HookOperationConfig<'beforeDelete'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -408,7 +477,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a user logs in.
      */
-    login?: HookOperationConfig
+    login?: HookOperationConfig<'beforeLogin'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -423,25 +492,25 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a new item is created.
      */
-    create?: HookOperationConfig
+    create?: HookOperationConfig<'beforeOperation'>
     /**
      * Delete operation
      *
      * Triggered when an item is deleted.
      */
-    delete?: HookOperationConfig
+    delete?: HookOperationConfig<'beforeOperation'>
     /**
      * Forgot password operation
      *
      * Triggered when a password recovery request is made.
      */
-    forgotPassword?: HookOperationConfig
+    forgotPassword?: HookOperationConfig<'beforeOperation'>
     /**
      * Login operation
      *
      * Triggered when a user logs in.
      */
-    login?: HookOperationConfig
+    login?: HookOperationConfig<'beforeOperation'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -454,19 +523,19 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when data is read.
      */
-    read?: HookOperationConfig
+    read?: HookOperationConfig<'beforeOperation'>
     /**
      * Refresh operation
      *
      * Triggered when authentication tokens are refreshed.
      */
-    refresh?: HookOperationConfig
+    refresh?: HookOperationConfig<'beforeOperation'>
     /**
      * Update operation
      *
      * Triggered when an existing item is updated.
      */
-    update?: HookOperationConfig
+    update?: HookOperationConfig<'beforeOperation'>
   }
   beforeRead: {
     /**
@@ -481,7 +550,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when data is read.
      */
-    read?: HookOperationConfig
+    read?: HookOperationConfig<'beforeRead'>
   }
   beforeValidate: {
     /**
@@ -489,7 +558,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a new item is created.
      */
-    create?: HookOperationConfig
+    create?: HookOperationConfig<'beforeValidate'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -502,7 +571,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when an existing item is updated.
      */
-    update?: HookOperationConfig
+    update?: HookOperationConfig<'beforeValidate'>
   }
   me: {
     /**
@@ -510,7 +579,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a user fetches their own profile information.
      */
-    me: HookOperationConfig
+    me: HookOperationConfig<'me'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -532,7 +601,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when authentication tokens are refreshed.
      */
-    refresh?: HookOperationConfig
+    refresh?: HookOperationConfig<'refresh'>
   }
 }
 

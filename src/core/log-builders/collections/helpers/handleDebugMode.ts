@@ -1,5 +1,6 @@
 import type { AuditorLog } from './../../../../collections/auditor.js'
 import type {
+  AllCollectionHooks,
   AuditHookOperationType,
   HookOperationConfig,
   HookTrackingOperationMap,
@@ -7,9 +8,9 @@ import type {
 
 import { prettyDebugLog } from './../../../../utils/prettyDebugLog.js'
 
-export const handleDebugMode = (
+export const handleDebugMode = <T extends keyof AllCollectionHooks>(
   hookConfig: HookTrackingOperationMap[keyof HookTrackingOperationMap] | undefined,
-  operationConfig: HookOperationConfig | undefined,
+  operationConfig: HookOperationConfig<T> | undefined,
   allFields: AuditorLog,
   operation: AuditHookOperationType,
 ) => {
