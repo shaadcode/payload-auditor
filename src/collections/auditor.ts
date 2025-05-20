@@ -18,10 +18,20 @@ export type AuditorLog = {
 
 const auditor: CollectionConfig = {
   slug: defaultCollectionValues.slug,
+  access: {
+    admin: () => false,
+    create: () => false,
+    delete: () => false,
+    read: () => false,
+    readVersions: () => false,
+    unlock: () => false,
+    update: () => false,
+  },
   admin: {
     defaultColumns: ['operation', 'type', 'collection', 'user', 'timestamp'],
     useAsTitle: 'operation',
   },
+  auth: true,
   fields: [
     {
       name: 'operation',

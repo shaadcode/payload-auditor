@@ -1,4 +1,4 @@
-import { cleanupStrategiesDefaultValues } from 'src/Constant/automation.js'
+import { cleanupStrategiesDefaultValues } from './../Constant/automation.js'
 
 export type Duration = `${number}${'d' | 'h' | 'm' | 'mo' | 's' | 'w' | 'y'}`
 const ms = (duration: Duration = cleanupStrategiesDefaultValues.manual.olderThan): number => {

@@ -54,7 +54,7 @@ export const buildAccessControl = (pluginOpts: PluginOptions) => {
     }
   })
 
-  auditor.access = access
+  auditor.access = { ...auditor.access, ...access }
 }
 
 export const attachCollectionConfig = (
