@@ -1,5 +1,5 @@
-import type { hookTypes } from 'src/pluginUtils/configHelpers.js'
-import type { AuditHookOperationType } from 'src/types/pluginOptions.js'
+import type { hookTypes } from './../pluginUtils/configHelpers.js'
+import type { AuditHookOperationType } from './../types/pluginOptions.js'
 
 /* eslint-disable no-console */
 export const prettyDebugLog = (

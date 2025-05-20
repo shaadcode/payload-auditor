@@ -1,7 +1,6 @@
 import type { LabelFunction, StaticLabel } from 'payload'
-import type { AllCollectionHooks } from 'src/types/pluginOptions.js'
 
-import type { Duration } from './../utils/toMS.js'
+import type { AllCollectionHooks } from './../types/pluginOptions.js'
 
 import { sharedLogic } from './../core/log-builders/collections/shared.js'
 
@@ -22,8 +21,6 @@ export const defaultCollectionValues: DefaultCollectionValues = {
     singular: 'Audit-log',
   },
 }
-
-export const defaultAutoDeleteLog: Duration = '1mo'
 
 export const defaultPluginOpts = {
   collection: {

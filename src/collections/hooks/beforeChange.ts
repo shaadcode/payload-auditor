@@ -2,7 +2,8 @@ import type { BeforeChangeHook } from 'node_modules/payload/dist/collections/con
 
 import type { Duration } from './../../utils/toMS.js'
 
-import { defaultAutoDeleteLog, defaultCollectionValues } from './../../Constant/Constant.js'
+import { cleanupStrategiesDefaultValues } from './../../Constant/automation.js'
+import { defaultCollectionValues } from './../../Constant/Constant.js'
 import ms from './../../utils/toMS.js'
 
 type AutoLogCleanerProps = {
@@ -17,12 +18,15 @@ export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
   req,
 }) => {
   try {
-    const millisecondsAgo = new Date(Date.now() - ms(data.olderThan || defaultAutoDeleteLog))
-    const oldLogs = await req.payload.find({
-      collection: context.pluginOptions.collection?.slug
-        ? context.pluginOptions.collection?.slug
-        : defaultCollectionValues.slug,
-      limit: context.pluginOptions.automation?.logCleanup?.strategy?.amount || 100,
+    const millisecondsAgo = new Date(
+      Date.now() - ms(data.olderThan || cleanupStrategiesDefaultValues.manual.olderThan),
+    )
+    const collectionSlug = context.pluginOptions.collection?.slug ?? defaultCollectionValues.slug
+    const limit = context.pluginOptions.automation?.logCleanup?.strategy?.amount ?? 100
+
+    const oldLogsToDelete = await req.payload.find({
+      collection: collectionSlug,
+      limit,
       where: {
         createdAt: {
           less_than: millisecondsAgo.toISOString(),
@@ -30,17 +34,16 @@ export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
       },
     })
 
-    if (oldLogs.docs.length > 0) {
-      const deletePromises = oldLogs.docs.map((log) =>
-        req.payload.delete({
-          id: log.id,
-          collection: context.pluginOptions.collection?.slug
-            ? context.pluginOptions.collection?.slug
-            : defaultCollectionValues.slug,
-        }),
-      )
-
-      await Promise.all(deletePromises)
+    const ids = oldLogsToDelete.docs.map((doc) => doc.id)
+    if (ids.length > 0) {
+      await req.payload.delete({
+        collection: collectionSlug,
+        where: {
+          id: {
+            in: ids,
+          },
+        },
+      })
     }
   } catch (err) {
     console.error('Error cleaning old logs:', err)

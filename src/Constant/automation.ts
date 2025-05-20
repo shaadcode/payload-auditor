@@ -1,4 +1,4 @@
-import type { ManualStrategy } from 'src/types/pluginOptions.js'
+import type { ManualStrategy } from './../types/pluginOptions.js'
 
 // export const defaultAutomationValues =
 //   // PluginOptions['automation']
@@ -13,13 +13,13 @@ import type { ManualStrategy } from 'src/types/pluginOptions.js'
 //     },
 //   }
 
-export const cleanupStrategies = {
+export const cleanupStrategiesDefaultValues = {
   // count: {
   //   name: 'count',
   //   amountToDelete: 100,
   //   deletionCount: 50,
   // } as CountStrategy,
-  manual: { name: 'manual', amount: 200, olderThan: '1w' } as ManualStrategy,
+  manual: { name: 'manual', amount: 200, olderThan: '1w' } as Required<ManualStrategy>,
   // time: {
   //   name: 'time',
   //   olderThan: '30s',

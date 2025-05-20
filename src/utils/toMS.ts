@@ -1,7 +1,7 @@
-import { defaultAutoDeleteLog } from './../Constant/Constant.js'
+import { cleanupStrategiesDefaultValues } from 'src/Constant/automation.js'
 
 export type Duration = `${number}${'d' | 'h' | 'm' | 'mo' | 's' | 'w' | 'y'}`
-const ms = (duration: Duration = defaultAutoDeleteLog): number => {
+const ms = (duration: Duration = cleanupStrategiesDefaultValues.manual.olderThan): number => {
   const match = /^(\d+)([smhdwy]|mo)$/.exec(duration)
 
   if (!match) {

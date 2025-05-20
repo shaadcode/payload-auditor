@@ -5,7 +5,7 @@ import type { AllCollectionHooks, PluginOptions } from './../types/pluginOptions
 import auditor from '../collections/auditor.js'
 import { bufferManager } from '../core/buffer/bufferManager.js'
 import { autoLogCleaner } from './../collections/hooks/beforeChange.js'
-import { cleanupStrategies } from './../Constant/automation.js'
+import { cleanupStrategiesDefaultValues } from './../Constant/automation.js'
 import { hookMap } from './../Constant/Constant.js'
 
 type AccessOps = 'create' | 'delete' | 'read' | 'update'
@@ -140,7 +140,7 @@ export const attachAutomationConfig = (
           data: {
             olderThan:
               pluginOpts.automation?.logCleanup?.strategy?.olderThan ??
-              cleanupStrategies.manual.olderThan,
+              cleanupStrategiesDefaultValues.manual.olderThan,
           },
         }),
     ],

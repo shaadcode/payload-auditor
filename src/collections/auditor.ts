@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
-import type { hookTypes } from 'src/pluginUtils/configHelpers.js'
 
 import type { AuditHookOperationType } from '../types/pluginOptions.js'
+import type { hookTypes } from './../pluginUtils/configHelpers.js'
 
 import { defaultCollectionValues } from '../Constant/Constant.js'
 
