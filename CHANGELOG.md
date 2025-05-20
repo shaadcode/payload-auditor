@@ -1,3 +1,17 @@
+# [1.7.0](https://github.com/shaadcode/payload-auditor/compare/v1.6.0...v1.7.0) (2025-05-20)
+
+
+### Features
+
+* **hooks:** add the ability to specify the number of logs to delete ([8c2679b](https://github.com/shaadcode/payload-auditor/commit/8c2679b1878646e2e84b310eb6fca32241036bd0))
+* **logger:** added ability to customize log content ([5e1959b](https://github.com/shaadcode/payload-auditor/commit/5e1959b376d4b78dc1c4fb62f17cd554f946629e))
+
+
+### Performance Improvements
+
+* **core:** improved access to collection logs ([604c8d3](https://github.com/shaadcode/payload-auditor/commit/604c8d3f062eefee640089ba8f23816bfdfda6b9))
+* **core:** improved log deletion performance ([b791072](https://github.com/shaadcode/payload-auditor/commit/b791072206634d2f0401142ed90736ec962c7361))
+
 # [1.6.0](https://github.com/shaadcode/payload-auditor/compare/v1.5.1...v1.6.0) (2025-05-18)
 
 
