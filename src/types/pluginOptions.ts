@@ -185,9 +185,33 @@ export type HookModesConfig = {
 }
 
 export type HookOperationConfig<TCustomLogger extends keyof AllCollectionHooks> = {
+  /**
+   * 📝 Custom log creation at a operation level
+   *
+   * @default undefined
+   *
+   *
+   * 📦 Usage Example
+   *
+   * @example <caption>🧪 Change the user value for the create operation</caption>
+   * ```ts
+   *  create: {
+   *    customLogger: (args, fields) => {
+   *      return { ...fields, user: null }
+   *    },
+   *    enabled: true,
+   *  },
+   * ```
+   *
+   * ---
+   * ### ⚠️ Critical Notes
+   * - Only works for the current operation
+   * - Has the highest priority in execution
+   */
   customLogger?: (
-    args: { fields: AuditorLog } & Parameters<AllCollectionHooks[TCustomLogger]>[0],
-  ) => AuditorLog
+    args: Parameters<AllCollectionHooks[TCustomLogger]>[0],
+    fields: Omit<AuditorLog, 'hook'>,
+  ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
   /**
    * 📝 Specifies whether logging is enabled or disabled for this operation within the hook
    *
@@ -230,6 +254,32 @@ export type HookTrackingOperationMap = {
     create?: HookOperationConfig<'afterChange'>
 
     /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all afterChange hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['afterChange']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+
+    /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
@@ -246,11 +296,37 @@ export type HookTrackingOperationMap = {
   }
   afterDelete: {
     /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all afterDelete hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['afterDelete']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
      * Delete operation
      *
      * Triggered when an item is deleted.
      */
     delete?: HookOperationConfig<'afterDelete'>
+
     /**
      * 📝 Auxiliary side modes
      *
@@ -261,11 +337,37 @@ export type HookTrackingOperationMap = {
   }
   afterError: {
     /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all afterError hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['afterError']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
      * Error operation
      *
      * Triggered when an error occurs during another operation.
      */
-    error?: HookOperationConfig<'afterDelete'>
+    error?: HookOperationConfig<'afterError'>
+
     /**
      * 📝 Auxiliary side modes
      *
@@ -275,6 +377,31 @@ export type HookTrackingOperationMap = {
     modes?: HookModesConfig
   }
   afterForgotPassword: {
+    /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all afterForgotPassword hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['afterForgotPassword']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
      * Forgot password operation
      *
@@ -291,6 +418,31 @@ export type HookTrackingOperationMap = {
   }
   afterLogin: {
     /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all afterLogin hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['afterLogin']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
      * Login operation
      *
      * Triggered when a user logs in.
@@ -306,6 +458,31 @@ export type HookTrackingOperationMap = {
   }
   afterLogout: {
     /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all afterLogout hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['afterLogout']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
      * Logout operation
      *
      * Triggered when a user logs out.
@@ -320,6 +497,31 @@ export type HookTrackingOperationMap = {
     modes?: HookModesConfig
   }
   afterMe: {
+    /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all afterMe hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['afterMe']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
      * Me operation
      *
@@ -342,6 +544,31 @@ export type HookTrackingOperationMap = {
      * Triggered when a new item is created.
      */
     create?: HookOperationConfig<'afterOperation'>
+    /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all afterOperation hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['refresh']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
      * Delete operation
      *
@@ -391,13 +618,13 @@ export type HookTrackingOperationMap = {
      * Triggered when authentication tokens are refreshed.
      */
     refresh?: HookOperationConfig<'afterOperation'>
+
     /**
      * Update operation
      *
      * Triggered when an existing item is updated.
      */
     update?: HookOperationConfig<'afterOperation'>
-
     /**
      * Update by ID operation
      *
@@ -406,6 +633,31 @@ export type HookTrackingOperationMap = {
     updateByID?: HookOperationConfig<'afterOperation'>
   }
   afterRead: {
+    /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all afterRead hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['afterRead']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
      * 📝 Auxiliary side modes
      *
@@ -421,6 +673,31 @@ export type HookTrackingOperationMap = {
     read?: HookOperationConfig<'afterRead'>
   }
   afterRefresh: {
+    /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all afterRefresh hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['afterRefresh']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
      * 📝 Auxiliary side modes
      *
@@ -443,6 +720,31 @@ export type HookTrackingOperationMap = {
      */
     create?: HookOperationConfig<'beforeChange'>
     /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all beforeChange hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['refresh']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
@@ -458,6 +760,31 @@ export type HookTrackingOperationMap = {
   }
   beforeDelete: {
     /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all beforeDelete hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['beforeDelete']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
      * Delete operation
      *
      * Triggered when an item is deleted.
@@ -472,6 +799,31 @@ export type HookTrackingOperationMap = {
     modes?: HookModesConfig
   }
   beforeLogin: {
+    /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all beforeLogin hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['beforeLogin']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
      * Login operation
      *
@@ -493,6 +845,31 @@ export type HookTrackingOperationMap = {
      * Triggered when a new item is created.
      */
     create?: HookOperationConfig<'beforeOperation'>
+    /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all beforeOperation hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['beforeOperation']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
      * Delete operation
      *
@@ -539,6 +916,31 @@ export type HookTrackingOperationMap = {
   }
   beforeRead: {
     /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all beforeRead hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['beforeRead']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
@@ -560,6 +962,31 @@ export type HookTrackingOperationMap = {
      */
     create?: HookOperationConfig<'beforeValidate'>
     /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all beforeValidate hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['beforeValidate']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
@@ -573,7 +1000,57 @@ export type HookTrackingOperationMap = {
      */
     update?: HookOperationConfig<'beforeValidate'>
   }
+  /**
+   * 📝 Custom log creation at a hooks level
+   *
+   * @default undefined
+   *
+   *
+   * 📦 Usage Example
+   *
+   * @example <caption>🧪 Change the type value for all operations within all hooks</caption>
+   * ```ts
+   *  customLogger: (args, fields) => {
+   *     return { ...fields, type: 'error' }
+   *  }
+   * ```
+   *
+   * ---
+   * ### ⚠️ Critical Notes
+   * - Only works for active operations
+   * - This function is only executed for all operations and hooks that do not have a dedicated customLogger
+   * - Do not confuse this customLogger with the hook-level customLogger (which is only for a specific hook)!
+   */
+  customLogger?: (
+    args: Parameters<AllCollectionHooks[keyof AllCollectionHooks]>[0],
+    fields: Omit<AuditorLog, 'hook'>,
+  ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
   me: {
+    /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all me hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['me']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
      * Me operation
      *
@@ -589,6 +1066,31 @@ export type HookTrackingOperationMap = {
     modes?: HookModesConfig
   }
   refresh: {
+    /**
+     * 📝 Custom log creation at a hook level
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Change the user value for all refresh hook operations</caption>
+     * ```ts
+     *  customLogger: (args, fields) => {
+     *     return { ...fields, user: null }
+     *  }
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for active operations
+     * - This function is only executed for operations that do not have a dedicated customLogger
+     * - Do not confuse this customLogger with the hooks-level customLogger (which is for all hooks)!
+     */
+    customLogger?: (
+      args: Parameters<AllCollectionHooks['refresh']>[0],
+      fields: Omit<AuditorLog, 'hook'>,
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
      * 📝 Auxiliary side modes
      *
@@ -1088,6 +1590,32 @@ export type PluginOptions = {
    *
    */
   collection?: CollectionConfig
+  /**
+   * 📝 Custom log creation at a global level
+   *
+   * @default undefined
+   *
+   *
+   * 📦 Usage Example
+   *
+   * @example <caption>🧪 Change the userAgent value for all operations</caption>
+   * ```ts
+   *  customLogger: (args, fields) => {
+   *     return { ...fields, userAgent: 'custom user agent' }
+   *  }
+   * ```
+   *
+   * ---
+   * ### ⚠️ Critical Notes
+   * - Only works for active operations
+   * - This function is only executed for all operations and hooks that do not have a dedicated customLogger
+   * - It works for both collection hooks and globals hooks
+   */
+  customLogger?: <TCustomLogger extends keyof AllCollectionHooks>(
+    args: Parameters<AllCollectionHooks[TCustomLogger]>[0],
+    fields: Omit<AuditorLog, 'hook'>,
+  ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+
   /**
    * 📝 Enable or disable the plugin
    *

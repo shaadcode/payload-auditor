@@ -11,7 +11,7 @@ export type AuditorLog = {
   hook: (typeof hookTypes)[number]
   operation: AuditHookOperationType
   timestamp: Date
-  type: 'audit' | 'debug' | 'error' | 'info' | 'security' | 'warning'
+  type: 'audit' | 'debug' | 'error' | 'info' | 'security' | 'unknown' | 'warning'
   user: unknown
   userAgent?: string
 }
@@ -55,7 +55,7 @@ const auditor: CollectionConfig = {
       name: 'type',
       type: 'select',
       defaultValue: 'info',
-      options: ['info', 'debug', 'warning', 'error', 'audit', 'security'] as Array<
+      options: ['info', 'debug', 'warning', 'error', 'audit', 'security', 'unknown'] as Array<
         AuditorLog['type']
       >,
       required: true,

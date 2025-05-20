@@ -9,7 +9,7 @@ import type {
 import { prettyDebugLog } from './../../../../utils/prettyDebugLog.js'
 
 export const handleDebugMode = <T extends keyof AllCollectionHooks>(
-  hookConfig: HookTrackingOperationMap[keyof HookTrackingOperationMap] | undefined,
+  hookConfig: HookTrackingOperationMap[T] | undefined,
   operationConfig: HookOperationConfig<T> | undefined,
   allFields: AuditorLog,
   operation: AuditHookOperationType,

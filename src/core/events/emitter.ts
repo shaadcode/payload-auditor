@@ -8,7 +8,7 @@ if (!(global as any).payloadAuditorEmitter) {
   ;(global as any).payloadAuditorEmitter = globalEmitter
 }
 
-export const emitEvent = (event: string, data: unknown) => {
+export const emitEvent = <T>(event: string, data: T) => {
   setImmediate(() => {
     globalEmitter.emit(event, data)
   })

@@ -34,7 +34,6 @@ export const defaultPluginOpts = {
 
 export const hookMap: AllCollectionHooks = {
   afterChange: async (args) => {
-    console.log(args.context.userHookConfig?.hooks)
     await sharedLogic(args, {
       collection: args.collection,
       context: args.context,

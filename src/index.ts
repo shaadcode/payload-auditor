@@ -30,7 +30,7 @@ export const auditorPlugin =
     buildAccessControl(opts)
 
     config = attachAutomationConfig(config, opts)
-    config.collections = attachCollectionConfig(config.collections, opts.collection)
+    config.collections = attachCollectionConfig(config.collections, opts)
     config.onInit = OnInitManager(config.onInit, opts)
 
     return config

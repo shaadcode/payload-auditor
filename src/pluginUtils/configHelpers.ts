@@ -1,10 +1,6 @@
 import type { Access, BasePayload, Config } from 'payload'
 
-import type {
-  AllCollectionHooks,
-  CollectionConfig,
-  PluginOptions,
-} from './../types/pluginOptions.js'
+import type { AllCollectionHooks, PluginOptions } from './../types/pluginOptions.js'
 
 import auditor from '../collections/auditor.js'
 import { bufferManager } from '../core/buffer/bufferManager.js'
@@ -63,8 +59,9 @@ export const buildAccessControl = (pluginOpts: PluginOptions) => {
 
 export const attachCollectionConfig = (
   userCollectionsConfig: Config['collections'],
-  pluginCollectionsConfig: CollectionConfig | undefined,
+  pluginOpts: PluginOptions,
 ) => {
+  const pluginCollectionsConfig = pluginOpts.collection
   if (!pluginCollectionsConfig) {
     return userCollectionsConfig
   }
@@ -102,6 +99,7 @@ export const attachCollectionConfig = (
                 await hookMap[typedHookName]({
                   ...args,
                   context: {
+                    pluginOptions: pluginOpts,
                     userHookConfig: tracked,
                   },
                 }),
