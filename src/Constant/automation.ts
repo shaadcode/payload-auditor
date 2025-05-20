@@ -19,7 +19,7 @@ export const cleanupStrategies = {
   //   amountToDelete: 100,
   //   deletionCount: 50,
   // } as CountStrategy,
-  manual: { name: 'manual', olderThan: '30s' } as ManualStrategy,
+  manual: { name: 'manual', amount: 200, olderThan: '1w' } as ManualStrategy,
   // time: {
   //   name: 'time',
   //   olderThan: '30s',

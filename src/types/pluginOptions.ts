@@ -1481,8 +1481,9 @@ export type CollectionConfig = {
 // }
 
 export type ManualStrategy = {
-  name: 'manual'
-  olderThan: Duration
+  amount?: number
+  name?: 'manual'
+  olderThan?: Duration
 }
 export type AutomationConfig = {
   logCleanup: {
@@ -1560,10 +1561,6 @@ export type PluginOptions = {
    *   }
    *
    *```
-   * ---
-   * ### ⚠️ Critical Notes
-   * -
-   *
    */
   automation?: AutomationConfig
 

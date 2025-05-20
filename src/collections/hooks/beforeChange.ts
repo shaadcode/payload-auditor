@@ -17,16 +17,15 @@ export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
   req,
 }) => {
   try {
-    const thirtySecondsAgo = new Date(Date.now() - ms(data.olderThan || defaultAutoDeleteLog))
-
+    const millisecondsAgo = new Date(Date.now() - ms(data.olderThan || defaultAutoDeleteLog))
     const oldLogs = await req.payload.find({
       collection: context.pluginOptions.collection?.slug
         ? context.pluginOptions.collection?.slug
         : defaultCollectionValues.slug,
-      limit: 1000,
+      limit: context.pluginOptions.automation?.logCleanup?.strategy?.amount || 100,
       where: {
         createdAt: {
-          less_than: thirtySecondsAgo.toISOString(),
+          less_than: millisecondsAgo.toISOString(),
         },
       },
     })
