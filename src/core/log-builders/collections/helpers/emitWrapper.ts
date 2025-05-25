@@ -12,7 +12,7 @@ export const emitWrapper = async <T extends keyof AllCollectionHooks>(
   logData: AuditorLog,
   hookConfig: HookTrackingOperationMap[T],
   hookName: keyof AllCollectionHooks,
-  operationConfig: HookOperationConfig<T>,
+  operationConfig: HookOperationConfig<T> | undefined,
   pluginOpts: PluginOptions,
   hookArgs: Parameters<AllCollectionHooks[T]>[0],
   userActivatedHooks: Partial<HookTrackingOperationMap> | undefined,

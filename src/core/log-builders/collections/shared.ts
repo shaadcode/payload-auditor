@@ -11,6 +11,7 @@ import type {
 
 import { emitWrapper } from './helpers/emitWrapper.js'
 import { handleDebugMode } from './helpers/handleDebugMode.js'
+import { checkOperationEnabled } from './helpers/isOperationEnabled.js'
 import { hookHandlers } from './hooks.js'
 
 export type SharedArgs = {
@@ -31,6 +32,10 @@ export const sharedLogic = async <T extends keyof AllCollectionHooks>(
   const userHookOperationConfig = (
     userHookConfig as Record<AuditHookOperationType, HookOperationConfig<T> | undefined>
   )?.[sharedArgs.operation]
+  const isOperationEnabled = checkOperationEnabled<typeof sharedArgs.hook>(
+    userHookOperationConfig,
+    userHookConfig,
+  )
 
   const baseLog: AuditorLog = {
     type: 'unknown',
@@ -52,7 +57,7 @@ export const sharedLogic = async <T extends keyof AllCollectionHooks>(
     )
   }
 
-  if (userHookOperationConfig?.enabled) {
+  if (isOperationEnabled) {
     // @ts-ignore
     await hookHandlers[sharedArgs.hook](args, sharedArgs, baseLog, {
       pluginOpts,

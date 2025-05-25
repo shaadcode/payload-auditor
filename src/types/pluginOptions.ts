@@ -280,13 +280,35 @@ export type HookTrackingOperationMap = {
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
 
     /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
+
+    /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
     modes?: HookModesConfig
-
     /**
      * Update operation
      *
@@ -326,7 +348,28 @@ export type HookTrackingOperationMap = {
      * Triggered when an item is deleted.
      */
     delete?: HookOperationConfig<'afterDelete'>
-
+    /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
     /**
      * 📝 Auxiliary side modes
      *
@@ -362,12 +405,33 @@ export type HookTrackingOperationMap = {
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
+    /**
      * Error operation
      *
      * Triggered when an error occurs during another operation.
      */
     error?: HookOperationConfig<'afterError'>
-
     /**
      * 📝 Auxiliary side modes
      *
@@ -402,6 +466,29 @@ export type HookTrackingOperationMap = {
       args: Parameters<AllCollectionHooks['afterForgotPassword']>[0],
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+
+    /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
     /**
      * Forgot password operation
      *
@@ -443,6 +530,28 @@ export type HookTrackingOperationMap = {
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
+    /**
      * Login operation
      *
      * Triggered when a user logs in.
@@ -483,6 +592,28 @@ export type HookTrackingOperationMap = {
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
+    /**
      * Logout operation
      *
      * Triggered when a user logs out.
@@ -522,6 +653,28 @@ export type HookTrackingOperationMap = {
       args: Parameters<AllCollectionHooks['afterMe']>[0],
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
     /**
      * Me operation
      *
@@ -581,6 +734,28 @@ export type HookTrackingOperationMap = {
      * Triggered when a specific item is deleted by its ID.
      */
     deleteByID?: HookOperationConfig<'afterOperation'>
+    /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
     /**
      * Find operation
      *
@@ -659,6 +834,28 @@ export type HookTrackingOperationMap = {
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
+    /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
@@ -698,6 +895,28 @@ export type HookTrackingOperationMap = {
       args: Parameters<AllCollectionHooks['afterRefresh']>[0],
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
     /**
      * 📝 Auxiliary side modes
      *
@@ -745,6 +964,28 @@ export type HookTrackingOperationMap = {
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
+    /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
@@ -791,6 +1032,28 @@ export type HookTrackingOperationMap = {
      */
     delete?: HookOperationConfig<'beforeDelete'>
     /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
+    /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
@@ -824,6 +1087,28 @@ export type HookTrackingOperationMap = {
       args: Parameters<AllCollectionHooks['beforeLogin']>[0],
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
     /**
      * Login operation
      *
@@ -876,6 +1161,28 @@ export type HookTrackingOperationMap = {
      * Triggered when an item is deleted.
      */
     delete?: HookOperationConfig<'beforeOperation'>
+    /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
     /**
      * Forgot password operation
      *
@@ -941,6 +1248,28 @@ export type HookTrackingOperationMap = {
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
+    /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
@@ -986,6 +1315,28 @@ export type HookTrackingOperationMap = {
       args: Parameters<AllCollectionHooks['beforeValidate']>[0],
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
     /**
      * 📝 Auxiliary side modes
      *
@@ -1052,6 +1403,28 @@ export type HookTrackingOperationMap = {
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
     /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
+    /**
      * Me operation
      *
      * Triggered when a user fetches their own profile information.
@@ -1091,6 +1464,28 @@ export type HookTrackingOperationMap = {
       args: Parameters<AllCollectionHooks['refresh']>[0],
       fields: Omit<AuditorLog, 'hook'>,
     ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    /**
+     * 📝 Enabling all supported operations within the afterChange hook
+     *
+     * 📌@type {boolean}
+     *
+     * @default undefined
+     *
+     *
+     * 📦 Usage Example
+     *
+     * @example <caption>🧪 Enabling all operations</caption>
+     * ```ts
+     *  enabled: true
+     * ```
+     *
+     * ---
+     * ### ⚠️ Critical Notes
+     * - Only works for operations whose enabled property value is not false
+     * - If the value is false, it disables all operations (even explicitly enabled operations)
+     *
+     */
+    enabled?: boolean
     /**
      * 📝 Auxiliary side modes
      *
