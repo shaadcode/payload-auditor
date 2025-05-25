@@ -31,7 +31,6 @@ const auditor: CollectionConfig = {
     defaultColumns: ['operation', 'type', 'collection', 'user', 'timestamp'],
     useAsTitle: 'operation',
   },
-  auth: true,
   fields: [
     {
       name: 'operation',
