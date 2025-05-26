@@ -1,4 +1,4 @@
-import type { Access, BasePayload, Config } from 'payload'
+import type { Access, BasePayload, CollectionConfig, Config } from 'payload'
 
 import type { AllCollectionHooks, PluginOptions } from './../types/pluginOptions.js'
 
@@ -34,7 +34,10 @@ export const hookTypes = [
   'refresh',
   'me',
 ] as const
+
 export const buildAccessControl = (pluginOpts: PluginOptions) => {
+  const typedAuditorCollection = auditor as CollectionConfig
+
   const roles: RoleAccessMap = pluginOpts?.collection?.Accessibility?.roles ?? {}
   const customAccess: CustomAccessMap = pluginOpts?.collection?.Accessibility?.customAccess ?? {}
 
@@ -54,22 +57,23 @@ export const buildAccessControl = (pluginOpts: PluginOptions) => {
     }
   })
 
-  auditor.access = { ...auditor.access, ...access }
+  typedAuditorCollection.access = { ...auditor.access, ...access }
 }
 
 export const attachCollectionConfig = (
   userCollectionsConfig: Config['collections'],
   pluginOpts: PluginOptions,
 ) => {
+  const typedAuditorCollection = auditor as CollectionConfig
   const pluginCollectionsConfig = pluginOpts.collection
   if (!pluginCollectionsConfig) {
     return userCollectionsConfig
   }
 
-  // Attaching label
-  if (pluginCollectionsConfig.labels) {
-    auditor.labels = pluginCollectionsConfig.labels
-  }
+  // // Attaching label
+  // if (pluginCollectionsConfig.labels) {
+  //   auditor.labels = pluginCollectionsConfig.labels
+  // }
 
   // Attach Slug
   if (pluginCollectionsConfig.slug && pluginCollectionsConfig.slug.length > 0) {
@@ -90,7 +94,7 @@ export const attachCollectionConfig = (
         collection.hooks = collection.hooks || {}
 
         if (tracked.hooks) {
-          for (const hookName in tracked.hooks) {
+          for (const hookName in tracked?.hooks) {
             const typedHookName = hookName as keyof AllCollectionHooks
             // @ts-ignore
             collection.hooks[typedHookName] = [
@@ -110,9 +114,23 @@ export const attachCollectionConfig = (
 
       return collection
     })
-    userCollectionsConfig = [...userCollectionsConfig, auditor]
+
+    // console.log(auditor)
   }
 
+  //  add root collection to payload config
+  const rootCollection = pluginCollectionsConfig.configureRootCollection
+    ? {
+        ...typedAuditorCollection,
+        ...pluginCollectionsConfig.configureRootCollection(typedAuditorCollection),
+      }
+    : typedAuditorCollection
+
+  pluginCollectionsConfig.slug = rootCollection.slug
+    ? rootCollection.slug
+    : pluginCollectionsConfig.slug
+
+  userCollectionsConfig = [...(userCollectionsConfig || []), rootCollection]
   // Attaching settings to plugin's internal collection hooks
   // ...
 
@@ -123,14 +141,16 @@ export const attachAutomationConfig = (
   incomingConfig: Config,
   pluginOpts: PluginOptions,
 ): Config => {
+  const typedAuditorCollection = auditor as CollectionConfig
+
   // if (pluginOpts.automation?.logCleanup.disabled) {
   //   return incomingConfig
   // } else
 
-  auditor.hooks = {
-    ...auditor.hooks,
+  typedAuditorCollection.hooks = {
+    ...typedAuditorCollection.hooks,
     beforeChange: [
-      ...(auditor.hooks?.beforeChange || []),
+      ...(typedAuditorCollection.hooks?.beforeChange || []),
       (args) =>
         autoLogCleaner({
           ...args,

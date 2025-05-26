@@ -1,5 +1,3 @@
-import type { CollectionConfig } from 'payload'
-
 import type { AuditHookOperationType } from '../types/pluginOptions.js'
 import type { hookTypes } from './../pluginUtils/configHelpers.js'
 
@@ -16,7 +14,9 @@ export type AuditorLog = {
   userAgent?: string
 }
 
-const auditor: CollectionConfig = {
+export type TypedRootCollection = typeof auditor
+
+export const auditor = {
   slug: defaultCollectionValues.slug,
   access: {
     admin: () => false,
@@ -29,7 +29,7 @@ const auditor: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['operation', 'type', 'collection', 'user', 'timestamp'],
-    useAsTitle: 'operation',
+    useAsTitle: 'type',
   },
   fields: [
     {

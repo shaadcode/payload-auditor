@@ -16,11 +16,10 @@ import type {
   CollectionBeforeOperationHook,
   CollectionBeforeReadHook,
   CollectionBeforeValidateHook,
+  CollectionConfig,
   CollectionMeHook,
   CollectionRefreshHook,
   HookOperationType,
-  LabelFunction,
-  StaticLabel,
 } from 'payload'
 
 import type { AuditorLog } from './../collections/auditor.js'
@@ -1376,6 +1375,7 @@ export type HookTrackingOperationMap = {
     args: Parameters<AllCollectionHooks[keyof AllCollectionHooks]>[0],
     fields: Omit<AuditorLog, 'hook'>,
   ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+
   me: {
     /**
      * 📝 Custom log creation at a hook level
@@ -1429,7 +1429,7 @@ export type HookTrackingOperationMap = {
      *
      * Triggered when a user fetches their own profile information.
      */
-    me: HookOperationConfig<'me'>
+    me?: HookOperationConfig<'me'>
     /**
      * 📝 Auxiliary side modes
      *
@@ -1512,6 +1512,7 @@ export type TrackedCollection = {
    *
    */
   disabled?: boolean
+
   /**
    * 📝 Define payload cms hooks for each collection being tracked
    *
@@ -1537,7 +1538,6 @@ export type TrackedCollection = {
    * @see {@link https://payloadcms.com/docs/hooks/collections}
    */
   hooks?: Partial<HookTrackingOperationMap>
-
   /** Optional label or description for UI/doc */
   label?: string
 
@@ -1719,7 +1719,7 @@ export type BufferConfig = {
    */
   time?: Duration
 }
-export type CollectionConfig = {
+export type PluginCollectionConfig = {
   /**
    * 📝 auditor Collection Accessibility Settings
    *
@@ -1808,28 +1808,81 @@ export type CollectionConfig = {
    *
    */
   buffer?: BufferConfig
+  // /**
+  //  * 📝 Uses internal payload CMS configuration for labels
+  //  *
+  //  * 📖 You can customize the plugin's built-in collection label.
+  //  * @see {@link https://payloadcms.com/docs/configuration/collections#config-options}
+  //  */
+  // labels?:
+  //   | {
+  //       plural?: LabelFunction | StaticLabel | undefined
+  //       singular?: LabelFunction | StaticLabel
+  //     }
+  //   | undefined
 
   /**
-   * 📝 Uses internal payload CMS configuration for labels
+   * 📝 Collection main configuration
    *
-   * 📖 You can customize the plugin's built-in collection label.
-   * @see {@link https://payloadcms.com/docs/configuration/collections#config-options}
+   * 📖 You can fully customize the entire root collection
+   *
+   * 📌@type {TypedRootCollection}
+   *
+   * @default undefined
+   *
+   * @example <caption>🧪 Rename the slug, add a new field, and change the collection label</caption>
+   *
+   *```ts
+   *         rootCollectionConfig: (defaults) => {
+   *       const prevConf = defaults
+   *       return {
+   *         ...prevConf,
+   *         slug: 'new slug',
+   *         fields: [
+   *           ...prevConf.fields,
+   *           {
+   *             name: 'product',
+   *             type: 'text',
+   *           },
+   *         ],
+   *         labels: {
+   *           plural: 'logs',
+   *           singular: 'log',
+   *         },
+   *       }
+   *     },
+   *```
+   * ---
+   * ### ⚠️ Critical Notes
+   * - Changing collection values requires a lot of testing to make sure everything works correctly
+   * - In each property, either change all the values or use the default values of the same property (which is for the plugin itself) in the context, otherwise you will encounter an error
+   * ```ts
+   *         rootCollectionConfig: (defaults) => {
+   *       const prevConf = defaults
+   *       return {
+   *         ...prevConf,
+   *         slug: 'new slug',
+   *         hooks:{
+   *           ...prevConf.hooks,
+   *           // your hooks ...
+   *         }
+   *       }
+   *     },
+   * ```
    */
-  labels?:
-    | {
-        plural?: LabelFunction | StaticLabel | undefined
-        singular?: LabelFunction | StaticLabel
-      }
-    | undefined
+  configureRootCollection?: (defaults: CollectionConfig) => Partial<CollectionConfig>
   /**
    * 📝 Uses internal payload CMS configuration for slug
    *
    * 📖 You can customize the plugin's built-in collection slug.
    *
    * @see {@link https://payloadcms.com/docs/configuration/collections#config-options}
+   *
+   * ### ⚠️ Critical Notes
+   * - If you define a slug name in the `configureRootCollection` property, this value is ignored.
+   *
    */
   slug?: (typeof allowedSlugs)[number] | ({} & string)
-
   /**
    * 📝 Collection tracking management
    *
@@ -1981,7 +2034,7 @@ export type PluginOptions = {
    * - If defined, you must also enter the value of trackCollections.
    *
    */
-  collection?: CollectionConfig
+  collection?: PluginCollectionConfig
   /**
    * 📝 Custom log creation at a global level
    *
