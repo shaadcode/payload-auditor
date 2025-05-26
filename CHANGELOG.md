@@ -1,3 +1,17 @@
+# [1.8.0](https://github.com/shaadcode/payload-auditor/compare/v1.7.0...v1.8.0) (2025-05-26)
+
+
+### Bug Fixes
+
+* **core:** fixed the error where logs were not saved due to authentication ([a63867c](https://github.com/shaadcode/payload-auditor/commit/a63867c571d78d4ef5df1564c72f51fafefee019))
+
+
+### Features
+
+* **config:** added internationalization capability ([15955ec](https://github.com/shaadcode/payload-auditor/commit/15955ecb14e0e60db9768ff1d5234aeb9cabbecb))
+* **core:** add full plugin root collection customization capability ([fbe0ed9](https://github.com/shaadcode/payload-auditor/commit/fbe0ed9fd6cec8a63a649587b7fdd349fd38fbac))
+* **logger:** enabling all operations within a hook with the `enabled` property ([7132ba6](https://github.com/shaadcode/payload-auditor/commit/7132ba64fc317c9380f35f09416a3641ab691fad))
+
 # [1.7.0](https://github.com/shaadcode/payload-auditor/compare/v1.6.0...v1.7.0) (2025-05-20)
 
 
