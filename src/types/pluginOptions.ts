@@ -20,6 +20,8 @@ import type {
   CollectionMeHook,
   CollectionRefreshHook,
   HookOperationType,
+  LabelFunction,
+  StaticLabel,
 } from 'payload'
 
 import type { AuditorLog } from './../collections/auditor.js'
@@ -1719,6 +1721,12 @@ export type BufferConfig = {
    */
   time?: Duration
 }
+
+export type Localization = {
+  collection?: {
+    fields?: Partial<Record<keyof AuditorLog, LabelFunction | StaticLabel>>
+  }
+}
 export type PluginCollectionConfig = {
   /**
    * 📝 auditor Collection Accessibility Settings
@@ -1808,23 +1816,10 @@ export type PluginCollectionConfig = {
    *
    */
   buffer?: BufferConfig
-  // /**
-  //  * 📝 Uses internal payload CMS configuration for labels
-  //  *
-  //  * 📖 You can customize the plugin's built-in collection label.
-  //  * @see {@link https://payloadcms.com/docs/configuration/collections#config-options}
-  //  */
-  // labels?:
-  //   | {
-  //       plural?: LabelFunction | StaticLabel | undefined
-  //       singular?: LabelFunction | StaticLabel
-  //     }
-  //   | undefined
-
   /**
    * 📝 Collection main configuration
    *
-   * 📖 You can fully customize the entire root collection
+   *  You can fully customize the entire root collection
    *
    * 📌@type {TypedRootCollection}
    *
@@ -1871,6 +1866,14 @@ export type PluginCollectionConfig = {
    * ```
    */
   configureRootCollection?: (defaults: CollectionConfig) => Partial<CollectionConfig>
+  /**
+   * 📝 Internationalization for the plugin
+   *
+   * 📌@type {Localization}
+   *
+   * @default undefined
+   */
+  locale?: Localization
   /**
    * 📝 Uses internal payload CMS configuration for slug
    *

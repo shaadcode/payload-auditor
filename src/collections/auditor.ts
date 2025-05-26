@@ -1,3 +1,5 @@
+import type { CollectionConfig } from 'payload'
+
 import type { AuditHookOperationType } from '../types/pluginOptions.js'
 import type { hookTypes } from './../pluginUtils/configHelpers.js'
 
@@ -16,7 +18,7 @@ export type AuditorLog = {
 
 export type TypedRootCollection = typeof auditor
 
-export const auditor = {
+export const auditor: CollectionConfig = {
   slug: defaultCollectionValues.slug,
   access: {
     admin: () => false,

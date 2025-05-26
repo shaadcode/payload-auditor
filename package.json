@@ -157,5 +157,8 @@
     "url": "https://github.com/shaadcode/payload-auditor/issues"
   },
   "homepage": "https://github.com/shaadcode/payload-auditor#readme",
-  "registry": "https://registry.npmjs.org/"
+  "registry": "https://registry.npmjs.org/",
+  "dependencies": {
+    "@payloadcms/translations": "^3.39.1"
+  }
 }
