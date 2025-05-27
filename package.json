@@ -76,6 +76,7 @@
     "@payloadcms/eslint-config": "3.9.0",
     "@payloadcms/next": "3.29.0",
     "@payloadcms/richtext-lexical": "3.29.0",
+    "@payloadcms/translations": "^3.39.1",
     "@payloadcms/ui": "3.29.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
@@ -157,8 +158,5 @@
     "url": "https://github.com/shaadcode/payload-auditor/issues"
   },
   "homepage": "https://github.com/shaadcode/payload-auditor#readme",
-  "registry": "https://registry.npmjs.org/",
-  "dependencies": {
-    "@payloadcms/translations": "^3.39.1"
-  }
+  "registry": "https://registry.npmjs.org/"
 }
