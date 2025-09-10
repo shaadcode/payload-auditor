@@ -4,8 +4,8 @@ import type { AuditHookOperationType } from '../types/pluginOptions.js'
 import type { hookTypes } from './../pluginUtils/configHelpers.js'
 
 import { defaultCollectionValues } from '../Constant/Constant.js'
-
 export type AuditorLog = {
+  changes?: Record<string, unknown>
   collection: string
   documentId?: string
   hook: (typeof hookTypes)[number]
@@ -70,6 +70,13 @@ export const auditor: CollectionConfig = {
         AuditorLog['type']
       >,
       required: true,
+    },
+    {
+      name: 'changes',
+      type: 'json',
+      admin: {
+        description: 'Field-level changes or full document snapshot for this operation',
+      },
     },
     {
       name: 'createdAt',

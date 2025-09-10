@@ -28,6 +28,7 @@ import type {
 } from './../../../types/pluginOptions.js'
 import type { SharedArgs } from './shared.js'
 
+import { shallowDiff } from '../../../utils/diff.js'
 import { emitWrapper } from './helpers/emitWrapper.js'
 import { handleDebugMode } from './helpers/handleDebugMode.js'
 
@@ -41,6 +42,23 @@ export const hookHandlers = {
     baseLog.documentId = args.doc.id
     baseLog.user = sharedArgs.req?.user?.id || 'anonymous'
 
+    try {
+      if (args.operation === 'update' && args.previousDoc) {
+        const diff = shallowDiff(
+          args.doc as Record<string, unknown>,
+          args.previousDoc as Record<string, unknown>,
+          { excludeKeys: ['updatedAt', 'createdAt', '__v'] },
+        )
+        if (Object.keys(diff).length > 0) {
+          ;(baseLog as AuditorLog).changes = diff
+        }
+      } else if (args.operation === 'create') {
+        ;(baseLog as AuditorLog).changes = args.doc as Record<string, unknown>
+      }
+    } catch {
+      // ignore diff errors to avoid blocking logs
+    }
+
     return args.doc
   },
   afterDelete: (
@@ -51,6 +69,11 @@ export const hookHandlers = {
     baseLog.type = 'audit'
     baseLog.documentId = args.doc.id
     baseLog.user = sharedArgs.req?.user?.id || 'anonymous'
+    try {
+      ;(baseLog as AuditorLog).changes = args.doc as Record<string, unknown>
+    } catch {
+      // ignore
+    }
   },
   afterError: (
     args: Parameters<CollectionAfterErrorHook>[0],
