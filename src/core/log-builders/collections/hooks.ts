@@ -28,7 +28,7 @@ import type {
 } from './../../../types/pluginOptions.js'
 import type { SharedArgs } from './shared.js'
 
-import { shallowDiff } from '../../../utils/diff.js'
+import { normalizeForDiff, shallowDiff } from '../../../utils/diff.js'
 import { emitWrapper } from './helpers/emitWrapper.js'
 import { handleDebugMode } from './helpers/handleDebugMode.js'
 
@@ -44,11 +44,11 @@ export const hookHandlers = {
 
     try {
       if (args.operation === 'update' && args.previousDoc) {
-        const diff = shallowDiff(
-          args.doc as Record<string, unknown>,
-          args.previousDoc as Record<string, unknown>,
-          { excludeKeys: ['updatedAt', 'createdAt', '__v'] },
-        )
+        const next = normalizeForDiff(args.doc as Record<string, unknown>)
+        const prev = normalizeForDiff(args.previousDoc as Record<string, unknown>)
+        const diff = shallowDiff(next, prev, {
+          excludeKeys: ['updatedAt', 'createdAt', '__v'],
+        })
         if (Object.keys(diff).length > 0) {
           ;(baseLog as AuditorLog).changes = diff
         }
