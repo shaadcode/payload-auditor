@@ -72,3 +72,52 @@ const reduceValue = (value: unknown): unknown => {
 
   return value
 }
+
+/**
+ * Remove selected top-level keys from a record.
+ */
+export const excludeKeysFromRecord = (
+  obj: Record<string, unknown>,
+  keys: string[],
+): Record<string, unknown> => {
+  const omit = new Set(keys)
+  return Object.fromEntries(
+    Object.entries(obj).filter(([k]) => !omit.has(k)),
+  )
+}
+
+/**
+ * Redact selected top-level keys in a record by replacing their values.
+ */
+export const redactKeysInRecord = (
+  obj: Record<string, unknown>,
+  keys: string[],
+  replacement = '[REDACTED]',
+): Record<string, unknown> => {
+  if (!keys?.length) {return obj}
+  const redact = new Set(keys)
+  const out: Record<string, unknown> = { ...obj }
+  for (const key of redact) {
+    if (key in out) {out[key] = replacement}
+  }
+  return out
+}
+
+/**
+ * Redact selected keys in a shallow diff by replacing old/new values.
+ */
+export const redactShallowDiff = (
+  diff: ShallowDiff,
+  keys: string[],
+  replacement = '[REDACTED]',
+): ShallowDiff => {
+  if (!keys?.length) {return diff}
+  const redact = new Set(keys)
+  const out: ShallowDiff = { ...diff }
+  for (const key of Object.keys(out)) {
+    if (redact.has(key)) {
+      out[key] = { new: replacement, old: replacement }
+    }
+  }
+  return out
+}

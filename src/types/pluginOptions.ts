@@ -187,6 +187,18 @@ export type HookModesConfig = {
 
 export type HookOperationConfig<TCustomLogger extends keyof AllCollectionHooks> = {
   /**
+   * 📝 Changes capture controls
+   *
+   * - enabled: toggle capturing changes for this operation
+   * - excludeKeys: omit these top-level keys from diffs/snapshots
+   * - redactKeys: mask these top-level keys in diffs/snapshots
+   */
+  changes?: {
+    enabled?: boolean
+    excludeKeys?: string[]
+    redactKeys?: string[]
+  }
+  /**
    * 📝 Custom log creation at a operation level
    *
    * @default undefined
@@ -213,6 +225,7 @@ export type HookOperationConfig<TCustomLogger extends keyof AllCollectionHooks> 
     args: Parameters<AllCollectionHooks[TCustomLogger]>[0],
     fields: Omit<AuditorLog, 'hook'>,
   ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+
   /**
    * 📝 Specifies whether logging is enabled or disabled for this operation within the hook
    *
@@ -236,7 +249,6 @@ export type HookOperationConfig<TCustomLogger extends keyof AllCollectionHooks> 
    *
    */
   enabled?: boolean
-
   /**
    * 📝 Auxiliary side modes
    *
@@ -1816,6 +1828,18 @@ export type PluginCollectionConfig = {
    *
    */
   buffer?: BufferConfig
+  /**
+   * 📝 Default changes capture controls (overridable per-operation)
+   *
+   * - enabled: toggle capturing changes
+   * - excludeKeys: omit these top-level keys from diffs/snapshots
+   * - redactKeys: mask these top-level keys in diffs/snapshots
+   */
+  changes?: {
+    enabled?: boolean
+    excludeKeys?: string[]
+    redactKeys?: string[]
+  }
   /**
    * 📝 Collection main configuration
    *

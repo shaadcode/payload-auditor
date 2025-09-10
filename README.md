@@ -53,14 +53,13 @@ Customize the plugin with the following configuration(for example):
 auditorPlugin({
   autoDeleteInterval: '1d',
   collection: {
+    changes: { excludeKeys: ['content'] },
     trackCollections: [
       {
         slug: 'media',
         hooks: {
           afterChange: {
-            update: {
-              enabled: true,
-            },
+            update: { enabled: true },
           },
         },
       },
@@ -68,6 +67,8 @@ auditorPlugin({
   },
 }),
 ```
+
+ 
 
 ## ✨ **Things you can customize:**
 

@@ -28,7 +28,13 @@ import type {
 } from './../../../types/pluginOptions.js'
 import type { SharedArgs } from './shared.js'
 
-import { normalizeForDiff, shallowDiff } from '../../../utils/diff.js'
+import {
+  excludeKeysFromRecord,
+  normalizeForDiff,
+  redactKeysInRecord,
+  redactShallowDiff,
+  shallowDiff,
+} from '../../../utils/diff.js'
 import { emitWrapper } from './helpers/emitWrapper.js'
 import { handleDebugMode } from './helpers/handleDebugMode.js'
 
@@ -37,23 +43,51 @@ export const hookHandlers = {
     args: Parameters<CollectionAfterChangeHook>[0],
     sharedArgs: SharedArgs,
     baseLog: Partial<AuditorLog>,
+    data?: {
+      pluginOpts: PluginOptions
+      userActivatedHooks?: Partial<HookTrackingOperationMap>
+      userHookConfig?: HookTrackingOperationMap['afterChange']
+      userHookOperationConfig?: HookOperationConfig<'afterChange'>
+    },
   ) => {
     baseLog.type = 'audit'
     baseLog.documentId = args.doc.id
     baseLog.user = sharedArgs.req?.user?.id || 'anonymous'
 
     try {
+      const globalChangeCfg = data?.pluginOpts?.collection?.changes
+      const opChangeCfg = data?.userHookOperationConfig?.changes
+      const changesEnabled = opChangeCfg?.enabled ?? globalChangeCfg?.enabled ?? true
+      if (!changesEnabled) {
+        return args.doc
+      }
+
+      const excludeMeta = ['updatedAt', 'createdAt', '__v']
+      const excludeKeys = [
+        ...excludeMeta,
+        ...(globalChangeCfg?.excludeKeys ?? []),
+        ...(opChangeCfg?.excludeKeys ?? []),
+      ]
+      const redactKeys = [
+        ...(globalChangeCfg?.redactKeys ?? []),
+        ...(opChangeCfg?.redactKeys ?? []),
+      ]
+
       if (args.operation === 'update' && args.previousDoc) {
         const next = normalizeForDiff(args.doc as Record<string, unknown>)
         const prev = normalizeForDiff(args.previousDoc as Record<string, unknown>)
-        const diff = shallowDiff(next, prev, {
-          excludeKeys: ['updatedAt', 'createdAt', '__v'],
-        })
+        let diff = shallowDiff(next, prev, { excludeKeys })
+        if (redactKeys.length) {
+          diff = redactShallowDiff(diff, redactKeys)
+        }
         if (Object.keys(diff).length > 0) {
           ;(baseLog as AuditorLog).changes = diff
         }
       } else if (args.operation === 'create') {
-        ;(baseLog as AuditorLog).changes = args.doc as Record<string, unknown>
+        let snap = args.doc as Record<string, unknown>
+        if (excludeKeys.length) {snap = excludeKeysFromRecord(snap, excludeKeys)}
+        if (redactKeys.length) {snap = redactKeysInRecord(snap, redactKeys)
+        ;}(baseLog as AuditorLog).changes = snap
       }
     } catch {
       // ignore diff errors to avoid blocking logs
@@ -65,12 +99,36 @@ export const hookHandlers = {
     args: Parameters<CollectionAfterDeleteHook>[0],
     sharedArgs: SharedArgs,
     baseLog: Partial<AuditorLog>,
+    data?: {
+      pluginOpts: PluginOptions
+      userActivatedHooks?: Partial<HookTrackingOperationMap>
+      userHookConfig?: HookTrackingOperationMap['afterDelete']
+      userHookOperationConfig?: HookOperationConfig<'afterDelete'>
+    },
   ) => {
     baseLog.type = 'audit'
     baseLog.documentId = args.doc.id
     baseLog.user = sharedArgs.req?.user?.id || 'anonymous'
     try {
-      ;(baseLog as AuditorLog).changes = args.doc as Record<string, unknown>
+      const globalChangeCfg = data?.pluginOpts?.collection?.changes
+      const opChangeCfg = data?.userHookOperationConfig?.changes
+      const changesEnabled = opChangeCfg?.enabled ?? globalChangeCfg?.enabled ?? true
+      if (!changesEnabled) {return}
+      const excludeMeta = ['updatedAt', 'createdAt', '__v']
+      const excludeKeys = [
+        ...excludeMeta,
+        ...(globalChangeCfg?.excludeKeys ?? []),
+        ...(opChangeCfg?.excludeKeys ?? []),
+      ]
+      const redactKeys = [
+        ...(globalChangeCfg?.redactKeys ?? []),
+        ...(opChangeCfg?.redactKeys ?? []),
+      ]
+
+      let snap = args.doc as Record<string, unknown>
+      if (excludeKeys.length) {snap = excludeKeysFromRecord(snap, excludeKeys)}
+      if (redactKeys.length) {snap = redactKeysInRecord(snap, redactKeys)
+      ;}(baseLog as AuditorLog).changes = snap
     } catch {
       // ignore
     }
