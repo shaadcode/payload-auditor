@@ -51,11 +51,17 @@ Customize the plugin with the following configuration(for example):
 
 ```ts
 auditorPlugin({
-  autoDeleteInterval: '1d',
+  automation: {
+    logCleanup: {
+      strategy: {
+        olderThan: "1d",
+      },
+    },
+  },
   collection: {
     trackCollections: [
       {
-        slug: 'media',
+        slug: "media",
         hooks: {
           afterChange: {
             update: {
@@ -66,7 +72,8 @@ auditorPlugin({
       },
     ],
   },
-}),
+});
+
 ```
 
 ## ✨ **Things you can customize:**
