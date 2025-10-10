@@ -30,7 +30,7 @@ export const auditor: CollectionConfig = {
     update: () => false,
   },
   admin: {
-    defaultColumns: ['operation', 'type', 'collection', 'user', 'timestamp'],
+    defaultColumns: ['operation', 'type', 'onCollection', 'user', 'timestamp'],
     useAsTitle: 'type',
   },
   fields: [
