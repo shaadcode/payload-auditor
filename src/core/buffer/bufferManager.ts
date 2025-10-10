@@ -13,7 +13,7 @@ const store: AuditorLog[] = []
 let payloadInstance: Payload
 
 export const bufferManager = (payload: Payload, pluginOptions: PluginOptions) => {
-  const bufferConfig = pluginOptions.collection?.buffer
+  const bufferConfig = pluginOptions.collections?.buffer
   const size = bufferConfig?.size ?? 10
   const interval = ms(bufferConfig?.time ?? '5s')
   const flushStrategy = bufferConfig?.flushStrategy ?? 'time'
@@ -49,8 +49,8 @@ const flushBuffer = async (pluginOptions: PluginOptions) => {
   await Promise.all(
     logsToInsert.map((log) =>
       payloadInstance.create({
-        collection: pluginOptions.collection?.slug
-          ? pluginOptions.collection?.slug
+        collection: pluginOptions.collections?.slug
+          ? pluginOptions.collections?.slug
           : defaultCollectionValues.slug,
         data: log,
       }),

@@ -2037,7 +2037,7 @@ export type PluginOptions = {
    * - If defined, you must also enter the value of trackCollections.
    *
    */
-  collection?: PluginCollectionConfig
+  collections?: PluginCollectionConfig
   /**
    * 📝 Custom log creation at a global level
    *

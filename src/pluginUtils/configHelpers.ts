@@ -36,8 +36,8 @@ export const hookTypes = [
 ] as const
 
 export const buildAccessControl = (pluginOpts: PluginOptions) => {
-  const roles: RoleAccessMap = pluginOpts?.collection?.Accessibility?.roles ?? {}
-  const customAccess: CustomAccessMap = pluginOpts?.collection?.Accessibility?.customAccess ?? {}
+  const roles: RoleAccessMap = pluginOpts?.collections?.Accessibility?.roles ?? {}
+  const customAccess: CustomAccessMap = pluginOpts?.collections?.Accessibility?.customAccess ?? {}
 
   const defaultAccess: Access = ({ req }) => req.user?.role === 'admin'
 
@@ -62,7 +62,7 @@ export const attachCollectionConfig = (
   userCollectionsConfig: Config['collections'],
   pluginOpts: PluginOptions,
 ) => {
-  const pluginCollectionsConfig = pluginOpts.collection
+  const pluginCollectionsConfig = pluginOpts.collections
   if (!pluginCollectionsConfig) {
     return userCollectionsConfig
   }

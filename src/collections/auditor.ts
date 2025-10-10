@@ -6,7 +6,7 @@ import type { hookTypes } from './../pluginUtils/configHelpers.js'
 import { defaultCollectionValues } from '../Constant/Constant.js'
 
 export type AuditorLog = {
-  collection: string
+  onCollection: string
   documentId?: string
   hook: (typeof hookTypes)[number]
   operation: AuditHookOperationType
@@ -30,7 +30,7 @@ export const auditor: CollectionConfig = {
     update: () => false,
   },
   admin: {
-    defaultColumns: ['operation', 'type', 'collection', 'user', 'timestamp'],
+    defaultColumns: ['operation', 'type', 'onCollection', 'user', 'timestamp'],
     useAsTitle: 'type',
   },
   fields: [
@@ -40,7 +40,7 @@ export const auditor: CollectionConfig = {
       required: true,
     },
     {
-      name: 'collection',
+      name: 'onCollection',
       type: 'text',
       required: true,
     },

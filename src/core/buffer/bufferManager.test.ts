@@ -28,7 +28,7 @@ afterEach(() => {
 describe('bufferManager', () => {
   it('should flush when buffer reaches size limit', async () => {
     const pluginOptions = {
-      collection: {
+      collections: {
         buffer: {
           flushStrategy: 'size',
           size: 2,
@@ -50,7 +50,7 @@ describe('bufferManager', () => {
 
   it('should flush immediately in realtime mode', async () => {
     const pluginOptions = {
-      collection: {
+      collections: {
         buffer: {
           flushStrategy: 'realtime',
         },
@@ -69,7 +69,7 @@ describe('bufferManager', () => {
 
   it('should flush periodically in time mode', async () => {
     const pluginOptions = {
-      collection: {
+      collections: {
         buffer: {
           flushStrategy: 'time',
           time: '2s',
@@ -93,7 +93,7 @@ describe('bufferManager', () => {
 
   it('should clear buffer after flushing', async () => {
     const pluginOptions = {
-      collection: {
+      collections: {
         buffer: {
           flushStrategy: 'size',
           size: 1,

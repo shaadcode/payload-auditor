@@ -39,7 +39,7 @@ export const sharedLogic = async <T extends keyof AllCollectionHooks>(
 
   const baseLog: AuditorLog = {
     type: 'unknown',
-    collection: sharedArgs.collection.slug,
+    onCollection: sharedArgs.collection.slug,
     documentId: 'unknown',
     hook: sharedArgs.hook,
     operation: sharedArgs.operation,

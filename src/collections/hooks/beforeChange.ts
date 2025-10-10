@@ -21,7 +21,7 @@ export const autoLogCleaner: BeforeChangeHook<AutoLogCleanerProps> = async ({
     const millisecondsAgo = new Date(
       Date.now() - ms(data.olderThan || cleanupStrategiesDefaultValues.manual.olderThan),
     )
-    const collectionSlug = context.pluginOptions.collection?.slug ?? defaultCollectionValues.slug
+    const collectionSlug = context.pluginOptions.collections?.slug ?? defaultCollectionValues.slug
     const limit = context.pluginOptions.automation?.logCleanup?.strategy?.amount ?? 100
 
     const oldLogsToDelete = await req.payload.find({
