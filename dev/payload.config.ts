@@ -8,9 +8,9 @@ import { users } from 'collections/Users.js';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
-import { seed } from './seed.js';
-// import { auditorPlugin } from 'payload-auditor/index.js'
-import { auditorPlugin } from '../src/index.js';
+// import { auditorPlugin } from '../src/index.js';
+// eslint-disable-next-line antfu/no-import-dist
+import { auditorPlugin } from './../dist/index.js';
 import { testEmailAdapter } from './helpers/testEmailAdapter.js';
 
 const filename = fileURLToPath(import.meta.url);
@@ -33,16 +33,14 @@ export default buildConfig({
   }),
   editor: lexicalEditor(),
   email: testEmailAdapter,
-  onInit: async (payload) => {
-    await seed(payload);
-  },
+
   // plugins
   plugins: [
     auditorPlugin({
       collection: {
         buffer: {
           flushStrategy: 'time',
-          time: '1m',
+          // time: '1m',
         },
         trackCollections: [
           {
@@ -53,6 +51,9 @@ export default buildConfig({
                   enabled: true,
                 },
                 update: {
+                  enabled: true,
+                },
+                delete: {
                   enabled: true,
                 },
               },
