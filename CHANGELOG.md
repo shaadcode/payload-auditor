@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.8.7](https://github.com/shaadcode/payload-auditor/compare/v1.8.6...v1.8.7) (2025-10-29)
+
+### 🐞 Bug Fixes
+
+* get lateset tag ([#24](https://github.com/shaadcode/payload-auditor/issues/24)) ([8c58424](https://github.com/shaadcode/payload-auditor/commit/8c584248ad39c7b1f27a38baea43ecedcca6d56c))
+
 ## [1.8.6](https://github.com/shaadcode/payload-auditor/compare/v1.8.0...v1.8.6) (2025-10-29)
 
 ### 🐞 Bug Fixes

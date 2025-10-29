@@ -1,7 +1,7 @@
 {
   "name": "payload-auditor",
   "type": "module",
-  "version": "1.8.6",
+  "version": "1.8.7",
   "description": "Simple, fast and customizable plugin for payload cms",
   "author": {
     "name": "seyed mojtaba shadab | shaadcode",
