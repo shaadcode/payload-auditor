@@ -5,6 +5,8 @@ export default {
     commitMessage: 'chore: release v${version}',
     tagName: 'v${version}',
     push: true,
+    pushRepo: 'origin',
+    requireBranch: 'release/latest',
   },
   hooks: {
     'before:init': ['git pull'],
