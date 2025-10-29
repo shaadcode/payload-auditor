@@ -97,6 +97,7 @@
     "@payloadcms/richtext-lexical": "3.29.0",
     "@payloadcms/translations": "^3.39.1",
     "@payloadcms/ui": "3.29.0",
+    "@release-it/conventional-changelog": "^10.0.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@swc-node/register": "1.10.9",
