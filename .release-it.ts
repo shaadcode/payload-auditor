@@ -37,8 +37,7 @@ export default {
           },
           {
             type: 'chore',
-            section: '🧹 Chores',
-            hidden: false,
+            hidden: true,
           },
           {
             type: 'docs',
@@ -58,12 +57,12 @@ export default {
           {
             type: 'test',
             section: '✅ Tests',
-            hidden: false,
+            hidden: true,
           },
           {
             type: 'style',
             section: '🎨 Styles',
-            hidden: false,
+            hidden: true,
           },
         ],
       },
