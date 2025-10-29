@@ -24,6 +24,14 @@ cd payload-auditor
 npm install
 ```
 
+* Connect to the main repo(Just once): This is very important. To get the latest changes, you must run the following command
+
+```bash
+git remote add upstream https://github.com/shaadcode/payload-auditor.git
+```
+
+> You only need to run this command once after each clone.
+
 * Create a Branch
 
 To develop, you need to create a branch. Note that the branch name must include the following three parts:
@@ -36,6 +44,12 @@ for example:
 
 ```bash
 doc/combined-afterhook-logs
+```
+
+* Get the latest changes: Before you commit, you need to get the latest changes from the main code. This step is very important because it will make your changes get into the main repo faster. Run the following command:
+
+```bash
+npm run sync-main:fork
 ```
 
 * Write code & commit using Conventional Commits
@@ -59,6 +73,12 @@ By executing this command, an environment for writing commits will be created fo
 5. breaking change(optional): If your changes result in breaking changes, you can list them.
 
 6. close issue: Do not enter anything in this section
+
+> ⚠ Note 
+> 
+> ```bash
+> git fetch origin main && git rebase origin/main
+> ```
 
 ---
 

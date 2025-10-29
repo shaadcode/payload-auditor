@@ -75,6 +75,7 @@
     "prepare": "husky",
     "commit": "cz",
     "sync-main": "git fetch origin main && git rebase origin/main",
+    "sync-main:fork": "git fetch upstream main && git rebase upstream/main",
     "release": "release-it --config .release-it.ts",
     "lint-staged": "lint-staged",
     "pre-release": "release-it --config .release-it.prerelease.ts --preRelease=beta"
