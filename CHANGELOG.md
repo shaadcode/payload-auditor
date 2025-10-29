@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.8.5](https://github.com/shaadcode/payload-auditor/compare/v1.8.0...v1.8.5) (2025-10-29)
+
+### ⚡ Performance
+
+* **build:** update release workflow ([#7](https://github.com/shaadcode/payload-auditor/issues/7)) ([376d3a3](https://github.com/shaadcode/payload-auditor/commit/376d3a350b8ca39fc4479ce913b095953af2bd14))
+
 ## <small>1.8.4 (2025-10-29)</small>
 
 * chore: add build script (#11) ([f05699f](https://github.com/shaadcode/payload-auditor/commit/f05699f)), closes [#11](https://github.com/shaadcode/payload-auditor/issues/11)
