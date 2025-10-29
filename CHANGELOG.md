@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.8.6](https://github.com/shaadcode/payload-auditor/compare/v1.8.0...v1.8.6) (2025-10-29)
+
+### 🐞 Bug Fixes
+
+* small change doc ([#22](https://github.com/shaadcode/payload-auditor/issues/22)) ([19214a9](https://github.com/shaadcode/payload-auditor/commit/19214a9b186f7b6f0eff03761cee05647cd4252f))
+
+### ⚡ Performance
+
+* **build:** update release workflow ([#7](https://github.com/shaadcode/payload-auditor/issues/7)) ([376d3a3](https://github.com/shaadcode/payload-auditor/commit/376d3a350b8ca39fc4479ce913b095953af2bd14))
+
 ## [1.8.5](https://github.com/shaadcode/payload-auditor/compare/v1.8.0...v1.8.5) (2025-10-29)
 
 ### ⚡ Performance
