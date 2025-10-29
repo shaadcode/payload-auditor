@@ -7,6 +7,7 @@ export default {
     push: true,
     pushRepo: 'origin',
     requireBranch: 'release/latest',
+    getLatestTagFromAllRefs:true
   },
   hooks: {
     'before:init': ['git fetch --tags','git pull'],
