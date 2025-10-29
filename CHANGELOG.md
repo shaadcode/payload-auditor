@@ -1,5 +1,20 @@
 # Changelog
 
+## <small>1.8.3 (2025-10-29)</small>
+
+* chore: add build script (#11) ([f05699f](https://github.com/shaadcode/payload-auditor/commit/f05699f)), closes [#11](https://github.com/shaadcode/payload-auditor/issues/11)
+* chore: add release-it changelog pkg ([bd49d3f](https://github.com/shaadcode/payload-auditor/commit/bd49d3f))
+* chore: bump version (#13) ([eabfac7](https://github.com/shaadcode/payload-auditor/commit/eabfac7)), closes [#13](https://github.com/shaadcode/payload-auditor/issues/13)
+* chore: change ref branch (#14) ([0b95876](https://github.com/shaadcode/payload-auditor/commit/0b95876)), closes [#14](https://github.com/shaadcode/payload-auditor/issues/14)
+* chore: change release branch (#12) ([041e2c4](https://github.com/shaadcode/payload-auditor/commit/041e2c4)), closes [#12](https://github.com/shaadcode/payload-auditor/issues/12)
+* chore: placing the @payloadcms/translations library as a development dependency ([1e61f63](https://github.com/shaadcode/payload-auditor/commit/1e61f63))
+* chore: release v1.8.2 (#15) ([009ab55](https://github.com/shaadcode/payload-auditor/commit/009ab55)), closes [#15](https://github.com/shaadcode/payload-auditor/issues/15)
+* chore: update changelog preset ([6b943f9](https://github.com/shaadcode/payload-auditor/commit/6b943f9))
+* Chore/improved plugin development and testing environment ([bcd23fd](https://github.com/shaadcode/payload-auditor/commit/bcd23fd))
+* Docs/add contributing guide (#9) ([cfdfeea](https://github.com/shaadcode/payload-auditor/commit/cfdfeea)), closes [#9](https://github.com/shaadcode/payload-auditor/issues/9)
+* perf(build): update release workflow (#7) ([376d3a3](https://github.com/shaadcode/payload-auditor/commit/376d3a3)), closes [#7](https://github.com/shaadcode/payload-auditor/issues/7)
+* build: run the build script before each commit ([f47a0dd](https://github.com/shaadcode/payload-auditor/commit/f47a0dd))
+
 ## <small>1.8.2 (2025-10-29)</small>
 
 * chore: add build script (#11) ([f05699f](https://github.com/shaadcode/payload-auditor/commit/f05699f)), closes [#11](https://github.com/shaadcode/payload-auditor/issues/11)
