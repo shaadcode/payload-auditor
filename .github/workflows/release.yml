@@ -9,7 +9,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: release/latest
           fetch-depth: 0
 
       - name: Install dependencies
