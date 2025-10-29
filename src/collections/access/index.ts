@@ -1,5 +1,5 @@
-import type { Access } from 'payload'
+import type { Access } from 'payload';
 
 export const adminAccess: Access = (): boolean => {
-  return true
-}
+  return true;
+};

@@ -1,22 +1,23 @@
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { media } from 'collections/Media.js'
-import { users } from 'collections/Users.js'
-import path from 'path'
-import { buildConfig } from 'payload'
-import sharp from 'sharp'
-import { fileURLToPath } from 'url'
+/* eslint-disable node/prefer-global/process */
+import sharp from 'sharp';
+import path from 'node:path';
+import { buildConfig } from 'payload';
+import { fileURLToPath } from 'node:url';
+import { media } from 'collections/Media.js';
+import { users } from 'collections/Users.js';
+import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
+import { seed } from './seed.js';
 // import { auditorPlugin } from 'payload-auditor/index.js'
-import { auditorPlugin } from '../src/index.js'
-import { testEmailAdapter } from './helpers/testEmailAdapter.js'
-import { seed } from './seed.js'
+import { auditorPlugin } from '../src/index.js';
+import { testEmailAdapter } from './helpers/testEmailAdapter.js';
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 if (!process.env.ROOT_DIR) {
-  process.env.ROOT_DIR = dirname
+  process.env.ROOT_DIR = dirname;
 }
 
 export default buildConfig({
@@ -33,7 +34,7 @@ export default buildConfig({
   editor: lexicalEditor(),
   email: testEmailAdapter,
   onInit: async (payload) => {
-    await seed(payload)
+    await seed(payload);
   },
   // plugins
   plugins: [
@@ -66,4 +67,4 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-})
+});

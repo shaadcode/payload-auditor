@@ -1,17 +1,16 @@
-import type { LabelFunction, StaticLabel } from 'payload'
+import type { LabelFunction, StaticLabel } from 'payload';
 
-import type { AllCollectionHooks } from './../types/pluginOptions.js'
+import type { AllCollectionHooks } from './../types/pluginOptions.js';
+import { sharedLogic } from './../core/log-builders/collections/shared.js';
 
-import { sharedLogic } from './../core/log-builders/collections/shared.js'
-
-type DefaultCollectionValues = {
+interface DefaultCollectionValues {
   labels:
     | {
-        plural?: LabelFunction | StaticLabel | undefined
-        singular?: LabelFunction | StaticLabel
-      }
-    | undefined
-  slug: string
+      plural?: LabelFunction | StaticLabel | undefined;
+      singular?: LabelFunction | StaticLabel;
+    }
+    | undefined;
+  slug: string;
 }
 
 export const defaultCollectionValues: DefaultCollectionValues = {
@@ -20,14 +19,14 @@ export const defaultCollectionValues: DefaultCollectionValues = {
     plural: 'Audit-logs',
     singular: 'Audit-log',
   },
-}
+};
 
 export const defaultPluginOpts = {
   collection: {
     trackCollections: [],
   },
   enabled: true,
-}
+};
 
 export const hookMap: AllCollectionHooks = {
   afterChange: async (args) => {
@@ -37,9 +36,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'afterChange',
       operation: args.operation,
       req: args.req,
-    })
+    });
 
-    return args.doc
+    return args.doc;
   },
   afterDelete: async (args) => {
     await sharedLogic(args, {
@@ -48,9 +47,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'afterDelete',
       operation: 'delete',
       req: args.req,
-    })
+    });
 
-    return {}
+    return {};
   },
   afterError: async (args) => {
     await sharedLogic(args, {
@@ -59,9 +58,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'afterError',
       operation: 'error',
       req: args.req,
-    })
+    });
 
-    return {}
+    return {};
   },
   afterForgotPassword: async (args) => {
     await sharedLogic(args, {
@@ -70,9 +69,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'afterForgotPassword',
       operation: 'forgotPassword',
       req: args.args.req,
-    })
+    });
 
-    return {}
+    return {};
   },
   afterLogin: async (args) => {
     await sharedLogic(args, {
@@ -81,9 +80,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'afterLogin',
       operation: 'delete',
       req: args.req,
-    })
+    });
 
-    return {}
+    return {};
   },
   afterLogout: async (args) => {
     await sharedLogic(args, {
@@ -92,9 +91,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'afterLogout',
       operation: 'logout',
       req: args.req,
-    })
+    });
 
-    return {}
+    return {};
   },
   afterMe: async (args) => {
     await sharedLogic(args, {
@@ -103,9 +102,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'afterMe',
       operation: 'me',
       req: args.req,
-    })
+    });
 
-    return {}
+    return {};
   },
   afterOperation: async (args) => {
     await sharedLogic(args, {
@@ -115,8 +114,8 @@ export const hookMap: AllCollectionHooks = {
       hook: 'afterOperation',
       operation: args.operation,
       req: args.req,
-    })
-    return args.result
+    });
+    return args.result;
   },
   afterRead: async (args) => {
     await sharedLogic(args, {
@@ -125,9 +124,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'afterRead',
       operation: 'read',
       req: args.req,
-    })
+    });
 
-    return args.doc
+    return args.doc;
   },
   afterRefresh: async (args) => {
     await sharedLogic(args, {
@@ -136,8 +135,8 @@ export const hookMap: AllCollectionHooks = {
       hook: 'afterRefresh',
       operation: 'refresh',
       req: args.req,
-    })
-    return {}
+    });
+    return {};
   },
   beforeChange: async (args) => {
     await sharedLogic(args, {
@@ -146,9 +145,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'beforeChange',
       operation: args.operation,
       req: args.req,
-    })
+    });
 
-    return args.data
+    return args.data;
   },
   beforeDelete: async (args) => {
     await sharedLogic(args, {
@@ -157,9 +156,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'beforeDelete',
       operation: 'delete',
       req: args.req,
-    })
+    });
 
-    return {}
+    return {};
   },
   beforeLogin: async (args) => {
     await sharedLogic(args, {
@@ -168,8 +167,8 @@ export const hookMap: AllCollectionHooks = {
       hook: 'beforeLogin',
       operation: 'read',
       req: args.req,
-    })
-    return args.user
+    });
+    return args.user;
   },
   beforeOperation: async (args) => {
     await sharedLogic(args, {
@@ -178,8 +177,8 @@ export const hookMap: AllCollectionHooks = {
       hook: 'beforeOperation',
       operation: args.operation,
       req: args.req,
-    })
-    return args
+    });
+    return args;
   },
   beforeRead: async (args) => {
     await sharedLogic(args, {
@@ -188,9 +187,9 @@ export const hookMap: AllCollectionHooks = {
       hook: 'beforeRead',
       operation: 'read',
       req: args.req,
-    })
+    });
 
-    return args.doc
+    return args.doc;
   },
   beforeValidate: async (args) => {
     await sharedLogic(args, {
@@ -199,8 +198,8 @@ export const hookMap: AllCollectionHooks = {
       hook: 'beforeValidate',
       operation: args.operation,
       req: args.req,
-    })
-    return args.data
+    });
+    return args.data;
   },
   me: async (args) => {
     await sharedLogic(args, {
@@ -210,7 +209,7 @@ export const hookMap: AllCollectionHooks = {
       hook: 'me',
       operation: 'me',
       req: args.args.req,
-    })
+    });
   },
   refresh: async (args) => {
     await sharedLogic(args, {
@@ -220,6 +219,6 @@ export const hookMap: AllCollectionHooks = {
       hook: 'refresh',
       operation: 'refresh',
       req: args.args.req,
-    })
+    });
   },
-}
+};

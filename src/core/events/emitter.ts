@@ -1,19 +1,20 @@
-import { EventEmitter } from 'events'
+/* eslint-disable no-restricted-globals */
+import { EventEmitter } from 'node:events';
 
-import type { AuditorLog } from '../../collections/auditor.js'
+import type { AuditorLog } from '../../collections/auditor.js';
 
-const globalEmitter = (global as any).payloadAuditorEmitter || new EventEmitter()
+const globalEmitter = (global as any).payloadAuditorEmitter || new EventEmitter();
 
 if (!(global as any).payloadAuditorEmitter) {
-  ;(global as any).payloadAuditorEmitter = globalEmitter
+  ;(global as any).payloadAuditorEmitter = globalEmitter;
 }
 
 export const emitEvent = <T>(event: string, data: T) => {
   setImmediate(() => {
-    globalEmitter.emit(event, data)
-  })
-}
+    globalEmitter.emit(event, data);
+  });
+};
 
 export const onEventLog = (event: string, handler: (log: AuditorLog) => Promise<void>) => {
-  globalEmitter.on(event, handler)
-}
+  globalEmitter.on(event, handler);
+};

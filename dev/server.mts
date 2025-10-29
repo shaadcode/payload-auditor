@@ -1,31 +1,31 @@
-import type { NextServerOptions } from 'next/dist/server/next.js'
+import open from 'open';
+import next from 'next';
+import path from 'node:path';
+import { createServer } from 'node:http';
+// eslint-disable-next-line node/no-deprecated-api
+import { fileURLToPath, parse } from 'node:url';
+import type { NextServerOptions } from 'next/dist/server/next.js';
 
-import { createServer } from 'http'
-import next from 'next'
-import open from 'open'
-import path from 'path'
-import { fileURLToPath, parse } from 'url'
-
-const dirname = path.dirname(fileURLToPath(import.meta.url))
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const opts: NextServerOptions = {
   dev: true,
   dir: dirname,
-}
-
-const app = next(opts)
-const handle = app.getRequestHandler()
+};
+// @ts-ignore
+const app = next(opts);
+const handle = app.getRequestHandler();
 
 async function start() {
-  await app.prepare()
-  await open(`http://localhost:3000/admin`)
+  await app.prepare();
+  await open(`http://localhost:3000/admin`);
 
   const server = createServer((req, res) => {
-    const parsedUrl = parse(req.url, true)
-    void handle(req, res, parsedUrl)
-  })
+    const parsedUrl = parse(req?.url ?? '', true);
+    void handle(req, res, parsedUrl);
+  });
 
-  server.listen(3000)
+  server.listen(3000);
 }
 
-void start()
+void start();
