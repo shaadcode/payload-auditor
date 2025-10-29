@@ -106,6 +106,7 @@
     "@types/node": "^22.5.4",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.2",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
     "copyfiles": "2.4.1",
     "cross-env": "^7.0.3",
     "cz-git": "^1.11.1",
