@@ -43,31 +43,33 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "pnpm test && pnpm check-types && pnpm copyfiles && pnpm build:types && pnpm build:swc",
+    "build": "npm run test && npm run check-types && npm run copyfiles && npm run build:types && npm run build:swc",
     "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths --ignore **/*.test.ts **/*.test.tsx **/__tests__/**",
     "build:types": "tsc --outDir dist --rootDir ./src",
-    "build:only": "pnpm copyfiles && pnpm build:types && pnpm build:swc",
+    "build:only": "npm run copyfiles && npm run build:types && npm run build:swc",
     "clean": "rimraf {dist,*.tsbuildinfo}",
     "copyfiles": "copyfiles -u 1 \"src/**/*.{html,css,scss,ttf,woff,woff2,eot,svg,jpg,png,json}\" dist/",
     "dev": "payload run ./dev/server.mts",
-    "dev:generate-importmap": "pnpm dev:payload generate:importmap",
-    "dev:generate-types": "pnpm dev:payload generate:types",
+    "dev:generate-importmap": "npm run dev:payload generate:importmap",
+    "dev:generate-types": "npm run dev:payload generate:types",
     "dev:payload": "cross-env PAYLOAD_CONFIG_PATH=./dev/payload.config.ts payload",
     "lint": "eslint",
     "lint:fix": "eslint ./src --fix",
     "manual-publish": "npm publish --access public",
     "check-types": "npx tsc --noEmit --pretty",
-    "prepublishOnly": "pnpm clean && pnpm build",
-    "test:plugin": "pnpm clean && pnpm build && pnpm link && pnpm --dir ./dev link payload-auditor && pnpm dev",
+    "prepublishOnly": "npm run clean && npm run build",
+    "test:plugin": "npm run clean && npm run build && npm run link && npm run --dir ./dev link payload-auditor && npm run dev",
     "test:watch": "vitest --reporter=verbose ",
     "test": "vitest run",
     "prepare": "husky",
     "semantic-release": "semantic-release --dry-run",
     "commit": "cz",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "release": "release-it --config .release-it.ts",
+    "pre-release": "release-it --config .release-it.prerelease.ts --preRelease=beta"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.8.0",
+    "@commitlint/cli": "^18.4.1",
     "@commitlint/config-conventional": "^19.8.0",
     "@eslint/eslintrc": "^3.2.0",
     "@payloadcms/db-mongodb": "3.29.0",
@@ -104,6 +106,7 @@
     "qs-esm": "7.0.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "release-it": "^19.0.5",
     "rimraf": "3.0.2",
     "semantic-release": "^24.2.3",
     "sharp": "0.32.6",
@@ -116,8 +119,7 @@
     "payload": "^3.29.0"
   },
   "engines": {
-    "node": "^18.20.2 || >=20.9.0",
-    "pnpm": "^9 || ^10"
+    "node": "^18.20.2 || >=20.19.1"
   },
   "publishConfig": {
     "exports": {
