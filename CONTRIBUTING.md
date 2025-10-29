@@ -73,12 +73,7 @@ By executing this command, an environment for writing commits will be created fo
 5. breaking change(optional): If your changes result in breaking changes, you can list them.
 
 6. close issue: Do not enter anything in this section
-
-> ⚠ Note 
-> 
-> ```bash
-> git fetch origin main && git rebase origin/main
-> ```
+* Open a Pull Request: Open a PR to the main branch and enter an appropriate name and description.
 
 ---
 
