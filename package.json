@@ -43,7 +43,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "npm run test && npm run check-types && npm run copyfiles && npm run build:types && npm run build:swc",
+    "build:safe": "npm run test && npm run check-types && npm run copyfiles && npm run build:types && npm run build:swc",
     "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths --ignore **/*.test.ts **/*.test.tsx **/__tests__/**",
     "build:types": "tsc --outDir dist --rootDir ./src",
     "build:only": "npm run copyfiles && npm run build:types && npm run build:swc",
@@ -62,9 +62,8 @@
     "test:watch": "vitest --reporter=verbose ",
     "test": "vitest run",
     "prepare": "husky",
-    "semantic-release": "semantic-release --dry-run",
     "commit": "cz",
-    "precommit": "lint-staged",
+    "sync-main": "git fetch origin main && git rebase origin/main",
     "release": "release-it --config .release-it.ts",
     "pre-release": "release-it --config .release-it.prerelease.ts --preRelease=beta"
   },
@@ -108,7 +107,6 @@
     "react-dom": "19.1.0",
     "release-it": "^19.0.5",
     "rimraf": "3.0.2",
-    "semantic-release": "^24.2.3",
     "sharp": "0.32.6",
     "sort-package-json": "^2.10.0",
     "typescript": "5.7.3",
