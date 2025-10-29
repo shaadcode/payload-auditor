@@ -56,6 +56,7 @@
   "scripts": {
     "build:safe": "npm run test && npm run check-types && npm run copyfiles && npm run build:types && npm run build:swc",
     "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths --ignore **/*.test.ts **/*.test.tsx **/__tests__/**",
+    "build": "npm run copyfiles && npm run build:types && npm run build:swc",
     "build:types": "tsc --outDir dist --rootDir ./src",
     "build:only": "npm run copyfiles && npm run build:types && npm run build:swc",
     "clean": "rimraf {dist,*.tsbuildinfo}",
