@@ -1,22 +1,21 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload';
 
-import type { AuditHookOperationType } from '../types/pluginOptions.js'
-import type { hookTypes } from './../pluginUtils/configHelpers.js'
+import { defaultCollectionValues } from '../Constant/Constant.js';
+import type { hookTypes } from './../pluginUtils/configHelpers.js';
+import type { AuditHookOperationType } from '../types/pluginOptions.js';
 
-import { defaultCollectionValues } from '../Constant/Constant.js'
-
-export type AuditorLog = {
-  collection: string
-  documentId?: string
-  hook: (typeof hookTypes)[number]
-  operation: AuditHookOperationType
-  timestamp: Date
-  type: 'audit' | 'debug' | 'error' | 'info' | 'security' | 'unknown' | 'warning'
-  user: unknown
-  userAgent?: string
+export interface AuditorLog {
+  collection: string;
+  documentId?: string;
+  hook: (typeof hookTypes)[number];
+  operation: AuditHookOperationType;
+  timestamp: Date;
+  type: 'audit' | 'debug' | 'error' | 'info' | 'security' | 'unknown' | 'warning';
+  user: unknown;
+  userAgent?: string;
 }
 
-export type TypedRootCollection = typeof auditor
+export type TypedRootCollection = typeof auditor;
 
 export const auditor: CollectionConfig = {
   slug: defaultCollectionValues.slug,
@@ -83,6 +82,6 @@ export const auditor: CollectionConfig = {
   ],
   labels: defaultCollectionValues.labels,
   timestamps: false,
-}
+};
 
-export default auditor
+export default auditor;

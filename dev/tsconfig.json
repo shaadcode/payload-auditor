@@ -1,6 +1,17 @@
 {
   "extends": "../tsconfig.json",
-  "exclude": [],
+  "compilerOptions": {
+    "target": "ES2022",
+    "baseUrl": "./",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "@payload-config": ["./payload.config.ts"],
+      "payload-auditor/*": ["../dist/*"]
+    },
+    "emitDeclarationOnly": false,
+    "noEmit": true
+  },
 
   "include": [
     "**/*.js",
@@ -12,18 +23,8 @@
     "../src/**/*.ts",
     "../src/**/*.tsx",
     "next.config.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "./server.mts"
   ],
-  "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "target": "ES2022",
-    "baseUrl": "./",
-    "paths": {
-      "@payload-config": ["./payload.config.ts"],
-      "payload-auditor/*": ["../dist/*"]
-    },
-    "noEmit": true,
-    "emitDeclarationOnly": false
-  }
+  "exclude": []
 }

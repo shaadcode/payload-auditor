@@ -1,12 +1,11 @@
-import type { AuditorLog } from './../../../../collections/auditor.js'
+import { emitEvent } from './../../../../core/events/emitter.js';
+import type { AuditorLog } from './../../../../collections/auditor.js';
 import type {
   AllCollectionHooks,
   HookOperationConfig,
   HookTrackingOperationMap,
   PluginOptions,
-} from './../../../../types/pluginOptions.js'
-
-import { emitEvent } from './../../../../core/events/emitter.js'
+} from './../../../../types/pluginOptions.js';
 
 export const emitWrapper = async <T extends keyof AllCollectionHooks>(
   logData: AuditorLog,
@@ -18,31 +17,34 @@ export const emitWrapper = async <T extends keyof AllCollectionHooks>(
   userActivatedHooks: Partial<HookTrackingOperationMap> | undefined,
 ) => {
   const customLogging = async (): Promise<AuditorLog> => {
-    const { hook, ...otherLogData } = logData
+    const { hook, ...otherLogData } = logData;
 
-    let result: AuditorLog = logData
+    let result: AuditorLog = logData;
 
     if (operationConfig?.customLogger) {
       result = {
         ...(await operationConfig.customLogger(hookArgs, otherLogData)),
         hook,
-      }
-    } else if (hookConfig?.customLogger) {
+      };
+    }
+    else if (hookConfig?.customLogger) {
       result = {
         // @ts-ignore
         ...(await hookConfig.customLogger(hookArgs, otherLogData)),
         hook,
-      }
-    } else if (userActivatedHooks?.customLogger) {
+      };
+    }
+    else if (userActivatedHooks?.customLogger) {
       result = {
         ...(await userActivatedHooks.customLogger(hookArgs, otherLogData)),
         hook,
-      }
-    } else if (pluginOpts?.customLogger) {
+      };
+    }
+    else if (pluginOpts?.customLogger) {
       result = {
         ...(await pluginOpts.customLogger(hookArgs, otherLogData)),
         hook,
-      }
+      };
     }
 
     return {
@@ -55,8 +57,8 @@ export const emitWrapper = async <T extends keyof AllCollectionHooks>(
       timestamp: result.timestamp,
       user: result.user,
       userAgent: result.userAgent,
-    }
-  }
+    };
+  };
 
-  emitEvent<AuditorLog>('logGenerated', await customLogging())
-}
+  emitEvent<AuditorLog>('logGenerated', await customLogging());
+};

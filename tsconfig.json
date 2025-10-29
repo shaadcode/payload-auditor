@@ -1,22 +1,22 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "incremental": true,
+    "composite": true,
+    "target": "ES2022",
+    "jsx": "preserve",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "baseUrl": ".",
     "rootDir": "./",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "esModuleInterop": true,
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "emitDeclarationOnly": true,
-    "target": "ES2022",
-    "composite": true,
     "typeRoots": ["./src/types/types.d.ts"],
+    "allowJs": true,
+    "strict": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
     "plugins": [
       {
         "name": "next"

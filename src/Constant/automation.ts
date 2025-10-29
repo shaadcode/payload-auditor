@@ -1,4 +1,4 @@
-import type { ManualStrategy } from './../types/pluginOptions.js'
+import type { ManualStrategy } from './../types/pluginOptions.js';
 
 // export const defaultAutomationValues =
 //   // PluginOptions['automation']
@@ -24,7 +24,7 @@ export const cleanupStrategiesDefaultValues = {
   //   name: 'time',
   //   olderThan: '30s',
   // } as TimeStrategy,
-}
+};
 
 // export const defaultCleanupTaskValues = {
 //   defaultInput: [

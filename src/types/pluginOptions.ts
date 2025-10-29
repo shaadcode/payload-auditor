@@ -22,84 +22,84 @@ import type {
   HookOperationType,
   LabelFunction,
   StaticLabel,
-} from 'payload'
+} from 'payload';
 
-import type { AuditorLog } from './../collections/auditor.js'
-import type { Duration } from './../utils/toMS.js'
+import type { Duration } from './../utils/toMS.js';
+import type { AuditorLog } from './../collections/auditor.js';
 
-export type HookStage =
-  | 'afterChange'
-  | 'afterDelete'
-  | 'afterError'
-  | 'afterForgotPassword'
-  | 'afterLogin'
-  | 'afterLogout'
-  | 'afterMe'
-  | 'afterRead'
-  | 'afterRefresh'
-  | 'beforeChange'
-  | 'beforeDelete'
-  | 'beforeLogin'
-  | 'beforeOperation'
-  | 'beforeRead'
-  | 'beforeValidate'
-  | 'refresh'
+export type HookStage
+  = | 'afterChange'
+    | 'afterDelete'
+    | 'afterError'
+    | 'afterForgotPassword'
+    | 'afterLogin'
+    | 'afterLogout'
+    | 'afterMe'
+    | 'afterRead'
+    | 'afterRefresh'
+    | 'beforeChange'
+    | 'beforeDelete'
+    | 'beforeLogin'
+    | 'beforeOperation'
+    | 'beforeRead'
+    | 'beforeValidate'
+    | 'refresh';
 
-export type AuditHookOperationType =
-  | 'deleteByID'
-  | 'error'
-  | 'find'
-  | 'findByID'
-  | 'forgotPassword'
-  | 'logout'
-  | 'me'
-  | 'refresh'
-  | 'updateByID'
-  | HookOperationType
+export type AuditHookOperationType
+  = | 'deleteByID'
+    | 'error'
+    | 'find'
+    | 'findByID'
+    | 'forgotPassword'
+    | 'logout'
+    | 'me'
+    | 'refresh'
+    | 'updateByID'
+    | HookOperationType;
 
-export type HookOperations = {
-  afterChange: Parameters<CollectionAfterChangeHook>[0]['operation']
-  afterDelete: 'delete'
-  afterError: 'error'
-  afterForgotPassword: 'afterForgotPassword'
-  afterLogin: 'login'
-  afterLogout: 'logout'
-  afterMe: 'me'
-  afterOperation: Parameters<CollectionAfterOperationHook>[0]['operation']
-  afterRead: 'read'
-  afterRefresh: 'refresh'
-  beforeChange: Parameters<CollectionBeforeChangeHook>[0]['operation']
-  beforeDelete: 'delete'
-  beforeLogin: 'login'
-  beforeOperation: Parameters<CollectionBeforeOperationHook>[0]['operation']
-  beforeRead: 'read'
-  beforeValidate: Parameters<CollectionBeforeValidateHook>[0]['operation']
-  me: 'me'
-  refresh: 'refresh'
+export interface HookOperations {
+  afterChange: Parameters<CollectionAfterChangeHook>[0]['operation'];
+  afterDelete: 'delete';
+  afterError: 'error';
+  afterForgotPassword: 'afterForgotPassword';
+  afterLogin: 'login';
+  afterLogout: 'logout';
+  afterMe: 'me';
+  afterOperation: Parameters<CollectionAfterOperationHook>[0]['operation'];
+  afterRead: 'read';
+  afterRefresh: 'refresh';
+  beforeChange: Parameters<CollectionBeforeChangeHook>[0]['operation'];
+  beforeDelete: 'delete';
+  beforeLogin: 'login';
+  beforeOperation: Parameters<CollectionBeforeOperationHook>[0]['operation'];
+  beforeRead: 'read';
+  beforeValidate: Parameters<CollectionBeforeValidateHook>[0]['operation'];
+  me: 'me';
+  refresh: 'refresh';
 }
 
-export type AllCollectionHooks = {
-  afterChange: CollectionAfterChangeHook
-  afterDelete: CollectionAfterDeleteHook
-  afterError: CollectionAfterErrorHook
-  afterForgotPassword: CollectionAfterForgotPasswordHook
-  afterLogin: CollectionAfterLoginHook
-  afterLogout: CollectionAfterLogoutHook
-  afterMe: CollectionAfterMeHook
-  afterOperation: CollectionAfterOperationHook
-  afterRead: CollectionAfterReadHook
-  afterRefresh: CollectionAfterRefreshHook
-  beforeChange: CollectionBeforeChangeHook
-  beforeDelete: CollectionBeforeDeleteHook
-  beforeLogin: CollectionBeforeLoginHook
-  beforeOperation: CollectionBeforeOperationHook
-  beforeRead: CollectionBeforeReadHook
-  beforeValidate: CollectionBeforeValidateHook
-  me: CollectionMeHook
-  refresh: CollectionRefreshHook
+export interface AllCollectionHooks {
+  afterChange: CollectionAfterChangeHook;
+  afterDelete: CollectionAfterDeleteHook;
+  afterError: CollectionAfterErrorHook;
+  afterForgotPassword: CollectionAfterForgotPasswordHook;
+  afterLogin: CollectionAfterLoginHook;
+  afterLogout: CollectionAfterLogoutHook;
+  afterMe: CollectionAfterMeHook;
+  afterOperation: CollectionAfterOperationHook;
+  afterRead: CollectionAfterReadHook;
+  afterRefresh: CollectionAfterRefreshHook;
+  beforeChange: CollectionBeforeChangeHook;
+  beforeDelete: CollectionBeforeDeleteHook;
+  beforeLogin: CollectionBeforeLoginHook;
+  beforeOperation: CollectionBeforeOperationHook;
+  beforeRead: CollectionBeforeReadHook;
+  beforeValidate: CollectionBeforeValidateHook;
+  me: CollectionMeHook;
+  refresh: CollectionRefreshHook;
 }
 
-export type HookOperationDebugModeConfig = {
+export interface HookOperationDebugModeConfig {
   /**
    * 📝 How to display debug logs
    *
@@ -119,7 +119,7 @@ export type HookOperationDebugModeConfig = {
    * - The timeStamp field is not displayed in the table type
    *
    */
-  displayType?: 'manual' | 'table'
+  displayType?: 'manual' | 'table';
   /**
    * 📝 Enable or disable debug mode
    *
@@ -139,7 +139,7 @@ export type HookOperationDebugModeConfig = {
    * - The timeStamp field is not displayed in the table type
    *
    */
-  enabled?: boolean
+  enabled?: boolean;
   /**
    * 📝 Select the required fields
    *
@@ -160,10 +160,10 @@ export type HookOperationDebugModeConfig = {
    * ```
    *
    */
-  fields?: Partial<Record<keyof AuditorLog, boolean>>
+  fields?: Partial<Record<keyof AuditorLog, boolean>>;
 }
 
-export type HookModesConfig = {
+export interface HookModesConfig {
   /**
    * 📝 Debug mode for better inspection of logging performance
    *
@@ -182,10 +182,10 @@ export type HookModesConfig = {
    * ### ⚠️ Critical Notes
    * - The generated logs are only displayed in the console and are not stored in the database.
    */
-  debug?: HookOperationDebugModeConfig
+  debug?: HookOperationDebugModeConfig;
 }
 
-export type HookOperationConfig<TCustomLogger extends keyof AllCollectionHooks> = {
+export interface HookOperationConfig<TCustomLogger extends keyof AllCollectionHooks> {
   /**
    * 📝 Custom log creation at a operation level
    *
@@ -212,7 +212,7 @@ export type HookOperationConfig<TCustomLogger extends keyof AllCollectionHooks> 
   customLogger?: (
     args: Parameters<AllCollectionHooks[TCustomLogger]>[0],
     fields: Omit<AuditorLog, 'hook'>,
-  ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+  ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
   /**
    * 📝 Specifies whether logging is enabled or disabled for this operation within the hook
    *
@@ -235,24 +235,24 @@ export type HookOperationConfig<TCustomLogger extends keyof AllCollectionHooks> 
    * - If the enabled value is not entered, it is considered false.
    *
    */
-  enabled?: boolean
+  enabled?: boolean;
 
   /**
    * 📝 Auxiliary side modes
    *
    * -
    */
-  modes?: HookModesConfig
+  modes?: HookModesConfig;
 }
 
-export type HookTrackingOperationMap = {
+export interface HookTrackingOperationMap {
   afterChange: {
     /**
      * Create operation
      *
      * Triggered when a new item is created.
      */
-    create?: HookOperationConfig<'afterChange'>
+    create?: HookOperationConfig<'afterChange'>;
 
     /**
      * 📝 Custom log creation at a hook level
@@ -278,7 +278,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['afterChange']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
 
     /**
      * 📝 Enabling all supported operations within the afterChange hook
@@ -301,7 +301,7 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
 
     /**
      * 📝 Auxiliary side modes
@@ -309,14 +309,14 @@ export type HookTrackingOperationMap = {
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
+    modes?: HookModesConfig;
     /**
      * Update operation
      *
      * Triggered when an existing item is updated.
      */
-    update?: HookOperationConfig<'afterChange'>
-  }
+    update?: HookOperationConfig<'afterChange'>;
+  };
   afterDelete: {
     /**
      * 📝 Custom log creation at a hook level
@@ -342,13 +342,13 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['afterDelete']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * Delete operation
      *
      * Triggered when an item is deleted.
      */
-    delete?: HookOperationConfig<'afterDelete'>
+    delete?: HookOperationConfig<'afterDelete'>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -370,15 +370,15 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
-  }
+    modes?: HookModesConfig;
+  };
   afterError: {
     /**
      * 📝 Custom log creation at a hook level
@@ -404,7 +404,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['afterError']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -426,21 +426,21 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * Error operation
      *
      * Triggered when an error occurs during another operation.
      */
-    error?: HookOperationConfig<'afterError'>
+    error?: HookOperationConfig<'afterError'>;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
-  }
+    modes?: HookModesConfig;
+  };
   afterForgotPassword: {
     /**
      * 📝 Custom log creation at a hook level
@@ -466,7 +466,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['afterForgotPassword']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
 
     /**
      * 📝 Enabling all supported operations within the afterChange hook
@@ -489,21 +489,21 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * Forgot password operation
      *
      * Triggered when a password recovery request is made.
      */
-    forgotPassword?: HookOperationConfig<'afterForgotPassword'>
+    forgotPassword?: HookOperationConfig<'afterForgotPassword'>;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
-  }
+    modes?: HookModesConfig;
+  };
   afterLogin: {
     /**
      * 📝 Custom log creation at a hook level
@@ -529,7 +529,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['afterLogin']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -551,21 +551,21 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * Login operation
      *
      * Triggered when a user logs in.
      */
-    login?: HookOperationConfig<'afterLogin'>
+    login?: HookOperationConfig<'afterLogin'>;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
-  }
+    modes?: HookModesConfig;
+  };
   afterLogout: {
     /**
      * 📝 Custom log creation at a hook level
@@ -591,7 +591,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['afterLogout']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -613,21 +613,21 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * Logout operation
      *
      * Triggered when a user logs out.
      */
-    logout?: HookOperationConfig<'afterLogout'>
+    logout?: HookOperationConfig<'afterLogout'>;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
-  }
+    modes?: HookModesConfig;
+  };
   afterMe: {
     /**
      * 📝 Custom log creation at a hook level
@@ -653,7 +653,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['afterMe']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -675,29 +675,29 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * Me operation
      *
      * Triggered when a user fetches their own profile information.
      */
-    me?: HookOperationConfig<'afterMe'>
+    me?: HookOperationConfig<'afterMe'>;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
-  }
+    modes?: HookModesConfig;
+  };
   afterOperation: {
-    countVersions?: HookOperationConfig<'afterOperation'>
+    countVersions?: HookOperationConfig<'afterOperation'>;
     /**
      * Create operation
      *
      * Triggered when a new item is created.
      */
-    create?: HookOperationConfig<'afterOperation'>
+    create?: HookOperationConfig<'afterOperation'>;
     /**
      * 📝 Custom log creation at a hook level
      *
@@ -722,19 +722,19 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['refresh']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * Delete operation
      *
      * Triggered when an item is deleted.
      */
-    delete?: HookOperationConfig<'afterOperation'>
+    delete?: HookOperationConfig<'afterOperation'>;
     /**
      * Delete by ID operation
      *
      * Triggered when a specific item is deleted by its ID.
      */
-    deleteByID?: HookOperationConfig<'afterOperation'>
+    deleteByID?: HookOperationConfig<'afterOperation'>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -756,58 +756,58 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * Find operation
      *
      * Triggered when items are queried based on specific conditions.
      */
-    find?: HookOperationConfig<'afterOperation'>
+    find?: HookOperationConfig<'afterOperation'>;
     /**
      * Find by ID operation
      *
      * Triggered when a specific item is retrieved by its ID.
      */
-    findByID?: HookOperationConfig<'afterOperation'>
+    findByID?: HookOperationConfig<'afterOperation'>;
     /**
      * Forgot password operation
      *
      * Triggered when a password recovery request is made.
      */
-    forgotPassword?: HookOperationConfig<'afterOperation'>
+    forgotPassword?: HookOperationConfig<'afterOperation'>;
     /**
      * Login operation
      *
      * Triggered when a user logs in.
      */
-    login?: HookOperationConfig<'afterOperation'>
+    login?: HookOperationConfig<'afterOperation'>;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
+    modes?: HookModesConfig;
     /**
      * Refresh operation
      *
      * Triggered when authentication tokens are refreshed.
      */
-    refresh?: HookOperationConfig<'afterOperation'>
+    refresh?: HookOperationConfig<'afterOperation'>;
 
     /**
      * Update operation
      *
      * Triggered when an existing item is updated.
      */
-    update?: HookOperationConfig<'afterOperation'>
+    update?: HookOperationConfig<'afterOperation'>;
     /**
      * Update by ID operation
      *
      * Triggered when a specific item is updated by its ID.
      */
-    updateByID?: HookOperationConfig<'afterOperation'>
-  }
+    updateByID?: HookOperationConfig<'afterOperation'>;
+  };
   afterRead: {
     /**
      * 📝 Custom log creation at a hook level
@@ -833,7 +833,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['afterRead']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -855,21 +855,21 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
+    modes?: HookModesConfig;
     /**
      * Read operation
      *
      * Triggered when data is read.
      */
-    read?: HookOperationConfig<'afterRead'>
-  }
+    read?: HookOperationConfig<'afterRead'>;
+  };
   afterRefresh: {
     /**
      * 📝 Custom log creation at a hook level
@@ -895,7 +895,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['afterRefresh']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -917,28 +917,28 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
+    modes?: HookModesConfig;
     /**
      * Refresh operation
      *
      * Triggered when authentication tokens are refreshed.
      */
-    refresh?: HookOperationConfig<'afterRefresh'>
-  }
+    refresh?: HookOperationConfig<'afterRefresh'>;
+  };
   beforeChange: {
     /**
      * Create operation
      *
      * Triggered when a new item is created.
      */
-    create?: HookOperationConfig<'beforeChange'>
+    create?: HookOperationConfig<'beforeChange'>;
     /**
      * 📝 Custom log creation at a hook level
      *
@@ -963,7 +963,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['refresh']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -985,21 +985,21 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
+    modes?: HookModesConfig;
     /**
      * Update operation
      *
      * Triggered when an existing item is updated.
      */
-    update?: HookOperationConfig<'beforeChange'>
-  }
+    update?: HookOperationConfig<'beforeChange'>;
+  };
   beforeDelete: {
     /**
      * 📝 Custom log creation at a hook level
@@ -1025,13 +1025,13 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['beforeDelete']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * Delete operation
      *
      * Triggered when an item is deleted.
      */
-    delete?: HookOperationConfig<'beforeDelete'>
+    delete?: HookOperationConfig<'beforeDelete'>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -1053,15 +1053,15 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
-  }
+    modes?: HookModesConfig;
+  };
   beforeLogin: {
     /**
      * 📝 Custom log creation at a hook level
@@ -1087,7 +1087,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['beforeLogin']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -1109,28 +1109,28 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * Login operation
      *
      * Triggered when a user logs in.
      */
-    login?: HookOperationConfig<'beforeLogin'>
+    login?: HookOperationConfig<'beforeLogin'>;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
-  }
+    modes?: HookModesConfig;
+  };
   beforeOperation: {
     /**
      * Create operation
      *
      * Triggered when a new item is created.
      */
-    create?: HookOperationConfig<'beforeOperation'>
+    create?: HookOperationConfig<'beforeOperation'>;
     /**
      * 📝 Custom log creation at a hook level
      *
@@ -1155,13 +1155,13 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['beforeOperation']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * Delete operation
      *
      * Triggered when an item is deleted.
      */
-    delete?: HookOperationConfig<'beforeOperation'>
+    delete?: HookOperationConfig<'beforeOperation'>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -1183,45 +1183,45 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * Forgot password operation
      *
      * Triggered when a password recovery request is made.
      */
-    forgotPassword?: HookOperationConfig<'beforeOperation'>
+    forgotPassword?: HookOperationConfig<'beforeOperation'>;
     /**
      * Login operation
      *
      * Triggered when a user logs in.
      */
-    login?: HookOperationConfig<'beforeOperation'>
+    login?: HookOperationConfig<'beforeOperation'>;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
+    modes?: HookModesConfig;
     /**
      * Read operation
      *
      * Triggered when data is read.
      */
-    read?: HookOperationConfig<'beforeOperation'>
+    read?: HookOperationConfig<'beforeOperation'>;
     /**
      * Refresh operation
      *
      * Triggered when authentication tokens are refreshed.
      */
-    refresh?: HookOperationConfig<'beforeOperation'>
+    refresh?: HookOperationConfig<'beforeOperation'>;
     /**
      * Update operation
      *
      * Triggered when an existing item is updated.
      */
-    update?: HookOperationConfig<'beforeOperation'>
-  }
+    update?: HookOperationConfig<'beforeOperation'>;
+  };
   beforeRead: {
     /**
      * 📝 Custom log creation at a hook level
@@ -1247,7 +1247,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['beforeRead']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -1269,28 +1269,28 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
+    modes?: HookModesConfig;
     /**
      * Read operation
      *
      * Triggered when data is read.
      */
-    read?: HookOperationConfig<'beforeRead'>
-  }
+    read?: HookOperationConfig<'beforeRead'>;
+  };
   beforeValidate: {
     /**
      * Create operation
      *
      * Triggered when a new item is created.
      */
-    create?: HookOperationConfig<'beforeValidate'>
+    create?: HookOperationConfig<'beforeValidate'>;
     /**
      * 📝 Custom log creation at a hook level
      *
@@ -1315,7 +1315,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['beforeValidate']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -1337,21 +1337,21 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
+    modes?: HookModesConfig;
     /**
      * Update operation
      *
      * Triggered when an existing item is updated.
      */
-    update?: HookOperationConfig<'beforeValidate'>
-  }
+    update?: HookOperationConfig<'beforeValidate'>;
+  };
   /**
    * 📝 Custom log creation at a hooks level
    *
@@ -1376,7 +1376,7 @@ export type HookTrackingOperationMap = {
   customLogger?: (
     args: Parameters<AllCollectionHooks[keyof AllCollectionHooks]>[0],
     fields: Omit<AuditorLog, 'hook'>,
-  ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+  ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
 
   me: {
     /**
@@ -1403,7 +1403,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['me']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -1425,21 +1425,21 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * Me operation
      *
      * Triggered when a user fetches their own profile information.
      */
-    me?: HookOperationConfig<'me'>
+    me?: HookOperationConfig<'me'>;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
-  }
+    modes?: HookModesConfig;
+  };
   refresh: {
     /**
      * 📝 Custom log creation at a hook level
@@ -1465,7 +1465,7 @@ export type HookTrackingOperationMap = {
     customLogger?: (
       args: Parameters<AllCollectionHooks['refresh']>[0],
       fields: Omit<AuditorLog, 'hook'>,
-    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+    ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
     /**
      * 📝 Enabling all supported operations within the afterChange hook
      *
@@ -1487,24 +1487,24 @@ export type HookTrackingOperationMap = {
      * - If the value is false, it disables all operations (even explicitly enabled operations)
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * 📝 Auxiliary side modes
      *
      * ### ⚠️ Critical Notes
      * - By enabling debug mode at the hook level, all operations of that hook are logged
      */
-    modes?: HookModesConfig
+    modes?: HookModesConfig;
     /**
      * Refresh operation
      *
      * Triggered when authentication tokens are refreshed.
      */
-    refresh?: HookOperationConfig<'refresh'>
-  }
+    refresh?: HookOperationConfig<'refresh'>;
+  };
 }
 
-export type TrackedCollection = {
+export interface TrackedCollection {
   /**
    * 📝 Globally disable tracking for this collection
    *
@@ -1513,7 +1513,7 @@ export type TrackedCollection = {
    * @default undefined
    *
    */
-  disabled?: boolean
+  disabled?: boolean;
 
   /**
    * 📝 Define payload cms hooks for each collection being tracked
@@ -1539,9 +1539,9 @@ export type TrackedCollection = {
    * Read more:
    * @see {@link https://payloadcms.com/docs/hooks/collections}
    */
-  hooks?: Partial<HookTrackingOperationMap>
+  hooks?: Partial<HookTrackingOperationMap>;
   /** Optional label or description for UI/doc */
-  label?: string
+  label?: string;
 
   /**
    * 📝 The original name of your collection for tracking
@@ -1563,19 +1563,19 @@ export type TrackedCollection = {
    * - Make sure the value entered exactly matches the value in your main collection configuration.
    * @see {@link https://payloadcms.com/docs/configuration/collections#config-options}
    */
-  slug: string
+  slug: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const allowedSlugs = ['activities', 'auditor', 'logger'] as const
+// eslint-disable-next-line unused-imports/no-unused-vars
+const allowedSlugs = ['activities', 'auditor', 'logger'] as const;
 
-export type BufferDebugFields = {
-  flushStrategy: boolean
-  interval: boolean
-  size: boolean
+export interface BufferDebugFields {
+  flushStrategy: boolean;
+  interval: boolean;
+  size: boolean;
 }
 
-export type BufferModesConfig = {
+export interface BufferModesConfig {
   /**
    * 📝 Debug mode for better inspection of logging performance
    *
@@ -1605,7 +1605,7 @@ export type BufferModesConfig = {
      * @default "table"
      *
      */
-    displayType?: 'manual' | 'table'
+    displayType?: 'manual' | 'table';
     /**
      * 📝 Enable or disable debug mode
      *
@@ -1616,7 +1616,7 @@ export type BufferModesConfig = {
      * @default false
      *
      */
-    enabled?: boolean
+    enabled?: boolean;
     /**
      * 📝 Select the required fields
      *
@@ -1636,11 +1636,11 @@ export type BufferModesConfig = {
      * }
      * ```
      */
-    fields?: Partial<BufferDebugFields>
-  }
+    fields?: Partial<BufferDebugFields>;
+  };
 }
 
-export type BufferConfig = {
+export interface BufferConfig {
   /**
    * 📝 The basics of injecting logs into the database
    *
@@ -1659,11 +1659,11 @@ export type BufferConfig = {
    * - If you use the size method, your logs will be stored in RAM before being injected into the database.
    *
    */
-  flushStrategy?: 'realtime' | 'size' | 'time'
+  flushStrategy?: 'realtime' | 'size' | 'time';
   /**
    * 📝 Auxiliary side modes
    */
-  modes?: BufferModesConfig
+  modes?: BufferModesConfig;
   /**
    * 📝 Maximum number of logs before injection
    *
@@ -1692,7 +1692,7 @@ export type BufferConfig = {
    * - If you set a high number and on the other hand the logs produced are low, the logs will be recorded later.
    *
    */
-  size?: number
+  size?: number;
 
   /**
    * 📝 Maximum time to inject logs into the buffer relative to the last injection
@@ -1719,15 +1719,15 @@ export type BufferConfig = {
    * - If you set the time too low, the CPU will be severely affected.
    * - If you allow too much time, the logs will be recorded later. If the server crashes, the logs will be lost.
    */
-  time?: Duration
+  time?: Duration;
 }
 
-export type Localization = {
+export interface Localization {
   collection?: {
-    fields?: Partial<Record<keyof AuditorLog, LabelFunction | StaticLabel>>
-  }
+    fields?: Partial<Record<keyof AuditorLog, LabelFunction | StaticLabel>>;
+  };
 }
-export type PluginCollectionConfig = {
+export interface PluginCollectionConfig {
   /**
    * 📝 auditor Collection Accessibility Settings
    *
@@ -1765,8 +1765,8 @@ export type PluginCollectionConfig = {
      *
      */
     customAccess?: {
-      read?: Access
-    }
+      read?: Access;
+    };
     /**
      * 📝 Define which roles are allowed for each operation.
      *
@@ -1790,9 +1790,9 @@ export type PluginCollectionConfig = {
      *
      */
     roles?: {
-      read: string[]
-    }
-  }
+      read: string[];
+    };
+  };
   /**
    * 📝 Buffer management for injecting data into the database
    *
@@ -1815,7 +1815,7 @@ export type PluginCollectionConfig = {
    * - These settings are very important, to change these settings, consider all aspects including RAM and server power.
    *
    */
-  buffer?: BufferConfig
+  buffer?: BufferConfig;
   /**
    * 📝 Collection main configuration
    *
@@ -1865,7 +1865,7 @@ export type PluginCollectionConfig = {
    *     },
    * ```
    */
-  configureRootCollection?: (defaults: CollectionConfig) => Partial<CollectionConfig>
+  configureRootCollection?: (defaults: CollectionConfig) => Partial<CollectionConfig>;
   /**
    * 📝 Internationalization for the plugin
    *
@@ -1873,7 +1873,7 @@ export type PluginCollectionConfig = {
    *
    * @default undefined
    */
-  locale?: Localization
+  locale?: Localization;
   /**
    * 📝 Uses internal payload CMS configuration for slug
    *
@@ -1885,7 +1885,7 @@ export type PluginCollectionConfig = {
    * - If you define a slug name in the `configureRootCollection` property, this value is ignored.
    *
    */
-  slug?: (typeof allowedSlugs)[number] | ({} & string)
+  slug?: (typeof allowedSlugs)[number] | ({} & string);
   /**
    * 📝 Collection tracking management
    *
@@ -1917,7 +1917,7 @@ export type PluginCollectionConfig = {
    * - To temporarily disable tracking for any collection, you can use the disabled key.
    *
    */
-  trackCollections: TrackedCollection[]
+  trackCollections: TrackedCollection[];
 }
 
 // export type CountStrategy = {
@@ -1931,24 +1931,24 @@ export type PluginCollectionConfig = {
 //   olderThan: Duration
 // }
 
-export type ManualStrategy = {
-  amount?: number
-  name?: 'manual'
-  olderThan?: Duration
+export interface ManualStrategy {
+  amount?: number;
+  name?: 'manual';
+  olderThan?: Duration;
 }
-export type AutomationConfig = {
+export interface AutomationConfig {
   logCleanup: {
     // disabled?: boolean
     // schedule?: CronConfig
-    strategy?: ManualStrategy
+    strategy?: ManualStrategy;
     // CountStrategy
     //  | TimeStrategy
     // taskConfig?: TaskConfig<DeleteOldLogResultTask>
     // withJobs?: boolean
-  }
+  };
 }
 
-export type PluginOptions = {
+export interface PluginOptions {
   // /**
   //  * 📝 Defines the interval for automatic deletion of logs or data.
   //  *
@@ -2013,7 +2013,7 @@ export type PluginOptions = {
    *
    *```
    */
-  automation?: AutomationConfig
+  automation?: AutomationConfig;
 
   /**
    * 📝 Settings related to collections and the collection used by the plugin
@@ -2037,7 +2037,7 @@ export type PluginOptions = {
    * - If defined, you must also enter the value of trackCollections.
    *
    */
-  collection?: PluginCollectionConfig
+  collection?: PluginCollectionConfig;
   /**
    * 📝 Custom log creation at a global level
    *
@@ -2062,7 +2062,7 @@ export type PluginOptions = {
   customLogger?: <TCustomLogger extends keyof AllCollectionHooks>(
     args: Parameters<AllCollectionHooks[TCustomLogger]>[0],
     fields: Omit<AuditorLog, 'hook'>,
-  ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>
+  ) => Omit<AuditorLog, 'hook'> | Promise<Omit<AuditorLog, 'hook'>>;
 
   /**
    * 📝 Enable or disable the plugin
@@ -2071,5 +2071,5 @@ export type PluginOptions = {
    *
    * @default "true"
    */
-  enabled?: boolean
+  enabled?: boolean;
 }
