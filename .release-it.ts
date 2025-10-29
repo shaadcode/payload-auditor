@@ -9,7 +9,7 @@ export default {
     requireBranch: 'release/latest',
   },
   hooks: {
-    'before:init': ['git pull'],
+    'before:init': ['git fetch --tags','git pull'],
   },
   github: {
     release: true,
