@@ -7,10 +7,10 @@ export default {
     push: true,
     pushRepo: 'origin',
     requireBranch: 'release/latest',
-    getLatestTagFromAllRefs:true
+    getLatestTagFromAllRefs: true
   },
   hooks: {
-    'before:init': ['git fetch --tags','git pull'],
+    'before:init': ['git fetch --tags', 'git pull'],
   },
   github: {
     release: true,
@@ -23,6 +23,10 @@ export default {
     '@release-it/conventional-changelog': {
       infile: 'CHANGELOG.md',
       header: '# Changelog',
+      writerOpts: {
+        commitPartial:
+          '{{subject}} - by {{#if author}}{{author}}{{else}}unknown{{/if}} in {{#if references}}#{{#each references}}{{this.issue}}{{/each}}{{/if}} ({{shortHash}})\n',
+      },
       preset: {
         name: 'conventionalcommits',
         types: [
