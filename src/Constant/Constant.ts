@@ -112,6 +112,7 @@ export const hookMap: AllCollectionHooks = {
       // @ts-ignore
       context: args.context,
       hook: 'afterOperation',
+      // @ts-ignore
       operation: args.operation,
       req: args.req,
     });
