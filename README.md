@@ -6,10 +6,15 @@
 ![NPM Downloads](https://img.shields.io/npm/dw/payload-auditor)
 ![NPM License](https://img.shields.io/npm/l/payload-auditor)
 ![NPM Last Update](https://img.shields.io/npm/last-update/payload-auditor)
+[![bundlephobia](https://img.shields.io/bundlephobia/minzip/payload-auditor?label=size&color=32c955)](https://bundlephobia.com/package/payload-auditor)
+![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)
 
 # 📦 Payload Auditor
 
 **Payload Auditor** is a powerful plugin for [Payload CMS](https://payloadcms.com) that provides centralized **event tracking, auditing, and security enhancements**. This tool is designed for developers and teams looking to monitor critical actions, analyze user behaviors, and enhance backend security within their Payload projects.
+
+📊 Only **~3.4 kB** (minified + gzipped) and has **no external dependencies**.
+
 
 ## ⚙️ Installation & Usage
 
