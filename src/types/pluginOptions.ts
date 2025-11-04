@@ -1920,17 +1920,6 @@ export interface PluginCollectionConfig {
   trackCollections: TrackedCollection[];
 }
 
-// export type CountStrategy = {
-//   amountToDelete: number
-//   deletionCount: number
-//   name: 'count'
-// }
-
-// export type TimeStrategy = {
-//   name: 'time'
-//   olderThan: Duration
-// }
-
 export interface ManualStrategy {
   amount?: number;
   name?: 'manual';
@@ -1938,13 +1927,7 @@ export interface ManualStrategy {
 }
 export interface AutomationConfig {
   logCleanup: {
-    // disabled?: boolean
-    // schedule?: CronConfig
     strategy?: ManualStrategy;
-    // CountStrategy
-    //  | TimeStrategy
-    // taskConfig?: TaskConfig<DeleteOldLogResultTask>
-    // withJobs?: boolean
   };
 }
 

@@ -1,7 +1,4 @@
-// import type { User } from '@/payload-types'
-
-// type isAuthenticated = (args: AccessArgs<User>) => boolean
-
+// @ts-ignore
 export const authenticated = ({ req: { user } }) => {
   return Boolean(user);
 };
