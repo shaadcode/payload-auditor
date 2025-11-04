@@ -7,6 +7,5 @@ declare module 'payload' {
   export interface RequestContext extends OriginalRequestContext {
     pluginOptions: PluginOptions;
     userHookConfig?: TrackedCollection;
-    // ...
   }
 }

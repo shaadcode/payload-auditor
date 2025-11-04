@@ -134,7 +134,6 @@ export const attachCollectionConfig = (
     { ...rootCollection, slug: collectionSlug || defaultCollectionValues.slug },
   ];
   // Attaching settings to plugin's internal collection hooks
-  // ...
 
   return userCollectionsConfig;
 };
@@ -144,10 +143,6 @@ export const attachAutomationConfig = (
   pluginOpts: PluginOptions,
 ): Config => {
   const typedAuditorCollection = auditor;
-
-  // if (pluginOpts.automation?.logCleanup.disabled) {
-  //   return incomingConfig
-  // } else
 
   typedAuditorCollection.hooks = {
     ...typedAuditorCollection.hooks,
@@ -168,48 +163,7 @@ export const attachAutomationConfig = (
     ],
   };
 
-  // incomingConfig.collections = [...(incomingConfig.collections || []), auditor]
   return incomingConfig;
-
-  // if (!incomingConfig.jobs) {
-  //   incomingConfig.jobs = {} as JobsConfig
-  // }
-  // const existingAutoRun = incomingConfig.jobs?.autoRun
-
-  // // log cleanup values
-  // const logCleanupScheduleCron: string =
-  //   pluginOpts.automation?.logCleanup.schedule?.cron ??
-  //   defaultAutomationValues?.logCleanup.schedule.cron
-  // const logCleanupScheduleLimit: number =
-  //   pluginOpts.automation?.logCleanup.schedule?.limit ??
-  //   defaultAutomationValues.logCleanup.schedule.limit
-  // const logCleanupScheduleQueue: string =
-  //   pluginOpts.automation?.logCleanup.schedule?.queue ??
-  //   defaultAutomationValues.logCleanup.schedule.queue
-
-  // incomingConfig.jobs = {
-  //   ...incomingConfig,
-
-  //   // add plugin tasks
-  //   tasks: [...(incomingConfig.jobs.tasks || []), deleteOldLogTask(pluginOpts)],
-  // }
-
-  // // create plugin auto run
-  // incomingConfig.jobs.autoRun = async (payload) => {
-  //   // It is possible that autoRun is a function
-  //   const previous =
-  //     typeof existingAutoRun === 'function' ? await existingAutoRun(payload) : existingAutoRun || []
-  //   return [
-  //     ...previous,
-  //     {
-  //       cron: logCleanupScheduleCron,
-  //       limit: logCleanupScheduleLimit,
-  //       queue: logCleanupScheduleQueue,
-  //     },
-  //   ]
-  // }
-
-  // return incomingConfig
 };
 
 export const OnInitManager = (originalOnInit: Config['onInit'], pluginOpts: PluginOptions) => {
@@ -219,18 +173,5 @@ export const OnInitManager = (originalOnInit: Config['onInit'], pluginOpts: Plug
     }
 
     bufferManager(payload, pluginOpts);
-
-    // add jobs
-    // await payload.jobs.queue({
-    //   input: {
-    //     slug: 'mojtaba',
-    //     olderThan: '313m',
-    //     pluginOpts,
-    //   },
-    //   queue:
-    //     pluginOpts.automation?.logCleanup.schedule?.queue ??
-    //     defaultAutomationValues.logCleanup.schedule.queue,
-    //   task: pluginOpts.automation?.logCleanup.taskConfig?.slug ?? defaultCleanupTaskValues.slug,
-    // })
   };
 };
