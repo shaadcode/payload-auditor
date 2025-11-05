@@ -24,7 +24,6 @@ import type {
   StaticLabel,
 } from 'payload';
 
-import type { Duration } from './../utils/toMS.js';
 import type { AuditorLog } from './../collections/auditor.js';
 
 export type HookStage
@@ -1700,7 +1699,7 @@ export interface BufferConfig {
    *
    * 📌@type {Duration}
    *
-   * @default "5s"
+   * @default 5000
    *
    *
    * 📦 Usage Example
@@ -1719,7 +1718,7 @@ export interface BufferConfig {
    * - If you set the time too low, the CPU will be severely affected.
    * - If you allow too much time, the logs will be recorded later. If the server crashes, the logs will be lost.
    */
-  time?: Duration;
+  time?: number;
 }
 
 export interface Localization {
@@ -1920,60 +1919,42 @@ export interface PluginCollectionConfig {
   trackCollections: TrackedCollection[];
 }
 
-export interface ManualStrategy {
-  amount?: number;
-  name?: 'manual';
-  olderThan?: Duration;
-}
 export interface AutomationConfig {
-  logCleanup: {
-    strategy?: ManualStrategy;
+  logCleanup?: {
+    /**
+     * @default 604800000 // 1 week
+     */
+    olderThan?: number;
+    /**
+     * @default "payload-auditor-queue"
+     */
+    queueName?: string;
+    /**
+     * The cron for scheduling the job.
+     *
+     * @default '0 3 * * *' // At 03:00 AM
+     *
+     * @example
+     *     ┌───────────── (optional) second (0 - 59)
+     *     │ ┌───────────── minute (0 - 59)
+     *     │ │ ┌───────────── hour (0 - 23)
+     *     │ │ │ ┌───────────── day of the month (1 - 31)
+     *     │ │ │ │ ┌───────────── month (1 - 12)
+     *     │ │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday)
+     *     │ │ │ │ │ │
+     *     │ │ │ │ │ │
+     *  - '* 0 * * * *' every hour at minute 0
+     *  - '* 0 0 * * *' daily at midnight
+     *  - '* 0 0 * * 0' weekly at midnight on Sundays
+     *  - '* 0 0 1 * *' monthly at midnight on the 1st day of the month
+     *  - '* 0/5 * * * *' every 5 minutes
+     *  - '* * * * * *' every second
+     */
+    cronTime?: string;
   };
 }
 
 export interface PluginOptions {
-  // /**
-  //  * 📝 Defines the interval for automatic deletion of logs or data.
-  //  *
-  //  * 📖 This interval is specified as a string containing a number followed by a time unit.
-  //  *
-  //  * 📌@type {Duration}
-  //  *
-  //  * @default "1mo"
-  //  *
-  //  * Supported time units include:
-  //  * - 'd' for days
-  //  * - 'h' for hours
-  //  * - 'm' for minutes
-  //  * - 'mo' for months
-  //  * - 's' for seconds
-  //  * - 'w' for weeks
-  //  * - 'y' for years
-  //  *
-  //  * ---
-  //  * 📦 Usage Example
-  //  *
-  //  * @example <caption>🧪 For 7 days</caption>
-  //  * ```
-  //  * autoDeleteInterval?: "7d",
-  //  * ```
-  //  *
-  //  * @example <caption>🧪 For 2 weeks</caption>
-  //  * ```
-  //  * autoDeleteInterval?: "2w",
-  //  * ```
-  //  *
-  //  * ---
-  //  * 💡 Tips:
-  //  * - Use small durations for testing (e.g., `'5s'`)
-  //  * - For production, prefer longer intervals (e.g., `'1w'`, `'1mo'`)
-  //  *
-  //  * ⚠️ Keep in mind:
-  //  * - Values below `'1s'` may be invalid.
-  //  * - Only use supported suffixes: `s`, `m`, `h`, `d`, `w`, `mo`, `y`
-  //  *
-  //  */
-  // autoDeleteInterval?: Duration
   /**
    * 📝 Automatic plugin process management
    *

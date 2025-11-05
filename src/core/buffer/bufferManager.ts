@@ -1,12 +1,12 @@
 import type { Payload } from 'payload';
 
-import ms from './../../utils/toMS.js';
 import { onEventLog } from './../../core/events/emitter.js';
 import type { AuditorLog } from '../../collections/auditor.js';
 import type { PluginOptions } from './../../types/pluginOptions.js';
 import { defaultCollectionValues } from './../../Constant/Constant.js';
 import { handleBufferDebugMode } from './../../core/buffer/helpers/handleBufferDebugMode.js';
 
+const DEFAULT_INTERVAL_BUFFER = 10000;
 const store: AuditorLog[] = [];
 
 let payloadInstance: Payload;
@@ -29,7 +29,7 @@ const flushBuffer = async (pluginOptions: PluginOptions) => {
 export const bufferManager = (payload: Payload, pluginOptions: PluginOptions) => {
   const bufferConfig = pluginOptions.collection?.buffer;
   const size = bufferConfig?.size ?? 10;
-  const interval = ms(bufferConfig?.time ?? '5s');
+  const interval = bufferConfig?.time ?? DEFAULT_INTERVAL_BUFFER;
   const flushStrategy = bufferConfig?.flushStrategy ?? 'time';
   payloadInstance = payload;
 

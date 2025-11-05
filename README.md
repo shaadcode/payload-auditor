@@ -15,7 +15,6 @@
 
 📊 Only **~3.4 kB** (minified + gzipped) and has **no external dependencies**.
 
-
 ## ⚙️ Installation & Usage
 
 Install with your preferred package manager:
@@ -58,9 +57,8 @@ Customize the plugin with the following configuration(for example):
 auditorPlugin({
   automation: {
     logCleanup: {
-      strategy: {
-        olderThan: "1d",
-      },
+       cronTime: '* * * * *', // every minute
+       queueName: 'john-doe-queue',
     },
   },
   collection: {
@@ -78,7 +76,6 @@ auditorPlugin({
     ],
   },
 });
-
 ```
 
 ## ✨ **Things you can customize:**
