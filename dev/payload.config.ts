@@ -1,3 +1,4 @@
+/* eslint-disable antfu/no-import-dist */
 /* eslint-disable node/prefer-global/process */
 import sharp from 'sharp';
 import path from 'node:path';
@@ -9,7 +10,6 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
 // import { auditorPlugin } from '../src/index.js';
-// eslint-disable-next-line antfu/no-import-dist
 import { auditorPlugin } from './../dist/index.js';
 import { testEmailAdapter } from './helpers/testEmailAdapter.js';
 
@@ -21,41 +21,21 @@ if (!process.env.ROOT_DIR) {
 }
 
 export default buildConfig({
-  admin: {
-    // autoLogin: devUser,
-    importMap: {
-      baseDir: path.resolve(dirname),
-    },
-  },
+  admin: { importMap: { baseDir: path.resolve(dirname) } },
   collections: [media, users],
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
-  }),
+  db: mongooseAdapter({ url: process.env.DATABASE_URI || '' }),
   editor: lexicalEditor(),
   email: testEmailAdapter,
-
   // plugins
   plugins: [
     auditorPlugin({
       collection: {
-        buffer: {
-          flushStrategy: 'time',
-          // time: '1m',
-        },
         trackCollections: [
           {
             slug: 'media',
             hooks: {
               afterOperation: {
-                create: {
-                  enabled: true,
-                },
-                update: {
-                  enabled: true,
-                },
-                delete: {
-                  enabled: true,
-                },
+                updateByID: { enabled: true },
               },
             },
           },
@@ -67,5 +47,15 @@ export default buildConfig({
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
+  },
+  jobs: {
+    jobsCollectionOverrides: ({ defaultJobsCollection }) => {
+      if (!defaultJobsCollection.admin) {
+        defaultJobsCollection.admin = {};
+      }
+
+      defaultJobsCollection.admin.hidden = false;
+      return defaultJobsCollection;
+    },
   },
 });

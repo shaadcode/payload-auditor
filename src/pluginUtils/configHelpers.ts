@@ -1,9 +1,8 @@
 import type { Access, BasePayload, Config } from 'payload';
 
 import auditor from '../collections/auditor.js';
-import { bufferManager } from '../core/buffer/bufferManager.js';
-import { autoLogCleaner } from './../collections/hooks/beforeChange.js';
-import { cleanupStrategiesDefaultValues } from './../Constant/automation.js';
+import { bufferManager } from './../core/buffer/bufferManager.js';
+import { DEFAULT_QUEUE_NAME } from './../core/automation/tasks/cleanup.js';
 import { defaultCollectionValues, hookMap } from './../Constant/Constant.js';
 import type { AllCollectionHooks, PluginOptions } from './../types/pluginOptions.js';
 
@@ -138,40 +137,28 @@ export const attachCollectionConfig = (
   return userCollectionsConfig;
 };
 
-export const attachAutomationConfig = (
-  incomingConfig: Config,
-  pluginOpts: PluginOptions,
-): Config => {
-  const typedAuditorCollection = auditor;
+export const onInitManager = (incomingConfig: Config, pluginOptions: PluginOptions) => {
+  const originalOnInit = incomingConfig.onInit;
 
-  typedAuditorCollection.hooks = {
-    ...typedAuditorCollection.hooks,
-    beforeChange: [
-      ...(typedAuditorCollection.hooks?.beforeChange || []),
-      args =>
-        autoLogCleaner({
-          ...args,
-          context: {
-            pluginOptions: pluginOpts,
-          },
-          data: {
-            olderThan:
-              pluginOpts.automation?.logCleanup?.strategy?.olderThan
-              ?? cleanupStrategiesDefaultValues.manual.olderThan,
-          },
-        }),
-    ],
-  };
-
-  return incomingConfig;
-};
-
-export const OnInitManager = (originalOnInit: Config['onInit'], pluginOpts: PluginOptions) => {
   return async (payload: BasePayload) => {
     if (originalOnInit) {
       await originalOnInit(payload);
     }
 
-    bufferManager(payload, pluginOpts);
+    bufferManager(payload, pluginOptions);
+
+    let autoRun = payload.config.jobs?.autoRun ?? [];
+    const queueName = pluginOptions.automation?.logCleanup?.queueName ?? DEFAULT_QUEUE_NAME;
+    if (Array.isArray(autoRun)) {
+      autoRun = [...(autoRun ?? []), { queue: queueName }];
+    }
+    else {
+      autoRun = [...(await autoRun?.(payload) ?? []), { queue: queueName }];
+    }
+
+    payload.config.jobs = {
+      ...(payload.config.jobs ?? {}),
+      autoRun,
+    };
   };
 };

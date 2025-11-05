@@ -2,11 +2,11 @@ import type { Config, Plugin } from 'payload';
 
 import { defaultPluginOpts } from './Constant/Constant.js';
 import type { PluginOptions } from './types/pluginOptions.js';
+import { cleanupLogsTask } from './core/automation/tasks/cleanup.js';
 import {
-  attachAutomationConfig,
   attachCollectionConfig,
   buildAccessControl,
-  OnInitManager,
+  onInitManager,
 } from './pluginUtils/configHelpers.js';
 /**
  * 📝 The main function of plugin packaging
@@ -19,8 +19,8 @@ import {
  */
 export const auditorPlugin
   = (opts: PluginOptions = defaultPluginOpts): Plugin =>
-    (incomingConfig: Config): Config => {
-      let config = incomingConfig;
+    async (incomingConfig: Config): Promise<Config> => {
+      const config = { ...incomingConfig };
       if (opts.enabled === false) {
         return config;
       }
@@ -28,9 +28,11 @@ export const auditorPlugin
       // TODO: combine to attachCollectionConfig function
       buildAccessControl(opts);
 
-      config = attachAutomationConfig(config, opts);
       config.collections = attachCollectionConfig(config.collections, opts);
-      config.onInit = OnInitManager(config.onInit, opts);
-
+      config.jobs = {
+        ...config.jobs,
+        tasks: [...(config.jobs?.tasks ?? []), cleanupLogsTask(opts)],
+      };
+      config.onInit = onInitManager(config, opts);
       return config;
     };

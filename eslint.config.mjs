@@ -21,6 +21,7 @@ const ignoreFiles = [
   '**/build/',
   '**/node_modules/**',
   '**/temp/',
+  './dev/app/(payload)/admin/importMap.js',
 ];
 export default antfu(
   {
