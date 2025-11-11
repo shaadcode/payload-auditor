@@ -39,7 +39,7 @@ export const auditor: CollectionConfig = {
       required: true,
     },
     {
-      name: 'collection',
+      name: 'onCollection',
       type: 'text',
       required: true,
     },

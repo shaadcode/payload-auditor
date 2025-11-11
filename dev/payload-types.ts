@@ -179,7 +179,7 @@ export interface User {
 export interface AuditLog {
   id: string;
   operation: string;
-  collection: string;
+  onCollection: string;
   documentId?: string | null;
   user: string | User;
   userAgent?: string | null;
@@ -401,7 +401,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface AuditLogSelect<T extends boolean = true> {
   operation?: T;
-  collection?: T;
+  onCollection?: T;
   documentId?: T;
   user?: T;
   userAgent?: T;
