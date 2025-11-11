@@ -1699,14 +1699,14 @@ export interface BufferConfig {
    *
    * 📌@type {Duration}
    *
-   * @default 5000
+   * @default 10000
    *
    *
    * 📦 Usage Example
    *
    * @example <caption>🧪 Inject logs every 1 minute</caption>
    * ```ts
-   *  time: "1m"
+   *  time: 5000
    * ```
    *
    * ---
