@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.9.0](///compare/v1.8.7...v1.9.0) (2025-11-24)
+
+### Features
+
+using jobs to imporve log deletion performance - by unknown in  (13edceb)
+
+### Bug Fixes
+
+mongoose warning reserved path schema - by unknown in  (f172091)
+
 ## [1.8.7](https://github.com/shaadcode/payload-auditor/compare/v1.8.6...v1.8.7) (2025-10-29)
 
 ### 🐞 Bug Fixes
