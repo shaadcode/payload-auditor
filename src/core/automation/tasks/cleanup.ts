@@ -10,7 +10,6 @@ export const cleanupLogsTask = (pluginOptions: PluginOptions): TaskConfig<'clean
   const cronTime = pluginOptions.automation?.logCleanup?.cronTime ?? DEFAULT_CRON;
   const queueName = pluginOptions.automation?.logCleanup?.queueName ?? DEFAULT_QUEUE_NAME;
   const olderThan = pluginOptions.automation?.logCleanup?.olderThan ?? DEFAULT_OLDER_THAN;
-
   return {
     slug: 'cleanup-payload-auditor-log',
     label: 'payload auditor - cleanup logs',

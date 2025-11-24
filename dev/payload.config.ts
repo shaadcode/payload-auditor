@@ -1,4 +1,3 @@
-/* eslint-disable antfu/no-import-dist */
 /* eslint-disable node/prefer-global/process */
 import sharp from 'sharp';
 import path from 'node:path';
@@ -9,8 +8,8 @@ import { users } from 'collections/Users.js';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
-// import { auditorPlugin } from '../src/index.js';
-import { auditorPlugin } from './../dist/index.js';
+import { auditorPlugin } from '../src/index.js';
+// import { auditorPlugin } from './../dist/index.js';
 import { testEmailAdapter } from './helpers/testEmailAdapter.js';
 
 const filename = fileURLToPath(import.meta.url);
@@ -29,6 +28,7 @@ export default buildConfig({
   // plugins
   plugins: [
     auditorPlugin({
+      automation: { logCleanup: { cronTime: '*/1 * * * *', queueName: 'test', olderThan: 30000 } },
       collection: {
         trackCollections: [
           {
