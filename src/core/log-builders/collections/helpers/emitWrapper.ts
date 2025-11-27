@@ -50,7 +50,7 @@ export const emitWrapper = async <T extends keyof AllCollectionHooks>(
     return {
       ...result,
       type: result.type,
-      collection: result.collection,
+      onCollection: result.onCollection,
       documentId: result.documentId,
       hook,
       operation: result.operation,

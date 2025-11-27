@@ -5,7 +5,7 @@ import type { hookTypes } from './../pluginUtils/configHelpers.js';
 import type { AuditHookOperationType } from '../types/pluginOptions.js';
 
 export interface AuditorLog {
-  collection: string;
+  onCollection: string;
   documentId?: string;
   hook: (typeof hookTypes)[number];
   operation: AuditHookOperationType;
