@@ -90,7 +90,7 @@ export const hookHandlers = {
   afterLogout: (
     args: Parameters<CollectionAfterLogoutHook>[0],
     sharedArgs: SharedArgs,
-    baseLog: Omit<AuditorLog, 'collection' | 'hook' | 'operation' | 'timestamp' | 'userAgent'>,
+    baseLog: Omit<AuditorLog, 'onCollection' | 'hook' | 'operation' | 'timestamp' | 'userAgent'>,
   ) => {
     baseLog.type = 'security';
     baseLog.user = sharedArgs.req.user?.id || 'anonymous';
@@ -98,7 +98,7 @@ export const hookHandlers = {
   afterMe: (
     args: Parameters<CollectionAfterMeHook>[0],
     sharedArgs: SharedArgs,
-    baseLog: Omit<AuditorLog, 'collection' | 'hook' | 'operation' | 'timestamp' | 'userAgent'>,
+    baseLog: Omit<AuditorLog, 'onCollection' | 'hook' | 'operation' | 'timestamp' | 'userAgent'>,
   ) => {
     baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
     baseLog.type = 'info';
