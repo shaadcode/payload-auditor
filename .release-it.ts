@@ -25,7 +25,7 @@ export default {
       header: '# Changelog',
       writerOpts: {
         commitPartial:
-          '{{subject}} - by {{#if author}}{{author}}{{else}}unknown{{/if}} in {{#if references}}#{{#each references}}{{this.issue}}{{/each}}{{/if}} ({{shortHash}})\n',
+          '{{subject}}{{#if references}} in {{#each references}}#{{this.issue}}{{/each}}{{/if}} ({{shortHash}})\n',
       },
       preset: {
         name: 'conventionalcommits',
