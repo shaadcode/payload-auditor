@@ -90,6 +90,7 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
+  fallbackLocale: null;
   globals: {
     'payload-jobs-stats': PayloadJobsStat;
   };

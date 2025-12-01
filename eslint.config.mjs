@@ -22,6 +22,7 @@ const ignoreFiles = [
   '**/node_modules/**',
   '**/temp/',
   './dev/app/(payload)/admin/importMap.js',
+  './dev/next-env.d.ts',
 ];
 export default antfu(
   {

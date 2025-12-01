@@ -44,3 +44,7 @@ yarn-error.log*
 
 .npmrc
 .cache/
+
+payload-auditor@*
+
+swc
