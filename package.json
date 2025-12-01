@@ -98,6 +98,7 @@
     "@release-it/conventional-changelog": "^10.0.1",
     "@swc-node/register": "1.10.9",
     "@swc/cli": "0.6.0",
+    "@swc/core": "^1.15.3",
     "@types/node": "^22.5.4",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.2",
