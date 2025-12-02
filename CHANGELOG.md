@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.10.0](///compare/v1.9.0...v1.10.0) (2025-12-02)
+
+### Bug Fixes
+
+validationError while logging to database by mongoose (77dda8f)
+remove unknown word in changelog (cedefd4)
+
+### Performance Improvements
+
+development server support for https (a5a601a)
+
 ## [1.8.7](https://github.com/shaadcode/payload-auditor/compare/v1.8.6...v1.8.7) (2025-10-29)
 
 ### 🐞 Bug Fixes
