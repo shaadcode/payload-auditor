@@ -1,5 +1,6 @@
 import type { TaskConfig } from 'payload';
 
+import auditor from './../../../collections/auditor.js';
 import type { PluginOptions } from './../../../types/pluginOptions.js';
 
 const DEFAULT_OLDER_THAN = 604800000; // 1 week
@@ -10,6 +11,8 @@ export const cleanupLogsTask = (pluginOptions: PluginOptions): TaskConfig<'clean
   const cronTime = pluginOptions.automation?.logCleanup?.cronTime ?? DEFAULT_CRON;
   const queueName = pluginOptions.automation?.logCleanup?.queueName ?? DEFAULT_QUEUE_NAME;
   const olderThan = pluginOptions.automation?.logCleanup?.olderThan ?? DEFAULT_OLDER_THAN;
+  const collectionSlug
+    = pluginOptions.collection?.slug ?? pluginOptions.collection?.configureRootCollection?.(auditor).slug ?? 'Audit-log';
   return {
     slug: 'cleanup-payload-auditor-log',
     label: 'payload auditor - cleanup logs',
@@ -18,7 +21,7 @@ export const cleanupLogsTask = (pluginOptions: PluginOptions): TaskConfig<'clean
       const millisecondsAgo = new Date(Date.now() - olderThan);
       try {
         await req.payload.delete({
-          collection: 'Audit-log',
+          collection: collectionSlug,
           where: { createdAt: { less_than: millisecondsAgo.toISOString() } },
         });
       }
