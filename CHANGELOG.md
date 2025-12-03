@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.11.0](///compare/v1.10.0...v1.11.0) (2025-12-03)
+
+### Bug Fixes
+
+logs not being deleted after setting a custom slug (6e88880)
+
 ## [1.10.0](///compare/v1.9.0...v1.10.0) (2025-12-02)
 
 ### Bug Fixes
