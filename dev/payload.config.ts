@@ -5,11 +5,12 @@ import { buildConfig } from 'payload';
 import { fileURLToPath } from 'node:url';
 import { media } from 'collections/Media.js';
 import { users } from 'collections/Users.js';
+// import { auditorPlugin } from 'payload-auditor';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
-import { auditorPlugin } from '../src/index.js';
 // import { auditorPlugin } from './../dist/index.js';
+import { auditorPlugin } from '../src/index.js';
 import { testEmailAdapter } from './helpers/testEmailAdapter.js';
 
 const filename = fileURLToPath(import.meta.url);
@@ -30,6 +31,16 @@ export default buildConfig({
     auditorPlugin({
       automation: { logCleanup: { cronTime: '*/1 * * * *', queueName: 'test', olderThan: 30000 } },
       collection: {
+        configureRootCollection(defaults) {
+          return {
+            ...defaults,
+            slug: 'some-name',
+            labels: {
+              singular: 'some-name',
+              plural: 'some-names',
+            },
+          };
+        },
         trackCollections: [
           {
             slug: 'media',
