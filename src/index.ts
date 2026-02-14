@@ -34,5 +34,6 @@ export const auditorPlugin
         tasks: [...(config.jobs?.tasks ?? []), cleanupLogsTask(opts)],
       };
       config.onInit = onInitManager(config, opts);
+
       return config;
     };
