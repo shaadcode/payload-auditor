@@ -112,8 +112,6 @@ export const attachCollectionConfig = (
 
       return collection;
     });
-
-    // console.log(auditor)
   }
 
   //  add root collection to payload config

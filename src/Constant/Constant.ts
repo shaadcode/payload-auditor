@@ -171,11 +171,13 @@ export const hookMap: AllCollectionHooks = {
     });
     return args.user;
   },
+  // @ts-ignore
   beforeOperation: async (args) => {
     await sharedLogic(args, {
       collection: args.collection,
       context: args.context,
       hook: 'beforeOperation',
+      // @ts-ignore
       operation: args.operation,
       req: args.req,
     });

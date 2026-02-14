@@ -23,7 +23,10 @@ if (!process.env.ROOT_DIR) {
 export default buildConfig({
   admin: { importMap: { baseDir: path.resolve(dirname) } },
   collections: [media, users],
-  db: mongooseAdapter({ url: process.env.DATABASE_URI || '' }),
+  db: mongooseAdapter({ url: process.env.DATABASE_URI || '', connectOptions: {
+    dbName: 'payload-auditor-db',
+    appName: 'payload-auditor-app',
+  } }),
   editor: lexicalEditor(),
   email: testEmailAdapter,
   // plugins
@@ -31,16 +34,16 @@ export default buildConfig({
     auditorPlugin({
       automation: { logCleanup: { cronTime: '*/1 * * * *', queueName: 'test', olderThan: 30000 } },
       collection: {
-        configureRootCollection(defaults) {
-          return {
-            ...defaults,
-            slug: 'some-name',
-            labels: {
-              singular: 'some-name',
-              plural: 'some-names',
-            },
-          };
-        },
+        // configureRootCollection(defaults) {
+        //   return {
+        //     ...defaults,
+        //     slug: 'some-name',
+        //     labels: {
+        //       singular: 'some-name',
+        //       plural: 'some-names',
+        //     },
+        //   };
+        // },
         trackCollections: [
           {
             slug: 'media',

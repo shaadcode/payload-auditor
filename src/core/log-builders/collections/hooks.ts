@@ -215,6 +215,7 @@ export const hookHandlers = {
       case 'update':
         break;
       case 'delete':
+        // @ts-ignore
         baseLog.documentId = args.args.id ? args.args.id.toString() : 'unknown';
         break;
       case 'forgotPassword':
