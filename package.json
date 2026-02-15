@@ -54,7 +54,7 @@
     "node": "^18.20.2 || >=20.19.1"
   },
   "scripts": {
-    "build:safe": "npm run test && npm run check-types && npm run copyfiles && npm run build:types && npm run build:swc",
+    "build:safe": "npm run test && npm run check-types && npm run lint && npm run copyfiles && npm run build:types && npm run build:swc",
     "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths --ignore **/*.test.ts **/*.test.tsx **/__tests__/**",
     "build": "npm run copyfiles && npm run build:types && npm run build:swc",
     "build:types": "tsc --outDir dist --rootDir ./src",
@@ -82,7 +82,7 @@
     "pre-release": "release-it --config .release-it.prerelease.ts --preRelease=beta"
   },
   "peerDependencies": {
-    "payload": "^3.29.0"
+    "payload": "^3.76.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^7.4.3",
@@ -106,7 +106,7 @@
     "copyfiles": "2.4.1",
     "cross-env": "^10.1.0",
     "cz-git": "^1.11.1",
-    "eslint": "^10.0.0",
+    "eslint": "^9.39.1",
     "eslint-plugin-perfectionist": "^5.5.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.0",
