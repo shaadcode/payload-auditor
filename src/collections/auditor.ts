@@ -4,6 +4,11 @@ import { defaultCollectionValues } from '../Constant/Constant.js';
 import type { hookTypes } from './../pluginUtils/configHelpers.js';
 import type { AuditHookOperationType } from '../types/pluginOptions.js';
 
+export interface AuditorUser {
+  collection: string;
+  id: string;
+}
+
 export interface AuditorLog {
   onCollection: string;
   documentId?: string;
@@ -11,7 +16,7 @@ export interface AuditorLog {
   operation: AuditHookOperationType;
   timestamp: Date;
   type: 'audit' | 'debug' | 'error' | 'info' | 'security' | 'unknown' | 'warning';
-  user: unknown;
+  user: AuditorUser | null;
   userAgent?: string;
 }
 
@@ -49,9 +54,13 @@ export const auditor: CollectionConfig = {
     },
     {
       name: 'user',
-      type: 'relationship',
-      relationTo: 'users',
-      required: true,
+      type: 'json',
+      required: false,
+      admin: {
+        components: {
+          Field: './collections/fields/UserRelationshipField#UserRelationshipField',
+        },
+      },
     },
     {
       name: 'userAgent',

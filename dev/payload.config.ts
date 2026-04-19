@@ -6,12 +6,15 @@ import { fileURLToPath } from 'node:url';
 import { media } from 'collections/Media.js';
 import { users } from 'collections/Users.js';
 // import { auditorPlugin } from 'payload-auditor';
-import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import { postgresAdapter } from '@payloadcms/db-postgres';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
 // import { auditorPlugin } from './../dist/index.js';
 import { auditorPlugin } from '../src/index.js';
+
 import { testEmailAdapter } from './helpers/testEmailAdapter.js';
+import { AppAccounts } from './collections/AppAccounts.js';
+
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -22,17 +25,18 @@ if (!process.env.ROOT_DIR) {
 
 export default buildConfig({
   admin: { importMap: { baseDir: path.resolve(dirname) } },
-  collections: [media, users],
-  db: mongooseAdapter({ url: process.env.DATABASE_URI || '', connectOptions: {
-    dbName: 'payload-auditor-db',
-    appName: 'payload-auditor-app',
-  } }),
+  collections: [media, users, AppAccounts],
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URL || '',
+    },
+  }),
   editor: lexicalEditor(),
   email: testEmailAdapter,
   // plugins
   plugins: [
     auditorPlugin({
-      automation: { logCleanup: { cronTime: '*/1 * * * *', queueName: 'test', olderThan: 30000 } },
+      // automation: { logCleanup: { cronTime: '*/1 * * * *', queueName: 'test', olderThan: 30000 } },
       collection: {
         // configureRootCollection(defaults) {
         //   return {

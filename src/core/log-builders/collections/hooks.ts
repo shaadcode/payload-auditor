@@ -17,18 +17,31 @@ import type {
   CollectionBeforeValidateHook,
   CollectionMeHook,
   CollectionRefreshHook,
+  PayloadRequest,
 } from 'payload';
 
 import type { SharedArgs } from './shared.js';
 import { emitWrapper } from './helpers/emitWrapper.js';
 import { handleDebugMode } from './helpers/handleDebugMode.js';
-import type { AuditorLog } from './../../../collections/auditor.js';
+import type { AuditorLog, AuditorUser } from '../../../collections/auditor.js';
 import type {
   AllCollectionHooks,
   HookOperationConfig,
   HookTrackingOperationMap,
   PluginOptions,
-} from './../../../types/pluginOptions.js';
+} from '../../../types/pluginOptions.js';
+
+const extractUser = (req: PayloadRequest): AuditorUser | null => {
+  if (!req?.user) {
+    return null;
+  }
+  const collection = req.user.collection as string | undefined;
+  const id = req.user.id as string | undefined;
+  if (!collection || !id) {
+    return null;
+  }
+  return { collection, id };
+};
 
 export const hookHandlers = {
   afterChange: (
@@ -38,7 +51,7 @@ export const hookHandlers = {
   ) => {
     baseLog.type = 'audit';
     baseLog.documentId = args.doc.id;
-    baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
 
     return args.doc;
   },
@@ -49,7 +62,7 @@ export const hookHandlers = {
   ) => {
     baseLog.type = 'audit';
     baseLog.documentId = args.doc.id;
-    baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
   },
   afterError: (
     args: Parameters<CollectionAfterErrorHook>[0],
@@ -58,7 +71,7 @@ export const hookHandlers = {
   ) => {
     baseLog.type = 'error';
     baseLog.documentId = 'unknown';
-    baseLog.user = sharedArgs.req?.user?.id || null;
+    baseLog.user = extractUser(sharedArgs.req);
   },
   afterForgotPassword: async (
     args: Parameters<CollectionAfterForgotPasswordHook>[0],
@@ -66,7 +79,6 @@ export const hookHandlers = {
     baseLog: Partial<AuditorLog>,
   ) => {
     baseLog.type = 'security';
-    baseLog.user = 'anonymous';
 
     const email = args.args.data?.email;
     const userDoc = await sharedArgs.req.payload.find({
@@ -76,7 +88,9 @@ export const hookHandlers = {
     });
 
     const userId = userDoc?.docs?.[0]?.id;
-    baseLog.user = userId;
+    baseLog.user = userId
+      ? { collection: sharedArgs.collection.slug, id: userId.toString() }
+      : null;
   },
   afterLogin: (
     args: Parameters<CollectionAfterLoginHook>[0],
@@ -85,7 +99,7 @@ export const hookHandlers = {
   ) => {
     baseLog.type = 'security';
     baseLog.operation = 'login';
-    baseLog.user = args.user.id || 'anonymous';
+    baseLog.user = { collection: sharedArgs.collection.slug, id: args.user.id.toString() };
   },
   afterLogout: (
     args: Parameters<CollectionAfterLogoutHook>[0],
@@ -93,14 +107,14 @@ export const hookHandlers = {
     baseLog: Omit<AuditorLog, 'onCollection' | 'hook' | 'operation' | 'timestamp' | 'userAgent'>,
   ) => {
     baseLog.type = 'security';
-    baseLog.user = sharedArgs.req.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
   },
   afterMe: (
     args: Parameters<CollectionAfterMeHook>[0],
     sharedArgs: SharedArgs,
     baseLog: Omit<AuditorLog, 'onCollection' | 'hook' | 'operation' | 'timestamp' | 'userAgent'>,
   ) => {
-    baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
     baseLog.type = 'info';
   },
   afterOperation: async <T extends keyof AllCollectionHooks>(
@@ -116,7 +130,7 @@ export const hookHandlers = {
   ) => {
     baseLog.type = 'audit';
     baseLog.documentId = 'unknown';
-    baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
 
     switch (args.operation) {
       case 'create':
@@ -154,7 +168,7 @@ export const hookHandlers = {
       }
       case 'login':
       case 'refresh': {
-        baseLog.user = args.result.user.id.toString();
+        baseLog.user = { collection: sharedArgs.collection.slug, id: args.result.user.id.toString() };
         break;
       }
     }
@@ -165,7 +179,7 @@ export const hookHandlers = {
     baseLog: Partial<AuditorLog>,
   ) => {
     baseLog.type = 'info';
-    baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
   },
   afterRefresh: (
     args: Parameters<CollectionAfterRefreshHook>[0],
@@ -173,7 +187,7 @@ export const hookHandlers = {
     baseLog: Partial<AuditorLog>,
   ) => {
     baseLog.type = 'info';
-    baseLog.user = sharedArgs.req.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
   },
   beforeChange: (
     args: Parameters<CollectionBeforeChangeHook>[0],
@@ -182,7 +196,7 @@ export const hookHandlers = {
   ) => {
     baseLog.type = 'audit';
     baseLog.documentId = args.originalDoc?.id;
-    baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
   },
   beforeDelete: (
     args: Parameters<CollectionBeforeDeleteHook>[0],
@@ -191,7 +205,7 @@ export const hookHandlers = {
   ) => {
     baseLog.type = 'audit';
     baseLog.documentId = args.id.toString();
-    baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
   },
   beforeLogin: (
     args: Parameters<CollectionBeforeLoginHook>[0],
@@ -199,7 +213,7 @@ export const hookHandlers = {
     baseLog: Partial<AuditorLog>,
   ) => {
     baseLog.type = 'security';
-    baseLog.user = args.user.id || 'anonymous';
+    baseLog.user = { collection: sharedArgs.collection.slug, id: args.user.id.toString() };
   },
   beforeOperation: async (
     args: Parameters<CollectionBeforeOperationHook>[0],
@@ -207,7 +221,7 @@ export const hookHandlers = {
     baseLog: Partial<AuditorLog>,
   ) => {
     baseLog.type = 'audit';
-    baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
 
     switch (args.operation) {
       case 'create':
@@ -227,7 +241,9 @@ export const hookHandlers = {
           where: { email: { equals: email } },
         });
         const userId = result?.docs?.[0]?.id;
-        baseLog.user = userId || 'anonymous';
+        baseLog.user = userId
+          ? { collection: sharedArgs.collection.slug, id: userId.toString() }
+          : null;
         break;
       }
     }
@@ -239,7 +255,7 @@ export const hookHandlers = {
   ) => {
     baseLog.type = 'info';
     baseLog.documentId = args.doc.id;
-    baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
   },
   beforeValidate: (
     args: Parameters<CollectionBeforeValidateHook>[0],
@@ -248,7 +264,7 @@ export const hookHandlers = {
   ) => {
     baseLog.type = 'debug';
     baseLog.documentId = args.operation === 'update' ? args.originalDoc?.id : 'unknown';
-    baseLog.user = sharedArgs.req?.user?.id || 'anonymous';
+    baseLog.user = extractUser(sharedArgs.req);
   },
   me: (
     args: Parameters<CollectionMeHook>[0],
@@ -256,7 +272,7 @@ export const hookHandlers = {
     baseLog: Partial<AuditorLog>,
   ) => {
     baseLog.type = 'info';
-    baseLog.user = args.user.id || 'anonymous';
+    baseLog.user = { collection: sharedArgs.collection.slug, id: args.user.id.toString() };
   },
   refresh: (
     args: Parameters<CollectionRefreshHook>[0],
@@ -264,6 +280,8 @@ export const hookHandlers = {
     baseLog: Partial<AuditorLog>,
   ) => {
     baseLog.type = 'info';
-    baseLog.user = args.user?.id || 'anonymous';
+    baseLog.user = args.user?.id
+      ? { collection: sharedArgs.collection.slug, id: args.user.id.toString() }
+      : null;
   },
 };

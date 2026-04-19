@@ -64,11 +64,13 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    'app-accounts': AppAccountAuthOperations;
   };
   blocks: {};
   collections: {
     media: Media;
     users: User;
+    'app-accounts': AppAccount;
     'Audit-log': AuditLog;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
@@ -80,6 +82,7 @@ export interface Config {
   collectionsSelect: {
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'app-accounts': AppAccountsSelect<false> | AppAccountsSelect<true>;
     'Audit-log': AuditLogSelect<false> | AuditLogSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -88,7 +91,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   fallbackLocale: null;
   globals: {
@@ -98,7 +101,7 @@ export interface Config {
     'payload-jobs-stats': PayloadJobsStatsSelect<false> | PayloadJobsStatsSelect<true>;
   };
   locale: null;
-  user: User;
+  user: User | AppAccount;
   jobs: {
     tasks: {
       'cleanup-payload-auditor-log': TaskCleanupPayloadAuditorLog;
@@ -128,12 +131,30 @@ export interface UserAuthOperations {
     password: string;
   };
 }
+export interface AppAccountAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   altText?: string | null;
   caption?: string | null;
   updatedAt: string;
@@ -153,7 +174,7 @@ export interface Media {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   role: 'admin' | 'user' | 'test' | 'orbital';
   updatedAt: string;
   createdAt: string;
@@ -176,14 +197,47 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "app-accounts".
+ */
+export interface AppAccount {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'app-accounts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "Audit-log".
  */
 export interface AuditLog {
-  id: string;
+  id: number;
   operation: string;
   onCollection: string;
   documentId?: string | null;
-  user: string | User;
+  user?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   userAgent?: string | null;
   hook?: string | null;
   type: 'info' | 'debug' | 'warning' | 'error' | 'audit' | 'security' | 'unknown';
@@ -194,7 +248,7 @@ export interface AuditLog {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -211,7 +265,7 @@ export interface PayloadKv {
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
-  id: string;
+  id: number;
   /**
    * Input data provided to the job
    */
@@ -312,25 +366,34 @@ export interface PayloadJob {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'app-accounts';
+        value: number | AppAccount;
       } | null)
     | ({
         relationTo: 'Audit-log';
-        value: string | AuditLog;
+        value: number | AuditLog;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'app-accounts';
+        value: number | AppAccount;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -339,11 +402,16 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  id: number;
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'app-accounts';
+        value: number | AppAccount;
+      };
   key?: string | null;
   value?:
     | {
@@ -362,7 +430,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -393,6 +461,28 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "app-accounts_select".
+ */
+export interface AppAccountsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -501,7 +591,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "payload-jobs-stats".
  */
 export interface PayloadJobsStat {
-  id: string;
+  id: number;
   stats?:
     | {
         [k: string]: unknown;

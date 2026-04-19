@@ -84,6 +84,9 @@
   "peerDependencies": {
     "payload": "^3.76.1"
   },
+  "dependencies": {
+    "@payloadcms/db-postgres": "^3.76.1"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^7.4.3",
     "@commitlint/cli": "^20.4.1",

@@ -12,7 +12,7 @@ export const media: CollectionConfig = {
     create: authenticated,
     delete: authenticated,
     read: anyone,
-    update: authenticated,
+    update: anyone,
   },
   fields: [
     {

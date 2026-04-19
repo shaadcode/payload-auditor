@@ -3,7 +3,7 @@ import type { PayloadRequest, RequestContext, SanitizedCollectionConfig } from '
 import { hookHandlers } from './hooks.js';
 import { emitWrapper } from './helpers/emitWrapper.js';
 import { handleDebugMode } from './helpers/handleDebugMode.js';
-import type { AuditorLog } from './../../../collections/auditor.js';
+import type { AuditorLog } from '../../../collections/auditor.js';
 import { checkOperationEnabled } from './helpers/isOperationEnabled.js';
 import type { hookTypes } from './../../../pluginUtils/configHelpers.js';
 import type {
@@ -63,7 +63,7 @@ export const sharedLogic = async <T extends keyof AllCollectionHooks>(
     hook: sharedArgs.hook,
     operation: sharedArgs.operation,
     timestamp: new Date(),
-    user: 'anonymous',
+    user: null,
     userAgent: sharedArgs.req.headers.get('user-agent') || 'unknown',
   };
 
