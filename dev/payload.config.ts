@@ -3,12 +3,12 @@ import sharp from 'sharp';
 import path from 'node:path';
 import { buildConfig } from 'payload';
 import { fileURLToPath } from 'node:url';
-import { media } from 'collections/Media.js';
-import { users } from 'collections/Users.js';
 // import { auditorPlugin } from 'payload-auditor';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
+import { media } from './collections/Media.js';
+import { users } from './collections/Users.js';
 // import { auditorPlugin } from './../dist/index.js';
 import { auditorPlugin } from '../src/index.js';
 import { testEmailAdapter } from './helpers/testEmailAdapter.js';
@@ -49,7 +49,12 @@ export default buildConfig({
             slug: 'media',
             hooks: {
               afterOperation: {
-                updateByID: { enabled: true },
+                updateByID: {
+                  enabled: true,
+                  modes: {
+                    debug: {},
+                  },
+                },
               },
             },
           },

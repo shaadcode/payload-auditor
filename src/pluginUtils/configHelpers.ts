@@ -2,8 +2,8 @@ import type { Access, BasePayload, Config } from 'payload';
 
 import auditor from '../collections/auditor.js';
 import { bufferManager } from './../core/buffer/bufferManager.js';
-import { DEFAULT_QUEUE_NAME } from './../core/automation/tasks/cleanup.js';
 import { defaultCollectionValues, hookMap } from './../Constant/Constant.js';
+import { DEFAULT_QUEUE_NAME } from '../core/automation/tasks/cleanup/cleanup.js';
 import type { AllCollectionHooks, PluginOptions } from './../types/pluginOptions.js';
 
 type AccessOps = 'create' | 'delete' | 'read' | 'update';

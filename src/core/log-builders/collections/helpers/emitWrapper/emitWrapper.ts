@@ -1,11 +1,11 @@
-import { emitEvent } from './../../../../core/events/emitter.js';
-import type { AuditorLog } from './../../../../collections/auditor.js';
+import { emitEvent } from '../../../../events/emitter.js';
+import type { AuditorLog } from '../../../../../collections/auditor.js';
 import type {
   AllCollectionHooks,
   HookOperationConfig,
   HookTrackingOperationMap,
   PluginOptions,
-} from './../../../../types/pluginOptions.js';
+} from '../../../../../types/pluginOptions.js';
 
 export const emitWrapper = async <T extends keyof AllCollectionHooks>(
   logData: AuditorLog,
