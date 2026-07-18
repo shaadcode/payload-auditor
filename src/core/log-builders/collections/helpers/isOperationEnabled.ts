@@ -2,6 +2,7 @@ import type {
   AllCollectionHooks,
   HookOperationConfig,
   HookTrackingOperationMap,
+  // @ts-expect-error
 } from 'src/types/pluginOptions.js';
 
 export const checkOperationEnabled = <T extends keyof AllCollectionHooks>(

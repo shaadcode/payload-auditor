@@ -1,9 +1,9 @@
-import type { PluginOptions } from 'src/types/pluginOptions.js';
-import { defaultCollectionValues } from 'src/Constant/Constant.js';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { onEventLog } from './../../core/events/emitter.js';
+import type { PluginOptions } from '../../types/pluginOptions.js';
 import { bufferManager } from './../../core/buffer/bufferManager.js';
+import { defaultCollectionValues } from '../../Constant/Constant.js';
 
 vi.mock('../../core/events/emitter.ts', () => ({
   onEventLog: vi.fn(),

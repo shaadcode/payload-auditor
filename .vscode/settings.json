@@ -4,12 +4,14 @@
   "prettier.enable": false,
   // Auto fix
   "editor.formatOnSave": true,
+  "editor.fontWeight": "500",
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.codeActionsOnSave": {
     "source.organizeImports": "never",
     "source.fixAll.eslint": "always",
     "source.removeUnusedImports": "always"
   },
+  "js/ts.experimental.useTsgo": true,
   "eslint.enable": true,
   "eslint.probe": [
     "astro",
@@ -24,8 +26,6 @@
     "json",
     "jsonc"
   ],
-  "typescript.validate.enable": true,
-  "javascript.validate.enable": true,
   "[typescriptreact]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
@@ -124,4 +124,5 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "typescript.native-preview.tsdk": "node_modules\\@typescript\\native-preview",
 }

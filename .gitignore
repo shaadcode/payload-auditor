@@ -48,3 +48,5 @@ yarn-error.log*
 payload-auditor@*
 
 swc
+
+.vscode

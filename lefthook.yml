@@ -1,0 +1,9 @@
+pre-commit:
+  commands:
+    linting js/ts files and check-types:
+      run: bun build:safe
+
+commit-msg:
+  commands:
+    commitlint checks:
+      run: bun run commitlint --edit {1}
