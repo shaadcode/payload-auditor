@@ -20,8 +20,8 @@ import type {
 } from 'payload';
 
 import type { SharedArgs } from './shared.js';
-import { emitWrapper } from './helpers/emitWrapper.js';
 import { handleDebugMode } from './helpers/handleDebugMode.js';
+import { emitWrapper } from './helpers/emitWrapper/emitWrapper.js';
 import type { AuditorLog } from './../../../collections/auditor.js';
 import type {
   AllCollectionHooks,

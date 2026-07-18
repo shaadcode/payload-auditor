@@ -11,7 +11,8 @@ export const handleBufferDebugMode = (
     return null;
   }
   const debugFields = bufferConfig?.modes?.debug?.fields ?? fields;
-  const displayType = bufferConfig?.modes?.debug?.displayType;
+  const displayType = bufferConfig?.modes?.debug?.displayType ?? 'table';
+
   const debugLog = Object.fromEntries(
     Object.entries(fields).filter(([key]) => debugFields[key as keyof BufferDebugFields]),
   );

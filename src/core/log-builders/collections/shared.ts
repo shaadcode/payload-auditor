@@ -1,8 +1,8 @@
 import type { PayloadRequest, RequestContext, SanitizedCollectionConfig } from 'payload';
 
 import { hookHandlers } from './hooks.js';
-import { emitWrapper } from './helpers/emitWrapper.js';
 import { handleDebugMode } from './helpers/handleDebugMode.js';
+import { emitWrapper } from './helpers/emitWrapper/emitWrapper.js';
 import type { AuditorLog } from './../../../collections/auditor.js';
 import { checkOperationEnabled } from './helpers/isOperationEnabled.js';
 import type { hookTypes } from './../../../pluginUtils/configHelpers.js';
@@ -51,6 +51,7 @@ export const sharedLogic = async <T extends keyof AllCollectionHooks>(
   const userHookOperationConfig = (
     userHookConfig as Record<AuditHookOperationType, HookOperationConfig<T> | undefined>
   )?.[sharedArgs.operation];
+
   const isOperationEnabled = checkOperationEnabled<typeof sharedArgs.hook>(
     userHookOperationConfig,
     userHookConfig,

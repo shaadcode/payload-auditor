@@ -1,23 +1,26 @@
+import type { Mock } from 'vitest';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { onEventLog } from './../../core/events/emitter.js';
 import type { PluginOptions } from '../../types/pluginOptions.js';
-import { bufferManager } from './../../core/buffer/bufferManager.js';
 import { defaultCollectionValues } from '../../Constant/Constant.js';
+import { bufferManager, bufferStore } from './../../core/buffer/bufferManager.js';
 
 vi.mock('../../core/events/emitter.ts', () => ({
   onEventLog: vi.fn(),
 }));
 
-const createMock = vi.fn();
 const mockPayload = {
-  create: createMock,
+  create: vi.fn(),
 };
+
+const mockOnEventLog = onEventLog as Mock;
 
 const sampleLog = { message: 'test log', timestamp: Date.now() };
 beforeEach(() => {
   vi.clearAllMocks();
   vi.useFakeTimers();
+  bufferStore.length = 0;
 });
 
 afterEach(() => {
@@ -38,13 +41,13 @@ describe('bufferManager', () => {
     bufferManager(mockPayload as any, pluginOptions);
 
     // simulate event listener
-    const handler = (onEventLog as any).mock.calls[0][1];
+    const handler = mockOnEventLog.mock.calls[0][1];
 
     await handler(sampleLog);
-    expect(createMock).not.toHaveBeenCalled();
+    expect(mockPayload.create).not.toHaveBeenCalled();
 
     await handler(sampleLog);
-    expect(createMock).toHaveBeenCalledTimes(2);
+    expect(mockPayload.create).toHaveBeenCalledTimes(2);
   });
 
   it('should flush immediately in realtime mode', async () => {
@@ -57,10 +60,10 @@ describe('bufferManager', () => {
     } as PluginOptions;
 
     bufferManager(mockPayload as any, pluginOptions);
-    const handler = (onEventLog as any).mock.calls[0][1];
+    const handler = mockOnEventLog.mock.calls[0][1];
 
     await handler(sampleLog);
-    expect(createMock).toHaveBeenCalledWith({
+    expect(mockPayload.create).toHaveBeenCalledWith({
       collection: defaultCollectionValues.slug,
       data: sampleLog,
     });
@@ -71,26 +74,25 @@ describe('bufferManager', () => {
       collection: {
         buffer: {
           flushStrategy: 'time',
-          time: '2s',
+          time: 2000,
         },
       },
     } as unknown as PluginOptions;
 
     bufferManager(mockPayload as any, pluginOptions);
-    const handler = (onEventLog as any).mock.calls[0][1];
+    const handler = mockOnEventLog.mock.calls[0][1];
     await handler(sampleLog);
-    expect(createMock).not.toHaveBeenCalled();
+    expect(mockPayload.create).not.toHaveBeenCalled();
 
     vi.advanceTimersByTime(2000);
 
-    await Promise.resolve(); // allow flushBuffer to run
-    expect(createMock).toHaveBeenCalledWith({
+    expect(mockPayload.create).toHaveBeenCalledWith({
       collection: defaultCollectionValues.slug,
       data: sampleLog,
     });
   });
 
-  it('should clear buffer after flushing', async () => {
+  it('should flushing logs after create log when size value is 1', async () => {
     const pluginOptions = {
       collection: {
         buffer: {
@@ -101,13 +103,77 @@ describe('bufferManager', () => {
     } as PluginOptions;
 
     bufferManager(mockPayload as any, pluginOptions);
-    const handler = (onEventLog as any).mock.calls[0][1];
+    const handler = mockOnEventLog.mock.calls[0][1];
 
     await handler(sampleLog);
-    expect(createMock).toHaveBeenCalledTimes(1);
+    expect(mockPayload.create).toHaveBeenCalledTimes(1);
 
     // now push another and check it's flushed separately (i.e., buffer reset)
     await handler(sampleLog);
-    expect(createMock).toHaveBeenCalledTimes(2);
+    expect(mockPayload.create).toHaveBeenCalledTimes(2);
+  });
+
+  it('should clear buffer store after flushing by size', async () => {
+    const pluginOptions = {
+      collection: {
+        buffer: {
+          flushStrategy: 'size',
+          size: 2,
+        },
+      },
+    } as unknown as PluginOptions;
+
+    bufferManager(mockPayload as any, pluginOptions);
+
+    const handler = mockOnEventLog.mock.calls[0][1];
+
+    await handler({ ...sampleLog, id: 'log-1' });
+    await handler({ ...sampleLog, id: 'log-2' });
+
+    expect(mockPayload.create).toHaveBeenCalledTimes(2);
+    expect(bufferStore).toHaveLength(0);
+  });
+
+  it('should clear buffer store after flushing by time', async () => {
+    const pluginOptions = {
+      collection: {
+        buffer: {
+          flushStrategy: 'time',
+          time: 2000,
+        },
+      },
+    } as PluginOptions;
+
+    bufferManager(mockPayload as any, pluginOptions);
+
+    const handler = mockOnEventLog.mock.calls[0][1];
+
+    await handler({ ...sampleLog, id: 'log-1' });
+    await handler({ ...sampleLog, id: 'log-2' });
+
+    vi.advanceTimersByTime(2000);
+
+    expect(mockPayload.create).toHaveBeenCalledTimes(2);
+    expect(bufferStore).toHaveLength(0);
+  });
+
+  it('should clear buffer store after flushing by realtime', async () => {
+    const pluginOptions = {
+      collection: {
+        buffer: {
+          flushStrategy: 'realtime',
+        },
+      },
+    } as PluginOptions;
+
+    bufferManager(mockPayload as any, pluginOptions);
+
+    const handler = mockOnEventLog.mock.calls[0][1];
+
+    await handler({ ...sampleLog, id: 'log-1' });
+    await handler({ ...sampleLog, id: 'log-2' });
+
+    expect(mockPayload.create).toHaveBeenCalledTimes(2);
+    expect(bufferStore).toHaveLength(0);
   });
 });

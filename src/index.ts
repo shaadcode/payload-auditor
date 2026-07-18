@@ -2,7 +2,7 @@ import type { Config, Plugin } from 'payload';
 
 import { defaultPluginOpts } from './Constant/Constant.js';
 import type { PluginOptions } from './types/pluginOptions.js';
-import { cleanupLogsTask } from './core/automation/tasks/cleanup.js';
+import { cleanupLogsTask } from './core/automation/tasks/cleanup/cleanup.js';
 import {
   attachCollectionConfig,
   buildAccessControl,

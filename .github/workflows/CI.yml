@@ -2,9 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
   pull_request:
-    branches: [main]
 
 jobs:
   build-and-test:
@@ -15,23 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
-        run: npm ci
-
-      #   - name: Lint code
-      #     run: npm run lint
-
-      #   - name: Run tests
-      #     run: npm test
+        run: bun --frozen-lockfile
 
       - name: Build project
-        run: npm run build:safe
+        run: bun build:safe
 
       - name: Job summary
         run: echo "✅ CI checks passed successfully!"

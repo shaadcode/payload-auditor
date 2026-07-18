@@ -2,17 +2,19 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "target": "ES2022",
-    "baseUrl": "./",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "paths": {
-      "@payload-config": ["./payload.config.ts"],
-      "payload-auditor/*": ["../dist/*"]
+      "@payload-config": [
+        "./payload.config.ts"
+      ],
+      "payload-auditor/*": [
+        "../dist/*"
+      ]
     },
     "emitDeclarationOnly": false,
     "noEmit": true
   },
-
   "include": [
     "**/*.js",
     "**/*.jsx",
