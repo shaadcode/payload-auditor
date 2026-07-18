@@ -1,5 +1,10 @@
 {
-  "$schema": "https://json.schemastore.org/swcrc",
+  "$schema": "https://swc.rs/schema.json",
+  "exclude": [
+    ".*\\.test\\.ts$",
+    ".*\\.test\\.tsx$",
+    ".*/__tests__/.*"
+  ],
   "sourceMaps": true,
   "jsc": {
     "target": "esnext",
@@ -19,6 +24,6 @@
     }
   },
   "module": {
-    "type": "es6"
+    "type": "es6",
   }
 }
