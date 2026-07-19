@@ -1,4 +1,4 @@
-import type { Config } from 'release-it'
+import type { Config } from 'release-it';
 
 export default {
   git: {
@@ -6,7 +6,7 @@ export default {
     tagName: 'v${version}',
     push: true,
     pushRepo: 'origin',
-    requireBranch: 'release/latest',
+    requireBranch: 'release/*',
     getLatestTagFromAllRefs: true
   },
   hooks: {
