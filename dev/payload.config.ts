@@ -32,30 +32,23 @@ export default buildConfig({
   // plugins
   plugins: [
     auditorPlugin({
-      automation: { logCleanup: { cronTime: '*/1 * * * *', queueName: 'test', olderThan: 30000 } },
+      automation: {
+        logCleanup: { cronTime: '*/1 * * * *', queueName: 'test', olderThan: 60000 },
+      },
+      // customLogger
       collection: {
-        // configureRootCollection(defaults) {
-        //   return {
-        //     ...defaults,
-        //     slug: 'some-name',
-        //     labels: {
-        //       singular: 'some-name',
-        //       plural: 'some-names',
-        //     },
-        //   };
-        // },
-        trackCollections: [
+        track: [
           {
             slug: 'media',
+
             hooks: {
+              // customLogger
               afterOperation: {
-                updateByID: {
-                  enabled: true,
-                  modes: {
-                    debug: {},
-                  },
-                },
+                updateByID: true,
               },
+              // afterRead: {
+              //   enabled: true,
+              // },
             },
           },
         ],

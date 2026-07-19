@@ -185,11 +185,8 @@ export interface AuditLog {
   id: string;
   operation: string;
   onCollection: string;
-  documentId?: string | null;
-  user: string | User;
   userAgent?: string | null;
   hook?: string | null;
-  type: 'info' | 'debug' | 'warning' | 'error' | 'audit' | 'security' | 'unknown';
   createdAt: string;
 }
 /**
@@ -420,11 +417,8 @@ export interface UsersSelect<T extends boolean = true> {
 export interface AuditLogSelect<T extends boolean = true> {
   operation?: T;
   onCollection?: T;
-  documentId?: T;
-  user?: T;
   userAgent?: T;
   hook?: T;
-  type?: T;
   createdAt?: T;
 }
 /**
