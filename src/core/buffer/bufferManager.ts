@@ -1,9 +1,10 @@
 import type { Payload } from 'payload';
 
+import type { BufferConfig } from './types.js';
+import { auditor } from '../../collections/auditor.js';
 import { onEventLog } from './../../core/events/emitter.js';
 import type { AuditorLog } from '../../collections/auditor.js';
-import { defaultCollectionValues } from './../../Constant/Constant.js';
-import type { BufferConfig, PluginOptions } from './../../types/pluginOptions.js';
+import type { PluginConfig } from '../../types/pluginOptions.js';
 import { handleBufferDebugMode } from './../../core/buffer/helpers/handleBufferDebugMode.js';
 
 export const DEFAULT_INTERVAL_BUFFER = 10000 as NonNullable<BufferConfig['time']>;
@@ -14,22 +15,21 @@ export const bufferStore: AuditorLog[] = [];
 
 let payloadInstance: Payload;
 
-const flushBuffer = async (pluginOptions: PluginOptions) => {
+const flushBuffer = async (pluginOptions: PluginConfig) => {
   const logsToInsert = [...bufferStore];
   bufferStore.length = 0;
+  const internalCollection = pluginOptions.collection?.configureRootCollection?.();
   await Promise.all(
     logsToInsert.map(log =>
       payloadInstance.create({
-        collection: pluginOptions.collection?.slug
-          ? pluginOptions.collection?.slug
-          : defaultCollectionValues.slug,
+        collection: internalCollection?.slug ?? auditor.slug,
         data: log,
       }),
     ),
   );
 };
 
-export const bufferManager = (payload: Payload, pluginOptions: PluginOptions) => {
+export const bufferManager = (payload: Payload, pluginOptions: PluginConfig) => {
   const bufferConfig = pluginOptions.collection?.buffer;
   const size = bufferConfig?.size ?? DEFAULT_BUFFER_SIZE;
   const interval = bufferConfig?.time ?? DEFAULT_INTERVAL_BUFFER;

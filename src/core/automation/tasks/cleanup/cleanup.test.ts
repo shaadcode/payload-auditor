@@ -1,7 +1,7 @@
 import type { TaskConfig } from 'payload';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type { PluginOptions } from '../../../../types/pluginOptions.js';
+import type { PluginConfig } from '../../../../types/pluginOptions.js';
 import { CLEANUP_TASK_LABEL, CLEANUP_TASK_SLUG, cleanupLogsTask, DEFAULT_CRON_TIME, DEFAULT_OLDER_THAN, DEFAULT_QUEUE_NAME } from './cleanup.js';
 
 const mockPluginConfig = {
@@ -12,7 +12,8 @@ const mockPluginConfig = {
       queueName: DEFAULT_QUEUE_NAME,
     },
   },
-} as const satisfies PluginOptions;
+  // @ts-expect-error
+} as const satisfies PluginConfig;
 
 const mockReq = {
   payload: {
@@ -30,6 +31,7 @@ describe('cleanupLogsTask', () => {
   });
 
   it('should return expected task', () => {
+    // @ts-expect-error
     const result = cleanupLogsTask(mockPluginConfig);
 
     const expectedResultInstance = {
@@ -52,7 +54,8 @@ describe('cleanupLogsTask', () => {
 
   describe('handler task', () => {
     it('should call payload.delete with correct parameters', async () => {
-      const pluginOptions: PluginOptions = {};
+      const pluginOptions: Partial<PluginConfig> = {};
+      // @ts-expect-error
       const task = cleanupLogsTask(pluginOptions);
 
       typeof task.handler === 'function' && await task
@@ -74,10 +77,10 @@ describe('cleanupLogsTask', () => {
 
     it('should use configureRootCollection result when provided', async () => {
       const configuredSlug = 'configured-audit-logs';
-      const pluginOptions: PluginOptions = {
+      const pluginOptions: PluginConfig = {
         collection: {
           configureRootCollection: vi.fn().mockReturnValue({ slug: configuredSlug }),
-          trackCollections: [],
+          track: [],
         },
       };
 
@@ -96,7 +99,8 @@ describe('cleanupLogsTask', () => {
 
     it('should use custom olderThan value', async () => {
       const customOlderThan = 86400000; // 1 day
-      const pluginOptions: PluginOptions = {
+      // @ts-expect-error
+      const pluginOptions: PluginConfig = {
         automation: {
           logCleanup: {
             olderThan: customOlderThan,
@@ -127,7 +131,8 @@ describe('cleanupLogsTask', () => {
     });
 
     it('should return empty output object', async () => {
-      const pluginOptions: PluginOptions = {};
+      const pluginOptions: Partial<PluginConfig> = {};
+      // @ts-expect-error
       const task = cleanupLogsTask(pluginOptions);
 
       const result = typeof task.handler === 'function' && await task.handler({
@@ -142,7 +147,8 @@ describe('cleanupLogsTask', () => {
       const mockError = new Error('Database connection failed');
       mockReq.payload.delete.mockRejectedValueOnce(mockError);
 
-      const pluginOptions: PluginOptions = {};
+      const pluginOptions: Partial<PluginConfig> = {};
+      // @ts-expect-error
       const task = cleanupLogsTask(pluginOptions);
 
       typeof task.handler === 'function' && await task.handler({
@@ -159,7 +165,8 @@ describe('cleanupLogsTask', () => {
     it('should not throw error when payload.delete fails', async () => {
       mockReq.payload.delete.mockRejectedValueOnce(new Error('Database error'));
 
-      const pluginOptions: PluginOptions = {};
+      const pluginOptions: Partial<PluginConfig> = {};
+      // @ts-expect-error
       const task = cleanupLogsTask(pluginOptions);
 
       await expect(
@@ -173,7 +180,8 @@ describe('cleanupLogsTask', () => {
     it('should log error with correct message', async () => {
       mockReq.payload.delete.mockRejectedValueOnce(new Error('Any error'));
 
-      const pluginOptions: PluginOptions = {};
+      const pluginOptions: Partial<PluginConfig> = {};
+      // @ts-expect-error
       const task = cleanupLogsTask(pluginOptions);
 
       typeof task.handler === 'function' && await task.handler({

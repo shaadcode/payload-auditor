@@ -1,11 +1,9 @@
 import type { Config, Plugin } from 'payload';
 
-import { defaultPluginOpts } from './Constant/Constant.js';
-import type { PluginOptions } from './types/pluginOptions.js';
+import type { PluginConfig } from './types/pluginOptions.js';
 import { cleanupLogsTask } from './core/automation/tasks/cleanup/cleanup.js';
 import {
   attachCollectionConfig,
-  buildAccessControl,
   onInitManager,
 } from './pluginUtils/configHelpers.js';
 /**
@@ -18,21 +16,20 @@ import {
  *
  */
 export const auditorPlugin
-  = (opts: PluginOptions = defaultPluginOpts): Plugin =>
+  = (opts: PluginConfig): Plugin =>
     async (incomingConfig: Config): Promise<Config> => {
       const config = { ...incomingConfig };
       if (opts.enabled === false) {
         return config;
       }
-      // Accessibility customization
-      // TODO: combine to attachCollectionConfig function
-      buildAccessControl(opts);
 
       config.collections = attachCollectionConfig(config.collections, opts);
+
       config.jobs = {
         ...config.jobs,
         tasks: [...(config.jobs?.tasks ?? []), cleanupLogsTask(opts)],
       };
+
       config.onInit = onInitManager(config, opts);
 
       return config;

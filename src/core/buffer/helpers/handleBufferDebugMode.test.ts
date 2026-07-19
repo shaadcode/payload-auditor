@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { prettyDebugLog } from '../../../utils/prettyDebugLog.js';
+import type { BufferConfig, BufferDebugFields } from '../types.js';
 import { handleBufferDebugMode } from './handleBufferDebugMode.js';
-import type { BufferConfig, BufferDebugFields } from '../../../types/pluginOptions.js';
 import { DEFAULT_BUFFER_SIZE, DEFAULT_BUFFER_STRATEGY, DEFAULT_INTERVAL_BUFFER } from '../bufferManager.js';
 
 vi.mock('../../../utils/prettyDebugLog.js');

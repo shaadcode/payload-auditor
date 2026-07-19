@@ -1,9 +1,9 @@
 import type { Mock } from 'vitest';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { auditor } from '../../collections/auditor.js';
 import { onEventLog } from './../../core/events/emitter.js';
-import type { PluginOptions } from '../../types/pluginOptions.js';
-import { defaultCollectionValues } from '../../Constant/Constant.js';
+import type { PluginConfig } from '../../types/pluginOptions.js';
 import { bufferManager, bufferStore } from './../../core/buffer/bufferManager.js';
 
 vi.mock('../../core/events/emitter.ts', () => ({
@@ -36,7 +36,7 @@ describe('bufferManager', () => {
           size: 2,
         },
       },
-    } as PluginOptions;
+    } as PluginConfig;
 
     bufferManager(mockPayload as any, pluginOptions);
 
@@ -57,14 +57,14 @@ describe('bufferManager', () => {
           flushStrategy: 'realtime',
         },
       },
-    } as PluginOptions;
+    } as PluginConfig;
 
     bufferManager(mockPayload as any, pluginOptions);
     const handler = mockOnEventLog.mock.calls[0][1];
 
     await handler(sampleLog);
     expect(mockPayload.create).toHaveBeenCalledWith({
-      collection: defaultCollectionValues.slug,
+      collection: auditor.slug,
       data: sampleLog,
     });
   });
@@ -77,7 +77,7 @@ describe('bufferManager', () => {
           time: 2000,
         },
       },
-    } as unknown as PluginOptions;
+    } as unknown as PluginConfig;
 
     bufferManager(mockPayload as any, pluginOptions);
     const handler = mockOnEventLog.mock.calls[0][1];
@@ -87,7 +87,7 @@ describe('bufferManager', () => {
     vi.advanceTimersByTime(2000);
 
     expect(mockPayload.create).toHaveBeenCalledWith({
-      collection: defaultCollectionValues.slug,
+      collection: auditor.slug,
       data: sampleLog,
     });
   });
@@ -100,7 +100,7 @@ describe('bufferManager', () => {
           size: 1,
         },
       },
-    } as PluginOptions;
+    } as PluginConfig;
 
     bufferManager(mockPayload as any, pluginOptions);
     const handler = mockOnEventLog.mock.calls[0][1];
@@ -121,7 +121,7 @@ describe('bufferManager', () => {
           size: 2,
         },
       },
-    } as unknown as PluginOptions;
+    } as unknown as PluginConfig;
 
     bufferManager(mockPayload as any, pluginOptions);
 
@@ -142,7 +142,7 @@ describe('bufferManager', () => {
           time: 2000,
         },
       },
-    } as PluginOptions;
+    } as PluginConfig;
 
     bufferManager(mockPayload as any, pluginOptions);
 
@@ -164,7 +164,7 @@ describe('bufferManager', () => {
           flushStrategy: 'realtime',
         },
       },
-    } as PluginOptions;
+    } as PluginConfig;
 
     bufferManager(mockPayload as any, pluginOptions);
 

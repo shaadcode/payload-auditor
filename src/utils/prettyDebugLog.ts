@@ -1,10 +1,12 @@
-import type { hookTypes } from './../pluginUtils/configHelpers.js';
-import type { AuditHookOperationType } from './../types/pluginOptions.js';
-
 /* eslint-disable no-console */
+
+import type { LiteralUnion } from 'type-fest';
+
+import type { CollectionHooksKeys, CollectionHooksOperation } from '../core/log-builders/collections/logBuilderManager.js';
+
 export const prettyDebugLog = (
-  title: (typeof hookTypes)[number] | ({} & string),
-  subtitle: ({} & string) | AuditHookOperationType,
+  title: LiteralUnion<CollectionHooksKeys, string>,
+  subtitle: LiteralUnion<CollectionHooksOperation, string>,
   data: Record<string, any>,
   type: 'manual' | 'table' = 'table',
 ) => {

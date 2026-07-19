@@ -1,5 +1,5 @@
+import type { BufferConfig, BufferDebugFields } from '../types.js';
 import { prettyDebugLog } from './../../../utils/prettyDebugLog.js';
-import type { BufferConfig, BufferDebugFields } from './../../../types/pluginOptions.js';
 
 export const handleBufferDebugMode = (
   fields: Record<keyof BufferDebugFields, number | string>,

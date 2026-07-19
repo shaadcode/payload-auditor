@@ -1,36 +1,26 @@
 import type { CollectionConfig } from 'payload';
 
-import { defaultCollectionValues } from '../Constant/Constant.js';
-import type { hookTypes } from './../pluginUtils/configHelpers.js';
-import type { AuditHookOperationType } from '../types/pluginOptions.js';
+import type { CollectionHooksKeys, CollectionHooksOperation } from '../core/log-builders/collections/logBuilderManager.js';
 
 export interface AuditorLog {
   onCollection: string;
-  documentId?: string;
-  hook: (typeof hookTypes)[number];
-  operation: AuditHookOperationType;
+  hook: CollectionHooksKeys;
+  operation: CollectionHooksOperation;
   timestamp: Date;
-  type: 'audit' | 'debug' | 'error' | 'info' | 'security' | 'unknown' | 'warning';
-  user: unknown;
   userAgent?: string;
 }
 
 export type TypedRootCollection = typeof auditor;
 
 export const auditor: CollectionConfig = {
-  slug: defaultCollectionValues.slug,
-  access: {
-    admin: () => false,
-    create: () => false,
-    delete: () => false,
-    read: () => false,
-    readVersions: () => false,
-    unlock: () => false,
-    update: () => false,
+  slug: 'Audit-log',
+  labels: {
+    plural: 'Audit-logs',
+    singular: 'Audit-log',
   },
   admin: {
-    defaultColumns: ['operation', 'type', 'collection', 'user', 'timestamp'],
-    useAsTitle: 'type',
+    defaultColumns: ['operation', 'hook', 'onCollection', 'timestamp', 'createdAt'],
+    useAsTitle: 'operation',
   },
   fields: [
     {
@@ -44,31 +34,12 @@ export const auditor: CollectionConfig = {
       required: true,
     },
     {
-      name: 'documentId',
-      type: 'text',
-    },
-    {
-      name: 'user',
-      type: 'relationship',
-      relationTo: 'users',
-      required: true,
-    },
-    {
       name: 'userAgent',
       type: 'text',
     },
     {
       name: 'hook',
       type: 'text',
-    },
-    {
-      name: 'type',
-      type: 'select',
-      defaultValue: 'info',
-      options: ['info', 'debug', 'warning', 'error', 'audit', 'security', 'unknown'] as Array<
-        AuditorLog['type']
-      >,
-      required: true,
     },
     {
       name: 'createdAt',
@@ -80,7 +51,6 @@ export const auditor: CollectionConfig = {
       required: true,
     },
   ],
-  labels: defaultCollectionValues.labels,
   timestamps: false,
 };
 

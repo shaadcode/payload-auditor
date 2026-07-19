@@ -1,17 +1,16 @@
 import type { AuditorLog } from './../../../../collections/auditor.js';
 import { prettyDebugLog } from './../../../../utils/prettyDebugLog.js';
+import type { CollectionHooksKeys, CollectionHooksOperation } from '../logBuilderManager.js';
 import type {
-  AllCollectionHooks,
-  AuditHookOperationType,
-  HookOperationConfig,
-  HookTrackingOperationMap,
+  HookConfigForTracking,
+  LogConfig,
 } from './../../../../types/pluginOptions.js';
 
-export const handleDebugMode = <T extends keyof AllCollectionHooks>(
-  hookConfig: HookTrackingOperationMap[T] | undefined,
-  operationConfig: HookOperationConfig<T> | undefined,
+export const handleDebugMode = <T extends CollectionHooksKeys>(
+  hookConfig: HookConfigForTracking[T] | undefined,
+  operationConfig: LogConfig<T> | undefined,
   allFields: AuditorLog,
-  operation: AuditHookOperationType,
+  operation: CollectionHooksOperation,
 ) => {
   const hookDebugConfig = hookConfig?.modes?.debug;
   const operationDebugConfig = operationConfig?.modes?.debug;

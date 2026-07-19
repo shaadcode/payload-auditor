@@ -1,24 +1,25 @@
-import type {
-  AllCollectionHooks,
-  HookOperationConfig,
-  HookTrackingOperationMap,
-  // @ts-expect-error
-} from 'src/types/pluginOptions.js';
+import type { CollectionConfig } from 'payload';
 
-export const checkOperationEnabled = <T extends keyof AllCollectionHooks>(
-  userHookOperationConfig: HookOperationConfig<T> | undefined,
-  userHookConfig: HookTrackingOperationMap[T] | undefined,
-): boolean => {
-  if (userHookConfig?.enabled === false) {
-    return false;
-  }
-  else if (userHookConfig?.enabled === true && userHookOperationConfig?.enabled !== false) {
-    return true;
-  }
-  else if (userHookConfig?.enabled === true && userHookOperationConfig?.enabled === false) {
-    return false;
-  }
-  else if (userHookOperationConfig?.enabled) {
+import type { HookConfigForTracking, LogConfig } from '../../../../types/pluginOptions.js';
+
+type CollectionHooksKeys = keyof NonNullable<CollectionConfig['hooks']>;
+
+interface Params {
+  hookOperationLevelConfig?: LogConfig<CollectionHooksKeys> | true;
+  hookLevelConfig?: HookConfigForTracking[CollectionHooksKeys];
+}
+
+export const checkIsOperationEnabled = (params: Params): boolean => {
+  const hookLevelEnabled = params.hookLevelConfig?.enabled;
+  const operationLevelEnabled = typeof params.hookOperationLevelConfig === 'boolean'
+    ? params.hookOperationLevelConfig
+    : params.hookOperationLevelConfig?.enabled;
+
+  if (
+    (hookLevelEnabled && operationLevelEnabled)
+    || (hookLevelEnabled === undefined && operationLevelEnabled)
+    || (hookLevelEnabled && operationLevelEnabled === undefined)
+  ) {
     return true;
   }
   else {
