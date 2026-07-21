@@ -23,10 +23,13 @@ if (!process.env.ROOT_DIR) {
 export default buildConfig({
   admin: { importMap: { baseDir: path.resolve(dirname) } },
   collections: [media, users],
-  db: mongooseAdapter({ url: process.env.DATABASE_URI || '', connectOptions: {
-    dbName: 'payload-auditor-db',
-    appName: 'payload-auditor-app',
-  } }),
+  db: mongooseAdapter({
+    url: process.env.DATABASE_URI || '',
+    connectOptions: {
+      dbName: 'payload-auditor-db',
+      appName: 'payload-auditor-app',
+    },
+  }),
   editor: lexicalEditor(),
   email: testEmailAdapter,
   // plugins
@@ -40,11 +43,15 @@ export default buildConfig({
         track: [
           {
             slug: 'media',
-
+enabled:
             hooks: {
+              // enabled: true,
               // customLogger
               afterOperation: {
-                updateByID: true,
+                // enabled: true,
+                updateByID: {
+                  enabled: true,
+                },
               },
               // afterRead: {
               //   enabled: true,

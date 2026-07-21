@@ -1,13 +1,14 @@
 import type { AllOperations, CollectionConfig } from 'payload';
 
 import type { AuditorLog } from '../../../collections/auditor.js';
-import { checkIsOperationEnabled } from './helpers/isOperationEnabled.js';
 import { extractOperation } from './helpers/extractOperation/extractOperation.js';
+import { checkIsOperationEnabled } from './helpers/isOperationEnabled/isOperationEnabled.js';
 import { customLoggingHandler } from './helpers/customLoggingHandler/customLoggingHandler.js';
 import type {
   HookConfigForTracking,
   LogConfig,
   PluginConfig,
+  TrackedCollection,
 } from '../../../types/pluginOptions.js';
 
 export type CollectionHooksKeys = keyof NonNullable<CollectionConfig['hooks']>;
@@ -26,6 +27,8 @@ type LogBuilderManager = {
   pluginConfig: PluginConfig;
   targetHookName: CollectionHooksKeys;
   targetHookLevelConfig: HookConfigForTracking[CollectionHooksKeys];
+  allHooksLevelConfig: TrackedCollection['hooks'];
+  collectionConfig: TrackedCollection;
   collectionSlug: string;
 };
 
@@ -34,10 +37,11 @@ export const logBuilderManager = async (params: LogBuilderManager) => {
   // @ts-expect-error
   const hookOperationLevelConfig = params
     .targetHookLevelConfig?.[operation] as LogConfig | undefined;
-
   const isOperationEnabled = checkIsOperationEnabled({
     hookLevelConfig: params.targetHookLevelConfig,
     hookOperationLevelConfig,
+    allHooksLevelConfig: params.allHooksLevelConfig,
+    collectionLevelConfig: params.collectionConfig,
   });
 
   const baseLog: AuditorLog = {

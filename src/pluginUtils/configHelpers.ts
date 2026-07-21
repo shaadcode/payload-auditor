@@ -25,24 +25,32 @@ export const attachCollectionConfig = (
         tc => tc.slug === collection.slug,
       );
 
-      if (tracked && !tracked.disabled) {
+      if (tracked && tracked.enabled) {
         collection.hooks = collection.hooks || {};
 
-        if (tracked.hooks) {
-          for (const hookName in tracked?.hooks) {
-            const typedHookName = hookName as CollectionHooksKeys;
-            // @ts-expect-error
-            collection.hooks[typedHookName] = [
-              ...(collection.hooks[typedHookName] || []),
-              // @ts-ignore
-              async args => logBuilderManager({
-                collectionSlug: collection.slug,
-                hookArgs: args,
-                pluginConfig: pluginOpts,
-                targetHookLevelConfig: tracked.hooks?.[typedHookName],
-                targetHookName: typedHookName,
-              }),
-            ];
+        if (tracked?.hooks) {
+          if (typeof tracked.hooks === 'boolean') {
+            for (const hook in collection.hooks) {
+
+            }
+          }
+          else {
+            for (const hookName in tracked?.hooks) {
+              const typedHookName = hookName as CollectionHooksKeys;
+              // @ts-expect-error
+              collection.hooks[typedHookName] = [
+                ...(collection.hooks[typedHookName] || []),
+                // @ts-ignore
+                async args => logBuilderManager({
+                  collectionSlug: collection.slug,
+                  hookArgs: args,
+                  pluginConfig: pluginOpts,
+                  targetHookLevelConfig: tracked.hooks?.[typedHookName],
+                  targetHookName: typedHookName,
+                  allHooksLevelConfig: tracked.hooks,
+                }),
+              ];
+            }
           }
         }
       }

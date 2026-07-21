@@ -14,18 +14,18 @@ export type PayloadCollectionHooksMap = {
 
 export type HookConfigForTracking = {
   [K in keyof NonNullable<CollectionConfig['hooks']>]:
-  Partial<
-    {
+    Partial<
+      {
       // @ts-expect-error
-      [O in Parameters<
-        NonNullable<
+        [O in Parameters<
           NonNullable<
-            CollectionConfig['hooks']
-          >[K]
-        >[number]
-      >[0]['operation']]: LogConfig | boolean
-    } & LogConfig<K>
-  >
+            NonNullable<
+              CollectionConfig['hooks']
+            >[K]
+          >[number]
+        >[0]['operation']]: LogConfig | boolean
+      } & LogConfig<K>
+    > | boolean
 
 };
 
@@ -186,7 +186,7 @@ export interface TrackedCollection {
    * @default undefined
    *
    */
-  disabled?: boolean;
+  enabled?: boolean;
 
   /**
    * 📝 Define payload cms hooks for each collection being tracked
@@ -212,7 +212,7 @@ export interface TrackedCollection {
    * Read more:
    * @see {@link https://payloadcms.com/docs/hooks/collections}
    */
-  hooks?: Partial<HookConfigForTracking>;
+  hooks?: (LogConfig & Partial<HookConfigForTracking>) | boolean;
   /** Optional label or description for UI/doc */
   label?: string;
 
