@@ -3,10 +3,12 @@ import sharp from 'sharp';
 import path from 'node:path';
 import { buildConfig } from 'payload';
 import { fileURLToPath } from 'node:url';
+import type { CollectionConfig } from 'payload';
 // import { auditorPlugin } from 'payload-auditor';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
+import { navigation } from './globals/Nav.js';
 import { media } from './collections/Media.js';
 import { users } from './collections/Users.js';
 // import { auditorPlugin } from './../dist/index.js';
@@ -23,6 +25,7 @@ if (!process.env.ROOT_DIR) {
 export default buildConfig({
   admin: { importMap: { baseDir: path.resolve(dirname) } },
   collections: [media, users],
+  globals: [navigation],
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
     connectOptions: {
@@ -36,32 +39,49 @@ export default buildConfig({
   plugins: [
     auditorPlugin({
       automation: {
-        logCleanup: { cronTime: '*/1 * * * *', queueName: 'test', olderThan: 60000 },
+        logCleanup: { cronTime: '0/1 * * * *', queueName: 'test', olderThan: 60000 },
       },
-      // customLogger
-      collection: {
+      configureRootCollection: (collection) => {
+        const newCollection = {
+          ...collection,
+          fields: [
+            ...collection.fields,
+            {
+              name: 'new-fields',
+              type: 'text',
+              defaultValue: 'test new fields value',
+            },
+          ],
+        } as CollectionConfig;
+        return newCollection;
+      },
+      globals: {
+        track: [
+          {
+            slug: 'navigation',
+            hooks: {
+              beforeRead: true,
+            },
+          },
+        ],
+      },
+      collections: {
         track: [
           {
             slug: 'media',
-enabled:
             hooks: {
-              // enabled: true,
-              // customLogger
               afterOperation: {
-                // enabled: true,
                 updateByID: {
                   enabled: true,
                 },
               },
-              // afterRead: {
-              //   enabled: true,
-              // },
             },
           },
         ],
       },
     }),
   ],
+
   secret: process.env.PAYLOAD_SECRET || 'test-secret_key',
   sharp,
   typescript: {

@@ -1,25 +1,27 @@
 import type { CollectionConfig } from 'payload';
 
-import type { CollectionHooksKeys, CollectionHooksOperation } from '../core/log-builders/collections/logBuilderManager.js';
+import type { GlobalHooksKeys } from '../types/global.js';
+import type { CollectionHooksKeys, CollectionHooksOperation } from '../types/collection.js';
 
 export interface AuditorLog {
-  onCollection: string;
-  hook: CollectionHooksKeys;
+  scope: 'collection' | 'global' | 'field';
+  hook: CollectionHooksKeys | GlobalHooksKeys;
   operation: CollectionHooksOperation;
   timestamp: Date;
   userAgent?: string;
+  identifier: string;
 }
 
 export type TypedRootCollection = typeof auditor;
 
-export const auditor: CollectionConfig = {
+export const auditor = {
   slug: 'Audit-log',
   labels: {
     plural: 'Audit-logs',
     singular: 'Audit-log',
   },
   admin: {
-    defaultColumns: ['operation', 'hook', 'onCollection', 'timestamp', 'createdAt'],
+    defaultColumns: ['operation', 'hook', 'identifier', 'scope', 'timestamp', 'createdAt'],
     useAsTitle: 'operation',
   },
   fields: [
@@ -29,9 +31,24 @@ export const auditor: CollectionConfig = {
       required: true,
     },
     {
-      name: 'onCollection',
+      name: 'identifier',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'scope',
+      type: 'select',
+      required: true,
+      options: [
+        {
+          value: 'collection',
+          label: 'Collection',
+        },
+        {
+          value: 'global',
+          label: 'Global',
+        },
+      ],
     },
     {
       name: 'userAgent',
@@ -52,6 +69,6 @@ export const auditor: CollectionConfig = {
     },
   ],
   timestamps: false,
-};
+} as const satisfies CollectionConfig;
 
 export default auditor;

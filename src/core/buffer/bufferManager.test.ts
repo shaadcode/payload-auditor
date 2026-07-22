@@ -30,15 +30,16 @@ afterEach(() => {
 describe('bufferManager', () => {
   it('should flush when buffer reaches size limit', async () => {
     const pluginOptions = {
-      collection: {
-        buffer: {
-          flushStrategy: 'size',
-          size: 2,
-        },
+      buffer: {
+        flushStrategy: 'size',
+        size: 2,
       },
     } as PluginConfig;
-
-    bufferManager(mockPayload as any, pluginOptions);
+    bufferManager({
+      payload: mockPayload as any,
+      bufferConfig: pluginOptions.buffer,
+      internalCollectionConfig: auditor,
+    });
 
     // simulate event listener
     const handler = mockOnEventLog.mock.calls[0][1];
@@ -52,14 +53,17 @@ describe('bufferManager', () => {
 
   it('should flush immediately in realtime mode', async () => {
     const pluginOptions = {
-      collection: {
-        buffer: {
-          flushStrategy: 'realtime',
-        },
+      buffer: {
+        flushStrategy: 'realtime',
       },
     } as PluginConfig;
 
-    bufferManager(mockPayload as any, pluginOptions);
+    bufferManager({
+      payload: mockPayload as any,
+      bufferConfig: pluginOptions.buffer,
+      internalCollectionConfig: auditor,
+    });
+
     const handler = mockOnEventLog.mock.calls[0][1];
 
     await handler(sampleLog);
@@ -71,15 +75,16 @@ describe('bufferManager', () => {
 
   it('should flush periodically in time mode', async () => {
     const pluginOptions = {
-      collection: {
-        buffer: {
-          flushStrategy: 'time',
-          time: 2000,
-        },
+      buffer: {
+        flushStrategy: 'time',
+        time: 2000,
       },
     } as unknown as PluginConfig;
-
-    bufferManager(mockPayload as any, pluginOptions);
+    bufferManager({
+      payload: mockPayload as any,
+      bufferConfig: pluginOptions.buffer,
+      internalCollectionConfig: auditor,
+    });
     const handler = mockOnEventLog.mock.calls[0][1];
     await handler(sampleLog);
     expect(mockPayload.create).not.toHaveBeenCalled();
@@ -94,15 +99,16 @@ describe('bufferManager', () => {
 
   it('should flushing logs after create log when size value is 1', async () => {
     const pluginOptions = {
-      collection: {
-        buffer: {
-          flushStrategy: 'size',
-          size: 1,
-        },
+      buffer: {
+        flushStrategy: 'size',
+        size: 1,
       },
     } as PluginConfig;
-
-    bufferManager(mockPayload as any, pluginOptions);
+    bufferManager({
+      payload: mockPayload as any,
+      bufferConfig: pluginOptions.buffer,
+      internalCollectionConfig: auditor,
+    });
     const handler = mockOnEventLog.mock.calls[0][1];
 
     await handler(sampleLog);
@@ -122,8 +128,11 @@ describe('bufferManager', () => {
         },
       },
     } as unknown as PluginConfig;
-
-    bufferManager(mockPayload as any, pluginOptions);
+    bufferManager({
+      payload: mockPayload as any,
+      bufferConfig: pluginOptions.buffer,
+      internalCollectionConfig: auditor,
+    });
 
     const handler = mockOnEventLog.mock.calls[0][1];
 
@@ -136,15 +145,16 @@ describe('bufferManager', () => {
 
   it('should clear buffer store after flushing by time', async () => {
     const pluginOptions = {
-      collection: {
-        buffer: {
-          flushStrategy: 'time',
-          time: 2000,
-        },
+      buffer: {
+        flushStrategy: 'time',
+        time: 2000,
       },
     } as PluginConfig;
-
-    bufferManager(mockPayload as any, pluginOptions);
+    bufferManager({
+      payload: mockPayload as any,
+      bufferConfig: pluginOptions.buffer,
+      internalCollectionConfig: auditor,
+    });
 
     const handler = mockOnEventLog.mock.calls[0][1];
 
@@ -159,14 +169,15 @@ describe('bufferManager', () => {
 
   it('should clear buffer store after flushing by realtime', async () => {
     const pluginOptions = {
-      collection: {
-        buffer: {
-          flushStrategy: 'realtime',
-        },
+      buffer: {
+        flushStrategy: 'realtime',
       },
     } as PluginConfig;
-
-    bufferManager(mockPayload as any, pluginOptions);
+    bufferManager({
+      payload: mockPayload as any,
+      bufferConfig: pluginOptions.buffer,
+      internalCollectionConfig: auditor,
+    });
 
     const handler = mockOnEventLog.mock.calls[0][1];
 

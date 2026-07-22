@@ -1,6 +1,7 @@
 import type { TaskConfig } from 'payload';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { auditor } from '../../../../collections/auditor.js';
 import type { PluginConfig } from '../../../../types/pluginOptions.js';
 import { CLEANUP_TASK_LABEL, CLEANUP_TASK_SLUG, cleanupLogsTask, DEFAULT_CRON_TIME, DEFAULT_OLDER_THAN, DEFAULT_QUEUE_NAME } from './cleanup.js';
 
@@ -12,7 +13,6 @@ const mockPluginConfig = {
       queueName: DEFAULT_QUEUE_NAME,
     },
   },
-  // @ts-expect-error
 } as const satisfies PluginConfig;
 
 const mockReq = {
@@ -31,8 +31,7 @@ describe('cleanupLogsTask', () => {
   });
 
   it('should return expected task', () => {
-    // @ts-expect-error
-    const result = cleanupLogsTask(mockPluginConfig);
+    const result = cleanupLogsTask({ internalCollectionConfig: auditor, pluginConfig: mockPluginConfig });
 
     const expectedResultInstance = {
       handler: expect.any(Function),
@@ -54,9 +53,7 @@ describe('cleanupLogsTask', () => {
 
   describe('handler task', () => {
     it('should call payload.delete with correct parameters', async () => {
-      const pluginOptions: Partial<PluginConfig> = {};
-      // @ts-expect-error
-      const task = cleanupLogsTask(pluginOptions);
+      const task = cleanupLogsTask({ internalCollectionConfig: auditor, pluginConfig: mockPluginConfig });
 
       typeof task.handler === 'function' && await task
         .handler({
@@ -77,14 +74,14 @@ describe('cleanupLogsTask', () => {
 
     it('should use configureRootCollection result when provided', async () => {
       const configuredSlug = 'configured-audit-logs';
-      const pluginOptions: PluginConfig = {
-        collection: {
-          configureRootCollection: vi.fn().mockReturnValue({ slug: configuredSlug }),
+      const pluginConfig: PluginConfig = {
+        configureRootCollection: vi.fn().mockReturnValue({ slug: configuredSlug }),
+        collections: {
           track: [],
         },
       };
 
-      const task = cleanupLogsTask(pluginOptions);
+      const task = cleanupLogsTask({ internalCollectionConfig: auditor, pluginConfig });
       typeof task.handler === 'function' && await task
         .handler({
           // @ts-expect-error
@@ -99,7 +96,6 @@ describe('cleanupLogsTask', () => {
 
     it('should use custom olderThan value', async () => {
       const customOlderThan = 86400000; // 1 day
-      // @ts-expect-error
       const pluginOptions: PluginConfig = {
         automation: {
           logCleanup: {
@@ -108,6 +104,7 @@ describe('cleanupLogsTask', () => {
         },
       };
 
+      // @ts-expect-error
       const task = cleanupLogsTask(pluginOptions);
       typeof task.handler === 'function' && await task.handler({
         // @ts-expect-error

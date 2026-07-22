@@ -4,70 +4,19 @@ export interface BufferDebugFields {
   size: boolean;
 }
 
-export interface BufferModesConfig {
+export type BufferDebugModeConfig = {
   /**
-   * 📝 Debug mode for better inspection of logging performance
+   * 📝 Enable or disable debug mode
    *
-   * @default undefined
+   * 📖 long.
    *
+   * 📌@type {'manual' | 'table'}
    *
-   * 📦 Usage Example
+   * @default false
    *
-   * @example <caption>🧪 Enable debug mode</caption>
-   * ```ts
-   *    debug: {
-   * enabled: boolean
-   * }
-   *
-   * ```
-   * ### ⚠️ Critical Notes
-   * - The generated logs are only displayed in the console and are not stored in the database.
    */
-  debug?: {
-    /**
-     * 📝 How to display debug logs
-     *
-     * 📖 long.
-     *
-     * 📌@type {'manual' | 'table'}
-     *
-     * @default "table"
-     *
-     */
-    displayType?: 'manual' | 'table';
-    /**
-     * 📝 Enable or disable debug mode
-     *
-     * 📖 long.
-     *
-     * 📌@type {'manual' | 'table'}
-     *
-     * @default false
-     *
-     */
-    enabled?: boolean;
-    /**
-     * 📝 Select the required fields
-     *
-     * 📖 To reduce confusion, you can log only the fields you need.
-     *
-     * 📌@type {BufferDebugFields}
-     *
-     * @default undefined
-     *
-     *
-     * 📦 Usage Example
-     *
-     * @example <caption>🧪 Only the size field is included in the log</caption>
-     * ```ts
-     * fields:{
-     * size: true
-     * }
-     * ```
-     */
-    fields?: Partial<BufferDebugFields>;
-  };
-}
+  enabled?: boolean;
+} | true;
 
 export interface BufferConfig {
   /**
@@ -89,10 +38,6 @@ export interface BufferConfig {
    *
    */
   flushStrategy?: 'realtime' | 'size' | 'time';
-  /**
-   * 📝 Auxiliary side modes
-   */
-  modes?: BufferModesConfig;
   /**
    * 📝 Maximum number of logs before injection
    *

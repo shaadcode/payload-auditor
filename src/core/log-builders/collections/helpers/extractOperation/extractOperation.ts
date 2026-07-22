@@ -1,8 +1,9 @@
-import type { CollectionHooksArgsParameterUnion, CollectionHooksKeys, CollectionHooksOperation } from '../../logBuilderManager.js';
+import type { GlobalHooksArgsParameterUnion, GlobalHooksKeys } from '../../../../../types/global.js';
+import type { CollectionHooksArgsParameterUnion, CollectionHooksKeys, CollectionHooksOperation } from '../../../../../types/collection.js';
 
 interface Params {
-  hookArgs: CollectionHooksArgsParameterUnion;
-  targetHookName: CollectionHooksKeys;
+  hookArgs: CollectionHooksArgsParameterUnion | GlobalHooksArgsParameterUnion;
+  targetHookName: CollectionHooksKeys | GlobalHooksKeys;
 }
 
 const regex = /[A-Z]?[a-z]+/g;

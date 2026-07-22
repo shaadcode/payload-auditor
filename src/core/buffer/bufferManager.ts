@@ -1,11 +1,8 @@
-import type { Payload } from 'payload';
+import type { CollectionConfig, Payload } from 'payload';
 
 import type { BufferConfig } from './types.js';
-import { auditor } from '../../collections/auditor.js';
 import { onEventLog } from './../../core/events/emitter.js';
 import type { AuditorLog } from '../../collections/auditor.js';
-import type { PluginConfig } from '../../types/pluginOptions.js';
-import { handleBufferDebugMode } from './../../core/buffer/helpers/handleBufferDebugMode.js';
 
 export const DEFAULT_INTERVAL_BUFFER = 10000 as NonNullable<BufferConfig['time']>;
 export const DEFAULT_BUFFER_SIZE = 10 as NonNullable<BufferConfig['size']>;
@@ -13,41 +10,46 @@ export const DEFAULT_BUFFER_STRATEGY = 'time' as NonNullable<BufferConfig['flush
 
 export const bufferStore: AuditorLog[] = [];
 
-let payloadInstance: Payload;
+type FlushBufferParams = {
+  payload: Payload;
+  internalCollectionConfig: CollectionConfig;
+};
 
-const flushBuffer = async (pluginOptions: PluginConfig) => {
+const flushBuffer = async (params: FlushBufferParams) => {
   const logsToInsert = [...bufferStore];
   bufferStore.length = 0;
-  const internalCollection = pluginOptions.collection?.configureRootCollection?.();
   await Promise.all(
     logsToInsert.map(log =>
-      payloadInstance.create({
-        collection: internalCollection?.slug ?? auditor.slug,
+      params.payload.create({
+        collection: params.internalCollectionConfig?.slug,
         data: log,
       }),
     ),
   );
 };
 
-export const bufferManager = (payload: Payload, pluginOptions: PluginConfig) => {
-  const bufferConfig = pluginOptions.collection?.buffer;
+type BufferConfigParams = {
+  payload: Payload;
+  bufferConfig?: BufferConfig;
+  internalCollectionConfig: CollectionConfig;
+};
+
+export const bufferManager = (params: BufferConfigParams) => {
+  const bufferConfig = params.bufferConfig;
   const size = bufferConfig?.size ?? DEFAULT_BUFFER_SIZE;
   const interval = bufferConfig?.time ?? DEFAULT_INTERVAL_BUFFER;
   const flushStrategy = bufferConfig?.flushStrategy ?? DEFAULT_BUFFER_STRATEGY;
-  payloadInstance = payload;
 
-  // When the log is generated, add it to the buffer.
   onEventLog('logGenerated', async (log: AuditorLog) => {
-    handleBufferDebugMode({ flushStrategy, interval, size }, bufferConfig);
     bufferStore.push(log);
 
     if (flushStrategy === 'size') {
       if (bufferStore.length >= size) {
-        await flushBuffer(pluginOptions);
+        await flushBuffer(params);
       }
     }
     else if (flushStrategy === 'realtime') {
-      await flushBuffer(pluginOptions);
+      await flushBuffer(params);
     }
   });
 
@@ -55,7 +57,7 @@ export const bufferManager = (payload: Payload, pluginOptions: PluginConfig) => 
     // Every few seconds, empty the buffer (even if it's not full)
     setInterval(async () => {
       if (bufferStore.length > 0) {
-        await flushBuffer(pluginOptions);
+        await flushBuffer(params);
       }
     }, interval);
   }

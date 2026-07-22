@@ -1,33 +1,29 @@
 import type { AuditorLog } from './../../../../collections/auditor.js';
 import { prettyDebugLog } from './../../../../utils/prettyDebugLog.js';
-import type { CollectionHooksKeys, CollectionHooksOperation } from '../logBuilderManager.js';
-import type {
-  HookConfigForTracking,
-  LogConfig,
-} from './../../../../types/pluginOptions.js';
+import type { GlobalHookConfigForTracking, GlobalHooksKeys, GlobalOperationLogConfig } from '../../../../types/global.js';
+import type { CollectionHooksKeys, CollectionHooksOperation, CollectionsHookConfigForTracking } from '../../../../types/collection.js';
 
-export const handleDebugMode = <T extends CollectionHooksKeys>(
-  hookConfig: HookConfigForTracking[T] | undefined,
-  operationConfig: LogConfig<T> | undefined,
-  allFields: AuditorLog,
-  operation: CollectionHooksOperation,
-) => {
-  const hookDebugConfig = hookConfig?.modes?.debug;
-  const operationDebugConfig = operationConfig?.modes?.debug;
+type Params = {
+  hookLevelConfig?: CollectionsHookConfigForTracking[CollectionHooksKeys] | GlobalHookConfigForTracking[GlobalHooksKeys];
+  operationLevelConfig?: GlobalOperationLogConfig;
+  logData: AuditorLog;
+  operation: CollectionHooksOperation;
+  hookName: CollectionHooksKeys;
+};
 
-  const isDebugEnabled
-    = (operationDebugConfig?.enabled ?? false) || (hookDebugConfig?.enabled ?? false);
+export const handleDebugMode = (params: Params) => {
+  const hookDebugConfig = typeof params.hookLevelConfig === 'boolean'
+    ? undefined
+    : params.hookLevelConfig?.debug;
+  const operationDebugConfig = params.operationLevelConfig?.debug;
+
+  const isDebugEnabled = operationDebugConfig || hookDebugConfig;
 
   if (isDebugEnabled) {
-    const debugFields = operationDebugConfig?.fields ?? hookDebugConfig?.fields;
-    const debugDisplayType = operationDebugConfig?.displayType ?? hookDebugConfig?.displayType;
-
-    const debugLog = debugFields
-      ? Object.fromEntries(
-          Object.entries(allFields).filter(([key]) => debugFields[key as keyof AuditorLog]),
-        )
-      : allFields;
-
-    prettyDebugLog('afterChange', operation, debugLog, debugDisplayType);
+    prettyDebugLog({
+      title: params.hookName,
+      data: params.logData,
+      subtitle: params.operation,
+    });
   }
 };
