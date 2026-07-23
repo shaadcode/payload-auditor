@@ -14,7 +14,7 @@ function getCommitAuthor(commitHash: string): string {
 }
 export default {
   git: {
-    // requireBranch: "main"
+    requireBranch: "main"
   },
   hooks: {
     "before:init": ["git pull"],
