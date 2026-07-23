@@ -13,7 +13,7 @@
 
 **Payload Auditor** is a powerful plugin for [Payload CMS](https://payloadcms.com) that provides centralized **event tracking, auditing, and security enhancements**. This tool is designed for developers and teams looking to monitor critical actions, analyze user behaviors, and enhance backend security within their Payload projects.
 
-📊 Only **~3.4 kB** (minified + gzipped) and has **no external dependencies**.
+📊 Only **~2 kB** (minified + gzipped) and has **no external dependencies**.
 
 ## ⚙️ Installation & Usage
 
@@ -97,8 +97,6 @@ For logging, we have integrated the entire plugin with **Payload CMS hooks** for
 - 🔄 **Enable custom operations in each hook.** Maybe you need a hook but don't want to use all the operations inside that hook for logging. For example, inside the `afterOperation` hook, only the `create` operation creates a log.
 - ⏸️ **You can temporarily stop tracking this collection.**
 
-
-
 ## 🧠 When Should You Use It?
 
 - You need to track critical collection changes (e.g., user logins, updates)
@@ -109,25 +107,17 @@ For logging, we have integrated the entire plugin with **Payload CMS hooks** for
 
 - You're building a SaaS or enterprise-grade Payload-based product
 
-
-
 ## 📚 Docutments
 
 Using the plugin is straightforward. Simply specify the slug of the collection or global you want to track, then configure the hooks and operations you need to monitor.
 
-
-
 > For quick access to the documentation, simply hover over the main API. You can then use the provided link to navigate directly to the relevant documentation.
-
-
 
 ### `automation`
 
 Configures the automation features of the plugin.
 
 Currently, the plugin supports **automatic log cleanup** using Payload CMS's Jobs system.
-
-
 
 ### `collections` & `globals`
 
@@ -161,8 +151,6 @@ Each has a `track` property that accepts the following configuration:
 
 - Setting a hook or operation to `false` will disable it entirely.
 
-
-
 ### `buffer`
 
 Configures how logs are flushed to the database. You can control flushing based on either **time** or **log count**.
@@ -172,8 +160,6 @@ Configures how logs are flushed to the database. You can control flushing based 
 | `flushStrategy` | Defines the flushing strategy. Options:<br>- `size`: Flush when the number of logs reaches the specified limit.<br>- `time`: Flush after a specified time interval.<br>- `realTime`: Flush immediately when logs are created. |
 | `size`          | A numeric value. When the log count reaches this number, logs are flushed. Works with the `size` strategy.                                                                                                                    |
 | `time`          | A numeric value in milliseconds. Logs are flushed at this interval. Works with the `time` strategy.                                                                                                                           |
-
-
 
 ### `configureRootCollection`
 
