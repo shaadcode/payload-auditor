@@ -1,39 +1,54 @@
 import type { Config, Plugin } from 'payload';
 
-import { defaultPluginOpts } from './Constant/Constant.js';
-import type { PluginOptions } from './types/pluginOptions.js';
+import { auditor } from './collections/auditor.js';
+import type { PluginConfig } from './types/config.js';
+import { onInitManager } from './pluginUtils/configHelpers.js';
 import { cleanupLogsTask } from './core/automation/tasks/cleanup/cleanup.js';
-import {
-  attachCollectionConfig,
-  buildAccessControl,
-  onInitManager,
-} from './pluginUtils/configHelpers.js';
+import { attachGlobalConfig } from './pluginUtils/attachGlobalConfig/attachGlobalConfig.js';
+import { attachCollectionConfig } from './pluginUtils/attachCollectionConfig/attachCollectionConfig.js';
 /**
  * 📝 The main function of plugin packaging
  *
  *
- * 📌@type {(opts?: PluginOptions) => Plugin}
+ * 📌@type {(pluginConfig?: PluginConfig) => Plugin}
  *
- * @param opts
+ * @param pluginConfig
  *
  */
 export const auditorPlugin
-  = (opts: PluginOptions = defaultPluginOpts): Plugin =>
-    async (incomingConfig: Config): Promise<Config> => {
-      const config = { ...incomingConfig };
-      if (opts.enabled === false) {
-        return config;
+  = (pluginConfig: PluginConfig): Plugin =>
+    async (payloadConfig: Config): Promise<Config> => {
+      if (pluginConfig.disabled === true) {
+        return payloadConfig;
       }
-      // Accessibility customization
-      // TODO: combine to attachCollectionConfig function
-      buildAccessControl(opts);
+      const config = { ...payloadConfig };
 
-      config.collections = attachCollectionConfig(config.collections, opts);
+      const updatedCollection = pluginConfig.configureRootCollection?.(auditor) ?? auditor;
+
+      config.collections = attachCollectionConfig(config.collections, pluginConfig);
+      config.globals = attachGlobalConfig(config.globals, pluginConfig);
+
+      config.collections = [
+        ...(config?.collections ?? []),
+        updatedCollection,
+      ];
+
       config.jobs = {
         ...config.jobs,
-        tasks: [...(config.jobs?.tasks ?? []), cleanupLogsTask(opts)],
+        tasks: [
+          ...(config.jobs?.tasks ?? []),
+          cleanupLogsTask({
+            pluginConfig,
+            internalCollectionConfig: updatedCollection,
+          }),
+        ],
       };
-      config.onInit = onInitManager(config, opts);
+
+      config.onInit = onInitManager({
+        payloadConfig: config,
+        internalCollectionConfig: updatedCollection,
+        pluginConfig,
+      });
 
       return config;
     };

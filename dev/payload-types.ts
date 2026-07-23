@@ -92,9 +92,11 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
+    navigation: Navigation;
     'payload-jobs-stats': PayloadJobsStat;
   };
   globalsSelect: {
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
     'payload-jobs-stats': PayloadJobsStatsSelect<false> | PayloadJobsStatsSelect<true>;
   };
   locale: null;
@@ -184,13 +186,12 @@ export interface User {
 export interface AuditLog {
   id: string;
   operation: string;
-  onCollection: string;
-  documentId?: string | null;
-  user: string | User;
+  identifier: string;
+  scope: 'collection' | 'global';
   userAgent?: string | null;
   hook?: string | null;
-  type: 'info' | 'debug' | 'warning' | 'error' | 'audit' | 'security' | 'unknown';
   createdAt: string;
+  'new-fields'?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -419,13 +420,12 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface AuditLogSelect<T extends boolean = true> {
   operation?: T;
-  onCollection?: T;
-  documentId?: T;
-  user?: T;
+  identifier?: T;
+  scope?: T;
   userAgent?: T;
   hook?: T;
-  type?: T;
   createdAt?: T;
+  'new-fields'?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -501,6 +501,17 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface Navigation {
+  id: string;
+  name?: string | null;
+  link?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs-stats".
  */
 export interface PayloadJobsStat {
@@ -516,6 +527,17 @@ export interface PayloadJobsStat {
     | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  name?: T;
+  link?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

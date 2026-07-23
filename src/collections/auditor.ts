@@ -1,36 +1,28 @@
 import type { CollectionConfig } from 'payload';
 
-import { defaultCollectionValues } from '../Constant/Constant.js';
-import type { hookTypes } from './../pluginUtils/configHelpers.js';
-import type { AuditHookOperationType } from '../types/pluginOptions.js';
+import type { GlobalHooksKeys } from '../types/global.js';
+import type { CollectionHooksKeys, CollectionHooksOperation } from '../types/collection.js';
 
 export interface AuditorLog {
-  onCollection: string;
-  documentId?: string;
-  hook: (typeof hookTypes)[number];
-  operation: AuditHookOperationType;
+  scope: 'collection' | 'global' | 'field';
+  hook: CollectionHooksKeys | GlobalHooksKeys;
+  operation: CollectionHooksOperation;
   timestamp: Date;
-  type: 'audit' | 'debug' | 'error' | 'info' | 'security' | 'unknown' | 'warning';
-  user: unknown;
   userAgent?: string;
+  identifier: string;
 }
 
 export type TypedRootCollection = typeof auditor;
 
-export const auditor: CollectionConfig = {
-  slug: defaultCollectionValues.slug,
-  access: {
-    admin: () => false,
-    create: () => false,
-    delete: () => false,
-    read: () => false,
-    readVersions: () => false,
-    unlock: () => false,
-    update: () => false,
+export const auditor = {
+  slug: 'Audit-log',
+  labels: {
+    plural: 'Audit-logs',
+    singular: 'Audit-log',
   },
   admin: {
-    defaultColumns: ['operation', 'type', 'collection', 'user', 'timestamp'],
-    useAsTitle: 'type',
+    defaultColumns: ['operation', 'hook', 'identifier', 'scope', 'timestamp', 'createdAt'],
+    useAsTitle: 'operation',
   },
   fields: [
     {
@@ -39,19 +31,24 @@ export const auditor: CollectionConfig = {
       required: true,
     },
     {
-      name: 'onCollection',
+      name: 'identifier',
       type: 'text',
       required: true,
     },
     {
-      name: 'documentId',
-      type: 'text',
-    },
-    {
-      name: 'user',
-      type: 'relationship',
-      relationTo: 'users',
+      name: 'scope',
+      type: 'select',
       required: true,
+      options: [
+        {
+          value: 'collection',
+          label: 'Collection',
+        },
+        {
+          value: 'global',
+          label: 'Global',
+        },
+      ],
     },
     {
       name: 'userAgent',
@@ -60,15 +57,6 @@ export const auditor: CollectionConfig = {
     {
       name: 'hook',
       type: 'text',
-    },
-    {
-      name: 'type',
-      type: 'select',
-      defaultValue: 'info',
-      options: ['info', 'debug', 'warning', 'error', 'audit', 'security', 'unknown'] as Array<
-        AuditorLog['type']
-      >,
-      required: true,
     },
     {
       name: 'createdAt',
@@ -80,8 +68,7 @@ export const auditor: CollectionConfig = {
       required: true,
     },
   ],
-  labels: defaultCollectionValues.labels,
   timestamps: false,
-};
+} as const satisfies CollectionConfig;
 
 export default auditor;

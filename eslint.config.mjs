@@ -8,11 +8,7 @@ const ignoreFiles = [
   '**/.temp',
   '**/.*', // ignore all dotfiles
   '**/.git',
-  '**/.hg',
-  '**/.pnp.*',
-  '**/.svn',
   '**/playwright.config.ts',
-  '**/jest.config.js',
   '**/tsconfig.tsbuildinfo',
   '**/README.md',
   '**/payload-types.ts',
@@ -31,8 +27,6 @@ export default antfu(
     stylistic: {
       semi: true,
     },
-
-    typescript: true,
 
     // Configuration preferences
     lessOpinionated: true,
@@ -74,6 +68,7 @@ export default antfu(
       'import/order': 'off',
       'sort-imports': 'off',
       'ts/ban-ts-comment': 'off',
+      'ts/consistent-type-definitions': 'off',
       'unused-imports/no-unused-imports': ['error'],
     },
   },

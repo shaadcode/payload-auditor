@@ -1,8 +1,9 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { CollectionConfig } from 'payload';
-import { anyone } from 'helpers/access/anyone.js';
-import { authenticated } from 'helpers/access/authenticated.js';
+
+import { anyone } from '../helpers/access/anyone.js';
+import { authenticated } from '../helpers/access/authenticated.js';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
