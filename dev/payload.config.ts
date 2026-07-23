@@ -11,9 +11,8 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { navigation } from './globals/Nav.js';
 import { media } from './collections/Media.js';
 import { users } from './collections/Users.js';
-// eslint-disable-next-line antfu/no-import-dist
-import { auditorPlugin } from './../dist/index.js';
-// import { auditorPlugin } from '../src/index.js';
+// import { auditorPlugin } from './../dist/index.js';
+import { auditorPlugin } from '../src/index.js';
 import { testEmailAdapter } from './helpers/testEmailAdapter.js';
 
 const filename = fileURLToPath(import.meta.url);
@@ -75,9 +74,15 @@ export default buildConfig({
             slug: 'media',
             hooks: {
               afterOperation: {
+                debug: true,
                 updateByID: {
                   enabled: true,
+
                 },
+
+              },
+              afterForgotPassword: {
+
               },
             },
           },

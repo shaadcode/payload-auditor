@@ -45,7 +45,7 @@ export interface CollectionOperationLogConfig<
   customLogger?: (
     args: Parameters<PayloadCollectionHooksMap[HookName]>[0],
     fields: Omit<AuditorLog, 'hook' | 'operation'>,
-  ) => Omit<AuditorLog, 'hook' | 'operation'> | Promise<Omit<AuditorLog, 'hook' | 'operation'>>;
+  ) => any | Promise<any>;
   enabled?: boolean;
   debug?: OperationDebugConfig;
 }

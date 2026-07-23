@@ -16,6 +16,7 @@ export const extractOperation = (params: Params): CollectionHooksOperation => {
     .hookArgs
   // @ts-expect-error
     .operation
-    || splitCamelCase(params.targetHookName)[1].toLowerCase();
+    || splitCamelCase(params.targetHookName).splice(1).join('-').toLowerCase();
+
   return operation as CollectionHooksOperation;
 };

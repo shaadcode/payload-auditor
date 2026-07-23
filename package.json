@@ -1,7 +1,7 @@
 {
   "name": "payload-auditor",
   "type": "module",
-  "version": "1.11.0",
+  "version": "2.0.0",
   "description": "Simple, fast and customizable plugin for payload cms",
   "author": {
     "name": "seyed mojtaba shadab | shaadcode",
@@ -59,7 +59,7 @@
     "build": "npm run copyfiles && npm run build:types && npm run build:swc",
     "build:types": "tsc --outDir dist --rootDir ./src",
     "build:only": "npm run copyfiles && npm run build:types && npm run build:swc",
-    "clean": "rimraf {dist,*.tsbuildinfo}",
+    "clean": "rimraf {dist,*.tsbuildinfo} --glob",
     "copyfiles": "copyfiles -u 1 \"src/**/*.{html,css,scss,ttf,woff,woff2,eot,svg,jpg,png,json}\" dist/",
     "eslint": "eslint .",
     "lint": "npm run eslint:base",
@@ -113,7 +113,7 @@
     "lefthook": "^2.1.10",
     "next": "^16.2.10",
     "payload": "^3.86.0",
-    "payload-auditor": "^1.11.0",
+    "payload-auditor": "^2.0.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "release-it": "^20.2.1",

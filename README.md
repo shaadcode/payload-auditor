@@ -45,8 +45,6 @@ export default buildConfig({
 })
 ```
 
----
-
 ## 🔧 Plugin Options
 
 The plugin is designed in a way that allows you to customize it deeply. Of course, the project is fully documented and you can use its documentation well during development.
@@ -99,7 +97,7 @@ For logging, we have integrated the entire plugin with **Payload CMS hooks** for
 - 🔄 **Enable custom operations in each hook.** Maybe you need a hook but don't want to use all the operations inside that hook for logging. For example, inside the `afterOperation` hook, only the `create` operation creates a log.
 - ⏸️ **You can temporarily stop tracking this collection.**
 
----
+
 
 ## 🧠 When Should You Use It?
 
@@ -110,6 +108,74 @@ For logging, we have integrated the entire plugin with **Payload CMS hooks** for
 - You work in a multi-user admin environment with role-specific needs
 
 - You're building a SaaS or enterprise-grade Payload-based product
+
+
+
+## 📚 Docutments
+
+Using the plugin is straightforward. Simply specify the slug of the collection or global you want to track, then configure the hooks and operations you need to monitor.
+
+
+
+### `automation`
+
+Configures the automation features of the plugin.
+
+Currently, the plugin supports **automatic log cleanup** using Payload CMS's Jobs system.
+
+
+
+### `collections` & `globals`
+
+These are the core sections of the plugin, managing operation tracking. They share a nearly identical API.
+
+Each has a `track` property that accepts the following configuration:
+
+| Property                             | Description                                                                                |
+| ------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `hooks`                              | Defines which hooks to track.                                                              |
+| `hooks["hookName"]`                  | The hook name to track. Can be `true` or a configuration object.                           |
+| `hooks["hookName"]["operationName"]` | The operation to track within the specified hook. Can be `true` or a configuration object. |
+| `slug`                               | The slug of the `collection` or `global`. This value is type-safe.                         |
+
+#### Important Notes:
+
+- At both the **hook level** (`hooks["hookName"]`) and the **operation level** (`hooks["hookName"]["operationName"]`), the following properties are always available:
+
+| Property       | Description                                                              |
+| -------------- | ------------------------------------------------------------------------ |
+| `customLogger` | A custom function to customize the log output.                           |
+| `debug`        | Enables debugging for the hook or operation. Can be `true` or an object. |
+
+- When `debug: true` is enabled for a hook or operation, logs are **not saved to the database** by default. To override this behavior, set `debug.skipDatabaseSave: false`. The logs will still be displayed in the console.
+
+- If the hook you're tracking does not have operations (e.g., `afterRead` or `afterForgotPassword`), the plugin will treat the second-level key as the operation name. For example, `forgot-password` or `read`.
+
+- When using `customLogger`, ensure you include the necessary internal collection fields (or custom fields) in your output. The `operation` and `hook` values are always overridden by the plugin and are required. The function must return an object.
+
+- An `enabled` property is available at both the hook and operation levels. This allows you to enable or disable tracking for specific hooks or operations.
+
+- Setting a hook or operation to `false` will disable it entirely.
+
+---
+
+### `buffer`
+
+Configures how logs are flushed to the database. You can control flushing based on either **time** or **log count**.
+
+| Property        | Description                                                                                                                                                                                                                   |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `flushStrategy` | Defines the flushing strategy. Options:<br>- `size`: Flush when the number of logs reaches the specified limit.<br>- `time`: Flush after a specified time interval.<br>- `realTime`: Flush immediately when logs are created. |
+| `size`          | A numeric value. When the log count reaches this number, logs are flushed. Works with the `size` strategy.                                                                                                                    |
+| `time`          | A numeric value in milliseconds. Logs are flushed at this interval. Works with the `time` strategy.                                                                                                                           |
+
+---
+
+### `configureRootCollection`
+
+A function that allows you to customize the internal collection.
+
+The function receives the default collection configuration as an argument and expects you to return your modified configuration.
 
 ---
 

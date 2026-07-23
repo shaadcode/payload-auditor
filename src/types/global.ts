@@ -42,8 +42,8 @@ export interface GlobalHookLevelLogConfig<
   customLogger?: (
     args: Parameters<NonNullable<NonNullable<GlobalConfig['hooks']>[HookName]>[number]>[0],
     fields: Omit<AuditorLog, 'hook'>,
-  ) => Omit<AuditorLog, 'hook'>
-    | Promise<Omit<AuditorLog, 'hook'>>;
+  ) => any
+    | Promise<any>;
   enabled?: boolean;
   debug?: GlobalHookDebugConfig;
 }
