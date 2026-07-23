@@ -1,5 +1,51 @@
 # Changelog
 
+## [2.0.1](https://github.com/shaadcode/payload-auditor/compare/v1.8.0...v2.0.1) (2026-07-23)
+- feat: add documents and improve customLogger by **<u>shaadcode</u>** in ff01a20b1bb1f6286997f9455feaf7b96511c802
+- feat: add quick documents for main api by **<u>shaadcode</u>** in 0538d1111b92aa34f4f756cf689a0a6af19a5857
+- feat(core): using jobs to imporve log deletion performance by **<u>Seyed Mojtaba Shadab</u>** in 13edceb344d7ff99efe2b7a492010e7a8344a5ad
+- feat: Increased plugin capabilities by **<u>Seyed Mojtaba Shadab</u>** in 99557f764fb420a7bbe47826586bb1562cbf704b
+- fix(config): mongoose warning reserved path schema by **<u>Seyed Mojtaba Shadab</u>** in f1720918d9a1c1abe1dcd50f21a74bb9b5c64af9
+- fix(core): validationError while logging to database by mongoose by **<u>Danila Ermakov</u>** in 77dda8f9e350d24ea59eb6173dde3146092baa58
+- fix: get lateset tag ([#24](https://github.com/shaadcode/payload-auditor/issues/24)) by **<u>Seyed Mojtaba Shadab</u>** in 8c584248ad39c7b1f27a38baea43ecedcca6d56c
+- fix(jobs): logs not being deleted after setting a custom slug by **<u>Seyed Mojtaba Shadab</u>** in 6e88880dc312995ed7adf4620b227725d5f52bd1
+- fix: remove unknown word in changelog by **<u>Seyed Mojtaba Shadab</u>** in cedefd471b9f9b99c921dfeceb55a4538ed5825b
+- fix: small change doc ([#22](https://github.com/shaadcode/payload-auditor/issues/22)) by **<u>Seyed Mojtaba Shadab</u>** in 19214a9b186f7b6f0eff03761cee05647cd4252f
+- chore: add build script ([#11](https://github.com/shaadcode/payload-auditor/issues/11)) by **<u>Seyed Mojtaba Shadab</u>** in f05699f20176dd532253c2430ed9005f822aa6be
+- chore: add new dep ([#20](https://github.com/shaadcode/payload-auditor/issues/20)) by **<u>Seyed Mojtaba Shadab</u>** in e7b52bed203876f32bc2a928c09f7a05cf8bcabd
+- chore: add new hook for release by **<u>Seyed Mojtaba Shadab</u>** in de2ac086e12e5ed669d4b7e2c409ff5ae05cee6b
+- chore: add release-it changelog pkg by **<u>Seyed Mojtaba Shadab</u>** in bd49d3f86c70be6911107d6157919bc9c8585f66
+- chore: add tests by **<u>Seyed Mojtaba Shadab</u>** in 87328acd44b322ccc9cf77c95446d3e422ac696b
+- chore: bump nextjs for dev environment by **<u>Seyed Mojtaba Shadab</u>** in a0b5d95a3aad6a6a243d0cdbc428979c52088425
+- chore: bump payload-auditor package for dev environment  by **<u>Seyed Mojtaba Shadab</u>** in 6716c699b450d10c009c91e39e44739924baf069
+- chore: bump version ([#13](https://github.com/shaadcode/payload-auditor/issues/13)) by **<u>Seyed Mojtaba Shadab</u>** in eabfac7e01a0981d1acdc21c634658fc8714889d
+- chore: change ref branch ([#14](https://github.com/shaadcode/payload-auditor/issues/14)) by **<u>Seyed Mojtaba Shadab</u>** in 0b95876d72f6aff62f82bdfdd1c2b6ee5f0517ea
+- chore: change release branch ([#12](https://github.com/shaadcode/payload-auditor/issues/12)) by **<u>Seyed Mojtaba Shadab</u>** in 041e2c4b8f60da802bbe549890789718545ad677
+- chore: fix peer dependencies error by **<u>Seyed Mojtaba Shadab</u>** in 2501ea6fdc8f3e45cecbc59401cd9cbdcea92e04
+- chore: improve package lock by **<u>Seyed Mojtaba Shadab</u>** in 96f19191b6df14e30f50ad275407a901e73e40fe
+- chore: placing the @payloadcms/translations library as a development dependency by **<u>shaadcode</u>** in 1e61f63ccea4ed0701fd9428d241de86d5203cc2
+- chore: release v1.10.0 by **<u>Seyed Mojtaba Shadab</u>** in 3b01872de9261d8ac3fc99225672f81819ae3bd9
+- chore: release v1.11.0  by **<u>Seyed Mojtaba Shadab</u>** in cb88a4bbaa49c0597138f8f8cf7f61ab4467bb3d
+- chore: release v1.8.2 ([#15](https://github.com/shaadcode/payload-auditor/issues/15)) by **<u>Seyed Mojtaba Shadab</u>** in 009ab5563eafff2501819f7d25b930b389dbee0d
+- chore: release v1.8.3 ([#17](https://github.com/shaadcode/payload-auditor/issues/17)) by **<u>Seyed Mojtaba Shadab</u>** in bb1cd53e473eb13fe429f100f6e57c63e2a4acfd
+- chore: release v1.8.4 ([#19](https://github.com/shaadcode/payload-auditor/issues/19)) by **<u>Seyed Mojtaba Shadab</u>** in 00308bdc5fdac871990be07974a8e80efb2a826b
+- chore: release v1.8.5 ([#21](https://github.com/shaadcode/payload-auditor/issues/21)) by **<u>Seyed Mojtaba Shadab</u>** in 0bfe440a1d4d8c3104f162c5977afa64ad4f2e0c
+- chore: release v1.8.6 ([#23](https://github.com/shaadcode/payload-auditor/issues/23)) by **<u>Seyed Mojtaba Shadab</u>** in 0668cca024710b01f614c9bfc95fdc89bf33b61e
+- chore: release v1.8.7 ([#25](https://github.com/shaadcode/payload-auditor/issues/25)) by **<u>Seyed Mojtaba Shadab</u>** in a77a3b049d4b1daf4b5bbacf2d9d7ef72048f3f1
+- chore: remove code comments by **<u>Seyed Mojtaba Shadab</u>** in 3bdc2f015514cc46dce9d20d2b04ff1ef1529bff
+- chore: uninstall unused deps by **<u>Seyed Mojtaba Shadab</u>** in 6ea59d765341fca721ce58855cf31cdb2cce01f1
+- chore: update changelog preset by **<u>Seyed Mojtaba Shadab</u>** in 6b943f9a581ba2bf57f4161e475399254aef8c15
+- chore: update changelog structure by **<u>Seyed Mojtaba Shadab</u>** in 2aa7be82a3a0b8e158dcc8e460337a02b7d7fb97
+- chore: update deps by **<u>Seyed Mojtaba Shadab</u>** in b6afde6202510351762b2ded7221320d9141080f
+- chore: update deps by **<u>Seyed Mojtaba Shadab</u>** in 98a98783c3ad9c2e536dd84f0e56314c60c4e884
+- chore: update nextjs by **<u>Seyed Mojtaba Shadab</u>** in 200152aa76b2d5ca233b7fb87c8c5ddfff35d69c
+- chore: update payload deps by **<u>Seyed Mojtaba Shadab</u>** in 902ea3dfb57cdf897919f9e4d3e0c949effceae6
+- chore: update swc  by **<u>Seyed Mojtaba Shadab</u>** in c2b430776a139b438024549d79b244d1d1cc21bf
+- docs: Incorrect plugin configuration in README.md file by **<u>Diogo Gaspar</u>** in c2ff3f004f4107d474aab5958dff7da0e60925b3
+- docs: update readme file by **<u>Seyed Mojtaba Shadab</u>** in 5ba49b82bd7e764949237131899e6c9463bda9f2
+- perf(build): update release workflow ([#7](https://github.com/shaadcode/payload-auditor/issues/7)) by **<u>Seyed Mojtaba Shadab</u>** in 376d3a350b8ca39fc4479ce913b095953af2bd14
+- perf: development server support for https by **<u>Seyed Mojtaba Shadab</u>** in a5a601a28cc31d080bf12d91e099a21f55bf3b15
+
 ## [1.11.0](///compare/v1.10.0...v1.11.0) (2025-12-03)
 
 ### Bug Fixes
