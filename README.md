@@ -117,6 +117,10 @@ Using the plugin is straightforward. Simply specify the slug of the collection o
 
 
 
+> For quick access to the documentation, simply hover over the main API. You can then use the provided link to navigate directly to the relevant documentation.
+
+
+
 ### `automation`
 
 Configures the automation features of the plugin.
@@ -157,7 +161,7 @@ Each has a `track` property that accepts the following configuration:
 
 - Setting a hook or operation to `false` will disable it entirely.
 
----
+
 
 ### `buffer`
 
@@ -169,7 +173,7 @@ Configures how logs are flushed to the database. You can control flushing based 
 | `size`          | A numeric value. When the log count reaches this number, logs are flushed. Works with the `size` strategy.                                                                                                                    |
 | `time`          | A numeric value in milliseconds. Logs are flushed at this interval. Works with the `time` strategy.                                                                                                                           |
 
----
+
 
 ### `configureRootCollection`
 

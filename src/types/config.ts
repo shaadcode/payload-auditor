@@ -43,10 +43,28 @@ export interface AutomationConfig {
 }
 
 export interface PluginConfig {
+  /**
+   * @see {@link https://github.com/shaadcode/payload-auditor#automation}
+   */
   automation?: AutomationConfig;
+  /**
+   * @see {@link https://github.com/shaadcode/payload-auditor#collectionsglobals}
+   */
   collections?: CollectionsTrackConfig;
+
+  /**
+   * @see {@link https://github.com/shaadcode/payload-auditor#buffer}
+   */
   buffer?: BufferConfig;
+
+  /**
+   * @see {@link https://github.com/shaadcode/payload-auditor#configurerootcollection}
+   */
   configureRootCollection?: (defaults: typeof auditor) => CollectionConfig;
+
+  /**
+   * @see {@link https://github.com/shaadcode/payload-auditor#collectionsglobals}
+   */
   globals?: GlobalsTrackConfig;
   disabled?: boolean;
 }
