@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.0.2](https://github.com/shaadcode/payload-auditor/compare/v2.0.1...v2.0.2) (2026-07-23)
+- docs: update pkg size by **<u>shaadcode</u>** in 4737bfc5005e93e6d321450d5e416834f80d8d23
+
 ## [2.0.1](https://github.com/shaadcode/payload-auditor/compare/v1.8.0...v2.0.1) (2026-07-23)
 - feat: add documents and improve customLogger by **<u>shaadcode</u>** in ff01a20b1bb1f6286997f9455feaf7b96511c802
 - feat: add quick documents for main api by **<u>shaadcode</u>** in 0538d1111b92aa34f4f756cf689a0a6af19a5857
