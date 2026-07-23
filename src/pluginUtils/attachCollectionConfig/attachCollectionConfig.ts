@@ -1,7 +1,8 @@
 import type { Config } from 'payload';
 
-import type { PluginConfig } from '../../types/pluginOptions.js';
+import type { PluginConfig } from '../../types/config.js';
 import type { CollectionHooksKeys } from '../../types/collection.js';
+import { logBuilderManager } from '../../core/log-builders/logBuilderManager/logBuilderManager.js';
 
 export const attachCollectionConfig = (
   userCollectionsConfig: Config['collections'],

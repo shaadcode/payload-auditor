@@ -2,8 +2,8 @@ import type { Mock } from 'vitest';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { auditor } from '../../collections/auditor.js';
+import type { PluginConfig } from '../../types/config.js';
 import { onEventLog } from './../../core/events/emitter.js';
-import type { PluginConfig } from '../../types/pluginOptions.js';
 import { bufferManager, bufferStore } from './../../core/buffer/bufferManager.js';
 
 vi.mock('../../core/events/emitter.ts', () => ({
@@ -120,14 +120,12 @@ describe('bufferManager', () => {
   });
 
   it('should clear buffer store after flushing by size', async () => {
-    const pluginOptions = {
-      collection: {
-        buffer: {
-          flushStrategy: 'size',
-          size: 2,
-        },
+    const pluginOptions: PluginConfig = {
+      buffer: {
+        flushStrategy: 'size',
+        size: 2,
       },
-    } as unknown as PluginConfig;
+    };
     bufferManager({
       payload: mockPayload as any,
       bufferConfig: pluginOptions.buffer,

@@ -1,4 +1,4 @@
-import type { AllOperations, CollectionConfig } from 'payload';
+import type { AllOperations, CollectionConfig, PayloadTypes } from 'payload';
 
 import type { AuditorLog } from '../collections/auditor.js';
 
@@ -63,7 +63,7 @@ export interface CollectionHookLevelLogConfig<
 
 export interface TrackedCollection {
   hooks?: Partial<CollectionsHookConfigForTracking>;
-  slug: string;
+  slug: keyof PayloadTypes['collections'];
 }
 export interface CollectionsTrackConfig {
   track: TrackedCollection[];

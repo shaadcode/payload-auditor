@@ -11,8 +11,9 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { navigation } from './globals/Nav.js';
 import { media } from './collections/Media.js';
 import { users } from './collections/Users.js';
-// import { auditorPlugin } from './../dist/index.js';
-import { auditorPlugin } from '../src/index.js';
+// eslint-disable-next-line antfu/no-import-dist
+import { auditorPlugin } from './../dist/index.js';
+// import { auditorPlugin } from '../src/index.js';
 import { testEmailAdapter } from './helpers/testEmailAdapter.js';
 
 const filename = fileURLToPath(import.meta.url);
@@ -23,9 +24,12 @@ if (!process.env.ROOT_DIR) {
 }
 
 export default buildConfig({
-  admin: { importMap: { baseDir: path.resolve(dirname) } },
+  admin: { importMap: { baseDir: path.resolve(dirname) },
+
+  },
   collections: [media, users],
   globals: [navigation],
+
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
     connectOptions: {

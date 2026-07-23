@@ -1,7 +1,7 @@
 import type { Config, Plugin } from 'payload';
 
 import { auditor } from './collections/auditor.js';
-import type { PluginConfig } from './types/pluginOptions.js';
+import type { PluginConfig } from './types/config.js';
 import { onInitManager } from './pluginUtils/configHelpers.js';
 import { cleanupLogsTask } from './core/automation/tasks/cleanup/cleanup.js';
 import { attachGlobalConfig } from './pluginUtils/attachGlobalConfig/attachGlobalConfig.js';

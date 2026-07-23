@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload';
 
-import type { CollectionOperationLogConfig, CollectionsHookConfigForTracking } from '../../../../../types/collection.js';
-import type { GlobalHookConfigForTracking, GlobalHooksKeys, GlobalOperationLogConfig } from '../../../../../types/global.js';
+import type { CollectionOperationLogConfig, CollectionsHookConfigForTracking } from '../../../../types/collection.js';
+import type { GlobalHookConfigForTracking, GlobalHooksKeys, GlobalOperationLogConfig } from '../../../../types/global.js';
 
 type CollectionHooksKeys = keyof NonNullable<CollectionConfig['hooks']>;
 

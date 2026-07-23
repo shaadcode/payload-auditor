@@ -54,7 +54,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "build:safe": "npm run test && npm run check-types && npm run lint && npm run copyfiles && npm run build:types && npm run build:swc",
+    "build:safe": "npm run test:unit && npm run check-types && npm run lint && npm run copyfiles && npm run build:types && npm run build:swc",
     "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths",
     "build": "npm run copyfiles && npm run build:types && npm run build:swc",
     "build:types": "tsc --outDir dist --rootDir ./src",
@@ -76,8 +76,8 @@
     "commit": "cz",
     "sync-main": "git fetch origin main && git rebase origin/main",
     "sync-main:fork": "git fetch upstream main && git rebase upstream/main",
-    "release": "release-it --config .release-it.ts",
-    "pre-release": "release-it --config .release-it.prerelease.ts --preRelease=beta"
+    "release": "release-it --config .release-it.ts --ci",
+    "pre-release": "release-it --config .release-it.prerelease.ts --preReleaseBase=1 --ci"
   },
   "peerDependencies": {
     "payload": "^3.76.1"

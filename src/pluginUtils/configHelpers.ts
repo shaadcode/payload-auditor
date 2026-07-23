@@ -1,6 +1,6 @@
 import type { BasePayload, CollectionConfig, Config } from 'payload';
 
-import type { PluginConfig } from './../types/pluginOptions.js';
+import type { PluginConfig } from '../types/config.js';
 import { bufferManager } from './../core/buffer/bufferManager.js';
 import { DEFAULT_QUEUE_NAME } from '../core/automation/tasks/cleanup/cleanup.js';
 

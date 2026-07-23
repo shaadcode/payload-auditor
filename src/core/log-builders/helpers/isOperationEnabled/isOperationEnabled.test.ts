@@ -2,7 +2,7 @@ import type { PartialDeep } from 'type-fest';
 import { describe, expect, it } from 'vitest';
 
 import { checkIsOperationEnabled } from './isOperationEnabled.js';
-import type { TrackedCollection } from '../../../../../types/collection.js';
+import type { TrackedCollection } from '../../../../types/collection.js';
 
 describe('checkIsOperationEnabled', () => {
   const createPluginConfig = (collectionConfig: PartialDeep<TrackedCollection>): Parameters<typeof checkIsOperationEnabled>[0] => {

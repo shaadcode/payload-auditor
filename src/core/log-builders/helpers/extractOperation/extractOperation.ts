@@ -1,5 +1,5 @@
-import type { GlobalHooksArgsParameterUnion, GlobalHooksKeys } from '../../../../../types/global.js';
-import type { CollectionHooksArgsParameterUnion, CollectionHooksKeys, CollectionHooksOperation } from '../../../../../types/collection.js';
+import type { GlobalHooksArgsParameterUnion, GlobalHooksKeys } from '../../../../types/global.js';
+import type { CollectionHooksArgsParameterUnion, CollectionHooksKeys, CollectionHooksOperation } from '../../../../types/collection.js';
 
 interface Params {
   hookArgs: CollectionHooksArgsParameterUnion | GlobalHooksArgsParameterUnion;

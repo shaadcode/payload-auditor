@@ -1,13 +1,11 @@
-import { emitEvent } from '../../../events/emitter.js';
+import { emitEvent } from '../../events/emitter.js';
+import type { PluginConfig } from '../../../types/config.js';
 import { handleDebugMode } from '../helpers/handleDebugMode.js';
-import type { AuditorLog } from '../../../../collections/auditor.js';
-import type {
-  PluginConfig,
-} from '../../../../types/pluginOptions.js';
+import type { AuditorLog } from '../../../collections/auditor.js';
 import { extractOperation } from '../helpers/extractOperation/extractOperation.js';
 import { checkIsOperationEnabled } from '../helpers/isOperationEnabled/isOperationEnabled.js';
-import type { GlobalHookConfigForTracking, GlobalHooksArgsParameterUnion, GlobalHooksKeys, GlobalOperationLogConfig } from '../../../../types/global.js';
-import type { CollectionHooksArgsParameterUnion, CollectionHooksKeys, CollectionOperationLogConfig, CollectionsHookConfigForTracking } from '../../../../types/collection.js';
+import type { GlobalHookConfigForTracking, GlobalHooksArgsParameterUnion, GlobalHooksKeys, GlobalOperationLogConfig } from '../../../types/global.js';
+import type { CollectionHooksArgsParameterUnion, CollectionHooksKeys, CollectionOperationLogConfig, CollectionsHookConfigForTracking } from '../../../types/collection.js';
 
 export type LogBuilderManager = {
   hookArgs: CollectionHooksArgsParameterUnion | GlobalHooksArgsParameterUnion;

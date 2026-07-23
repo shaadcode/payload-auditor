@@ -3,7 +3,7 @@ import type {
 } from 'payload';
 
 import type { GlobalsTrackConfig } from './global.js';
-import type { auditor } from './../collections/auditor.js';
+import type { auditor } from '../collections/auditor.js';
 import type { BufferConfig } from '../core/buffer/types.js';
 import type { CollectionsTrackConfig } from './collection.js';
 

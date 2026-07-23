@@ -1,4 +1,4 @@
-import type { GlobalConfig } from 'payload';
+import type { GlobalConfig, PayloadTypes } from 'payload';
 
 import type { AuditorLog } from '../collections/auditor.js';
 import type { CollectionHookDebugConfig } from './collection.js';
@@ -51,7 +51,7 @@ export interface GlobalHookLevelLogConfig<
 export type GlobalHookDebugConfig = CollectionHookDebugConfig;
 export interface TrackedGlobal {
   hooks?: Partial<GlobalHookConfigForTracking>;
-  slug: string;
+  slug: keyof PayloadTypes['globals'];
 }
 
 export interface GlobalsTrackConfig {

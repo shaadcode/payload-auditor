@@ -1,7 +1,7 @@
-import type { AuditorLog } from './../../../../collections/auditor.js';
-import { prettyDebugLog } from './../../../../utils/prettyDebugLog.js';
-import type { GlobalHookConfigForTracking, GlobalHooksKeys, GlobalOperationLogConfig } from '../../../../types/global.js';
-import type { CollectionHooksKeys, CollectionHooksOperation, CollectionsHookConfigForTracking } from '../../../../types/collection.js';
+import type { AuditorLog } from '../../../collections/auditor.js';
+import { prettyDebugLog } from '../../../utils/prettyDebugLog.js';
+import type { GlobalHookConfigForTracking, GlobalHooksKeys, GlobalOperationLogConfig } from '../../../types/global.js';
+import type { CollectionHooksKeys, CollectionHooksOperation, CollectionsHookConfigForTracking } from '../../../types/collection.js';
 
 type Params = {
   hookLevelConfig?: CollectionsHookConfigForTracking[CollectionHooksKeys] | GlobalHookConfigForTracking[GlobalHooksKeys];

@@ -1,8 +1,8 @@
 import type { Config } from 'payload';
 
+import type { PluginConfig } from '../../types/config.js';
 import type { GlobalHooksKeys } from '../../types/global.js';
-import type { PluginConfig } from '../../types/pluginOptions.js';
-import { logBuilderManager } from '../../core/log-builders/collections/logBuilderManager/logBuilderManager.js';
+import { logBuilderManager } from '../../core/log-builders/logBuilderManager/logBuilderManager.js';
 
 export const attachGlobalConfig = (
   userGlobalConfig: Config['globals'],

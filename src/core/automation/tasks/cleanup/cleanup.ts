@@ -1,6 +1,6 @@
 import type { CollectionConfig, TaskConfig } from 'payload';
 
-import type { PluginConfig } from '../../../../types/pluginOptions.js';
+import type { PluginConfig } from '../../../../types/config.js';
 
 export const DEFAULT_OLDER_THAN = 604800000; // 1 week
 export const DEFAULT_CRON_TIME = '0 3 * * *'; // At 03:00 AM
