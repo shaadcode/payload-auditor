@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.3](https://github.com/shaadcode/payload-auditor/compare/v2.0.2...v2.0.3) (2026-10-26)
+- fix: bypass access control for audit writes and cleanup by **<u>CrazyTweeks</u>** in 605512ce892821e65ca2f1b62427538f2ecffb9a
+- chore: update deps by **<u>shaadcode</u>** in a643865f46f1f19d00deefbfbb70a2d1b14ccb49
+
 ## [2.0.2](https://github.com/shaadcode/payload-auditor/compare/v2.0.1...v2.0.2) (2026-07-23)
 - docs: update pkg size by **<u>shaadcode</u>** in 4737bfc5005e93e6d321450d5e416834f80d8d23
 
