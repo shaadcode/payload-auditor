@@ -70,6 +70,7 @@ describe('bufferManager', () => {
     expect(mockPayload.create).toHaveBeenCalledWith({
       collection: auditor.slug,
       data: sampleLog,
+      overrideAccess: true,
     });
   });
 
@@ -94,6 +95,7 @@ describe('bufferManager', () => {
     expect(mockPayload.create).toHaveBeenCalledWith({
       collection: auditor.slug,
       data: sampleLog,
+      overrideAccess: true,
     });
   });
 

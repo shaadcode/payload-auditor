@@ -23,6 +23,9 @@ const flushBuffer = async (params: FlushBufferParams) => {
       params.payload.create({
         collection: params.internalCollectionConfig?.slug,
         data: log,
+        // Audit writes run without a request or user, so they must bypass access control.
+        // Payload 4 defaults this to false (it was true in v3), which rejects the write.
+        overrideAccess: true,
       }),
     ),
   );
