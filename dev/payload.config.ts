@@ -3,10 +3,10 @@ import sharp from 'sharp';
 import path from 'node:path';
 import { buildConfig } from 'payload';
 import { fileURLToPath } from 'node:url';
-import type { CollectionConfig } from 'payload';
 // import { auditorPlugin } from 'payload-auditor';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import { sharpTransformer } from '@payloadcms/transformer-sharp';
 
 import { navigation } from './globals/Nav.js';
 import { media } from './collections/Media.js';
@@ -42,21 +42,7 @@ export default buildConfig({
   plugins: [
     auditorPlugin({
       automation: {
-        logCleanup: { cronTime: '0/1 * * * *', queueName: 'test', olderThan: 60000 },
-      },
-      configureRootCollection: (collection) => {
-        const newCollection = {
-          ...collection,
-          fields: [
-            ...collection.fields,
-            {
-              name: 'new-fields',
-              type: 'text',
-              defaultValue: 'test new fields value',
-            },
-          ],
-        } as CollectionConfig;
-        return newCollection;
+        logCleanup: { cronTime: '* * * * *', queueName: 'test', olderThan: 600000 },
       },
       globals: {
         track: [
@@ -74,7 +60,7 @@ export default buildConfig({
             slug: 'media',
             hooks: {
               afterOperation: {
-                debug: true,
+                // debug: true,
                 updateByID: {
                   enabled: true,
 
@@ -92,7 +78,6 @@ export default buildConfig({
   ],
 
   secret: process.env.PAYLOAD_SECRET || 'test-secret_key',
-  sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
@@ -106,4 +91,5 @@ export default buildConfig({
       return defaultJobsCollection;
     },
   },
+  upload: { transformers: [sharpTransformer({ sharp })] },
 });
