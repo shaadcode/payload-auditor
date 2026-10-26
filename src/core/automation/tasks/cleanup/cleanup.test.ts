@@ -64,6 +64,7 @@ describe('cleanupLogsTask', () => {
       expect(mockReq.payload.delete)
         .toHaveBeenCalledWith({
           collection: 'Audit-log',
+          overrideAccess: true,
           where: expect.objectContaining({
             createdAt: {
               less_than: expect.any(String),
@@ -90,6 +91,7 @@ describe('cleanupLogsTask', () => {
 
       expect(mockReq.payload.delete).toHaveBeenCalledWith({
         collection: auditor.slug,
+        overrideAccess: true,
         where: expect.any(Object),
       });
     });
@@ -112,6 +114,7 @@ describe('cleanupLogsTask', () => {
 
       expect(mockReq.payload.delete).toHaveBeenCalledWith({
         collection: 'Audit-log',
+        overrideAccess: true,
         where: {
           createdAt: {
             less_than: expect.any(String),

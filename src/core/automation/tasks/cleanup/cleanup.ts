@@ -26,6 +26,9 @@ export const cleanupLogsTask = (params: CleanupLogsTaskParams): TaskConfig<typeo
       try {
         await req.payload.delete({
           collection: params.internalCollectionConfig.slug,
+          // The cleanup job runs as a system task without a user, so it must skip
+          // access control. Payload 4 defaults overrideAccess to false.
+          overrideAccess: true,
           where: { createdAt: { less_than: millisecondsAgo.toISOString() } },
         });
       }
